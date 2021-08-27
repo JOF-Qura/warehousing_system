@@ -1,0 +1,151 @@
+<!-- Apply layout from base.html -->
+{%extends 'warehousing/admin/default/base.html'%} 
+
+
+<!-- Enter content for block 'content' -->
+{%block content%}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <!-- Title -->
+                <div class="col-sm-6">
+                    <h1>Dashboard</h1>
+                </div>
+    
+                <!-- Breadcrumb -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="#">Supplies</a></li>
+                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
+                        <li class="breadcrumb-item"><a href="#">Request</a></li>
+                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
+                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
+                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
+                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
+                        <li class="breadcrumb-item"><a href="#">Users</a></li>
+                        <li class="breadcrumb-item"><a href="#">Employees</a></li>             
+                    </ol>
+                </div>
+                <!-- / breadcrumb -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+  
+    <!-- Main content -->
+    <section class="content">
+        <!-- container-fluid -->
+        <div class="container-fluid">
+            <!-- Info Boxes -->
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>150</h3>
+                            <p>New Orders</p>   
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            More info <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+                            <p>Bounce Rate</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            More info <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>44</h3>
+                            <p>User Registrations</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            More info <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>65</h3>
+                            <p>Unique Visitors</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            More info <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            <!-- / Info Boxes -->
+
+            <!-- Card -->
+            <div class="card card-primary card-outline">
+                <!-- Card Header -->
+                <div class="card-header">
+                    <h3 class="card-title">Table Name</h3>
+                </div>
+                <!-- /.card-header -->
+
+                <!-- Card Body -->
+                <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Column 1</th>
+                                <th>Column 2</th>
+                                <th>Column 3</th>
+                                <th>Column 4</th>
+                                <th>Column 5</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>    
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+{%endblock%}

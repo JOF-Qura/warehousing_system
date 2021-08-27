@@ -1,0 +1,173 @@
+<!-- Apply layout from base.html -->
+{%extends 'warehousing/admin/default/base.html'%} 
+
+
+<!-- Enter content for block 'content' -->
+{%block content%}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <!-- Title -->
+                <div class="col-sm-6">
+                    <h1>Supplies</h1>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Supplies</li>
+                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
+                        <li class="breadcrumb-item"><a href="#">Request</a></li>
+                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
+                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
+                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
+                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
+                        <li class="breadcrumb-item"><a href="#">Users</a></li>
+                        <li class="breadcrumb-item"><a href="#">Employees</a></li>  
+                    </ol>
+                </div>
+                <!-- / breadcrumb -->
+            </div>
+            <div class="row">     
+                <!-- Button -->
+                <div class="col-sm-6">
+                    <a href="#" class="btn btn-success" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Supply</a>
+                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
+                </div>
+                <!-- / Button -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+
+    <!-- For TESTING -->
+    <!-- <div class="row align-items-center justify-content-center"> -->
+        <!-- Python conditional statement -->
+        <!-- {%for user in users%}
+            <div class="card card-outline card-primary w-75">
+                <div class="card-header">
+                    <div class="h3">ID: {{user.user_id}}</div>
+                    <div class="subtitle">Email: {{user.user_email}}</div>
+                </div>
+                <div class="card-body">
+                    <div>Date Created: {{user.created_at}}</div>
+                </div>
+            </div>
+        {%else%}
+            <h3>No users to show.</h3>
+        {%endfor%}
+    </div> -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <h3 class="card-title">Supplies</h3>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <table id="data-table" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Supply Name</th>
+                                        <th>Category</th>
+                                        <th>Supplier</th>  
+                                        <th>Qty.</th>
+                                        <th>Unit Type</th>
+                                        <th>Unit Cost</th>
+                                        <th>Description</th>
+                                        <th>Reorder Interval</th>
+                                        <th>Expiration Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    <!-- Adding/Updating User Modal -->
+    <div class="modal fade" id="adding_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">User Form</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CONTENT -->
+                    <form id="form_id" name="form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="uuid" id="uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="user_email" id="user_emailLabel">Email address</label>
+                                        <input type="email" class="form-control" id="user_email" placeholder="Enter email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="user_password" id="user_passwordLabel">Password</label>
+                                        <input type="password" class="form-control" id="user_password" placeholder="Password">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="user_type">User type</label>
+                                        <select class="form-control" id="user_type" name="user_type">
+                                            <option value="Manager">Manager</option>
+                                            <option value="Staff">Staff</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_add">Add</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Adding User Modal -->
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    <script src="{{url_for('static', path='/dist/js/warehousing/admin/supplies.js')}}"></script>
+{%endblock%}

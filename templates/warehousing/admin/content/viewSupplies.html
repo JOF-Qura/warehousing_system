@@ -1,0 +1,144 @@
+<!-- Apply layout from base.html -->
+{%extends 'warehousing/admin/default/base.html'%} 
+
+<!-- Enter content for block 'content' -->
+{%block content%}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <!-- Title -->
+                <div class="col-sm-6">
+                    <h1>View Supply</h1>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Supplies</li>
+                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
+                        <li class="breadcrumb-item"><a href="#">Request</a></li>
+                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
+                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
+                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
+                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
+                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
+                        <li class="breadcrumb-item"><a href="#">Users</a></li>
+                        <li class="breadcrumb-item"><a href="#">Employees</a></li>  
+                    </ol>
+                </div>
+                <!-- / breadcrumb -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="h3">{{supplies.supply_name}}</div>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>ID:</b>
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supply_id}}
+                                </div>    
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Supply Category:</b>
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supply_category_id}}
+                                </div>    
+                            </div>
+                            <div class="row">                           
+                                <div class="col-md-3">
+                                    <b>Supplier:</b>
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supplier_id}}
+                                </div>                           
+                            </div>
+                            <div class="row">                           
+                                <div class="col-md-3">
+                                    <b>Quanity:</b>
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supply_quantity}}
+                                </div>                     
+                            </div>
+                            <div class="row">                        
+                                <div class="col-md-3">
+                                    <b>Unit Type:</b> 
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supply_unit_type}}
+                                </div>              
+                            </div>
+                            <div class="row">                      
+                                <div class="col-md-3">
+                                    <b>Unit Cost:</b> 
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supply_unit_cost}}
+                                </div>                     
+                            </div>
+                            <div class="row">                            
+                                <div class="col-md-3">
+                                    <b>Description:</b>
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supply_description}}
+                                </div>                          
+                            </div>
+                            <div class="row">                            
+                                <div class="col-md-3">
+                                    <b>Reorder Interval:</b> 
+                                </div>
+                                <div class="col-md-6">
+                                    {{supplies.supply_reorder_interval}}
+                                </div>                       
+                            </div>
+                            <div class="row">                           
+                                <div class="col-md-3">
+                                    <b>Expiration Date:</b>  
+                                </div>
+                                <div class="col-md-3">
+                                    {{supplies.supply_expiration}}
+                                </div>                     
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-body">
+                            <div>Date Created: {{supplies.created_at}}</div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->    
+{%endblock%}
+
+{%block scripts%}
+    <script src="#"></script>
+{%endblock%}

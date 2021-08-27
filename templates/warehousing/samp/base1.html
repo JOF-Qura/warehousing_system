@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI Blog</title>
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/fontawesome-free/css/all.min.css')}}">
+
+    <!-- BLOCK FOR PLUGINS STYLESHEET -->
+    {%block plugins_css%}
+    {%endblock%}
+    
+    <link rel="stylesheet" href="{{url_for('static', path='/dist/css/adminlte.min.css')}}">
+    
+    <!-- BLOCK FOR EXTRA STYLES -->
+    {%block styles%}
+    {%endblock%}
+
+</head>
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+            <div class="container">
+              <a href="/" class="navbar-brand">
+                
+                <span class="brand-text font-weight-light">FastAPI Blog</span>
+              </a>
+              
+              <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+        
+              <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                <ul class="navbar-nav">
+                  
+                </ul>
+              </div>
+        
+              <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">Login</a>
+                  </li>
+              </ul>
+            </div>
+        </nav>
+        
+            <div class="content-wrapper">
+                <div class="content-header">
+                  <div class="container">
+                    <div class="row mb-2">
+                      <div class="col-sm-6">
+                        <h1 class="m-0 text-dark"> Recent Posts </h1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="content">
+
+                    <!-- BLOCK FOR MAIN CONTENT -->
+                    {%block content%}{%endblock%}
+                </div>
+            </div>
+    </div>
+    
+
+    <script src="{{url_for('static', path='/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- BLOCK FOR PLUGINS JAVASCRIPT -->
+    {%block plugins_js%}
+    {%endblock%}
+    
+    <script src="{{url_for('static', path='/dist/js/adminlte.min.js')}}"></script>
+
+    <!-- BLOCK FOR EXTRA SCRIPTS -->
+    {%block scripts%}
+    {%endblock%}
+</body>
+</html>
