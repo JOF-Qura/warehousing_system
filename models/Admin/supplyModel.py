@@ -19,7 +19,6 @@ class Supplies(Base):
     supply_reorder_interval         = Column(String(255), nullable=False)
     supply_expiration               = Column(DateTime(255), nullable=True)
     supply_status                   = Column(String(255), nullable=True, default="Good")
-    other_details                   = Column(String(255), nullable=True)
 
     created_at                      = Column(DateTime, default=text('NOW()'))
     updated_at                      = Column(DateTime, onupdate=text('NOW()'))
@@ -36,6 +35,7 @@ class Supplies(Base):
     #Relationship/s of this Table to other Table/s
     inventory_suppliesFK = relationship("Inventories", back_populates="inventory_supply")
     rd_suppliesFK = relationship("Request_Details", back_populates="supply")
+    retd_suppliesFK = relationship("Return_Details", back_populates="return_supply")
 
 
 

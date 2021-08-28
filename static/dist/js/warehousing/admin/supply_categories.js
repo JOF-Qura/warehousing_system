@@ -1,6 +1,46 @@
 $(function() 
 {
     loadTable();
+
+    // function to save/update record
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var supply_category_id = $("#uuid").val();
+        var supply_category_name = $("#supply_category_name").val()
+        var supply_category_description = $("#supply_category_description").val();
+
+        if (supply_category_id == "")
+        {
+            $.ajax(
+            {
+                url: apiURL + "supply_categories/",
+                type: "POST",
+                data: JSON.stringify(
+                {		
+                    "supply_category_name": supply_category_name,
+                    "supply_category_description": supply_category_description,
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', false)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+        }
+    });
 });
 
 //    $.ajaxSetup(
@@ -61,13 +101,13 @@ loadTable = () =>
                 {
                     let buttons = "";
                     // info
-                    buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["supply_category_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                    // buttons +=
+                    //     '<button type="button" onClick="return editData(\'' +
+                    //     aData["supply_category_id"] +
+                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["supply_category_id"] +
                         '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
                     // delete
@@ -90,13 +130,13 @@ loadTable = () =>
         {
             let buttons = "";
             // info
-            buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["supply_category_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+            // buttons +=
+            //     '<button type="button" onClick="return editData(\'' +
+            //     aData["supply_category_id"] +
+            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["supply_category_id"] +
                 '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
             // delete
@@ -125,4 +165,95 @@ loadTable = () =>
             // $("#data-table").removeClass("dataTable");
         },
     });
+};
+
+// function to edit data
+editData = (supply_category_id, type) => 
+{
+    $("#e_form_id")[0].reset();
+	$.ajax(
+		{
+		url: apiURL + "supply_categories/" + supply_category_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            if (type == 1) 
+            {
+                $("#e_uuid").val(data["supply_category_id"]);
+                s = $("#e_supply_category_name").val(data["supply_category_name"]);
+                $("#e_supply_category_description").val(data["supply_category_description"]);
+
+                console.log(s)
+                
+                $("#e_form_id").on("submit", function (e)
+                {
+                    var supply_category_id = $("#e_uuid").val();
+                    var supply_category_name = $("#e_supply_category_name").val()
+                    var supply_category_description = $("#e_supply_category_description").val()
+                    
+
+                    $.ajax(
+                    {
+                        url: apiURL + "supply_categories/" + supply_category_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "supply_category_name": supply_category_name,
+                            "supply_category_description": supply_category_description,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                });
+            }
+		},
+		error: function (data) {},
+	});
+};
+
+// function to delete data
+deleteData = (supply_category_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "supply_categories/" + supply_category_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
 };

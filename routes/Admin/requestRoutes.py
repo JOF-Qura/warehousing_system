@@ -31,8 +31,9 @@ def datatable(request: Request, db: Session = Depends(get_db)):
                 (
                     Request_M.request_id.like('%' + user_input + '%'),
                     Request_M.request_date.like('%' + user_input + '%'),
+                    Request_M.requestor.like('%' + user_input + '%'),
                     Request_M.request_type.like('%' + user_input + '%'),
-                     Request_M.request_status.like('%' + user_input + '%'),
+                    Request_M.request_status.like('%' + user_input + '%'),
                     Request_M.created_at.like('%' + user_input + '%'),
                     Request_M.updated_at.like('%' + user_input + '%'),
                 )
@@ -42,6 +43,7 @@ def datatable(request: Request, db: Session = Depends(get_db)):
         [
             'request_id',
             'request_date',
+            'requestor',
             'request_type',
             'request_status',
             'created_at',
@@ -74,6 +76,7 @@ def get_one_request(request_id:str,db: Session = Depends(get_db)):
 def create_request(request: requestSchema.CreateRequest, db: Session = Depends(get_db)):
     to_store = requestModel.Request(
         request_date = request.request_date,
+        requestor = request.requestor,
         request_type = request.request_type,
         request_status = request.request_status,
     )
@@ -86,6 +89,7 @@ def create_request(request: requestSchema.CreateRequest, db: Session = Depends(g
 def update_request(request_id: str, r: requestSchema.UpdateRequest, db: Session = Depends(get_db)): 
     if not db.query(requestModel.Request).filter(requestModel.Request.request_id == request_id).update({
         'request_status': r.request_status,
+        'requestor': r.requestor,
         'request_date': r.request_date,
         'request_type': r.request_type,
     }):

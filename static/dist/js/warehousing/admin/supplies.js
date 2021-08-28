@@ -1,6 +1,64 @@
 $(function() 
 {
     loadTable();
+
+    // function to save/update record
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var supply_id = $("#uuid").val();
+        var supplier_id = $("#supplier_id").val()
+        var supply_category_id = $("#supply_category_id").val();
+        var supply_name = $("#supply_name").val();
+        var supply_quantity = $("#supply_quantity").val();
+        var supply_unit_type = $("#supply_unit_type").val();
+        var supply_unit_cost = $("#supply_unit_cost").val();
+        var supply_description = $("#supply_description").val();
+        var supply_reorder_interval = $("#supply_reorder_interval").val();
+        var supply_expiration = "2021-08-28T04:29:33.292Z"
+        var supply_status = $("#supply_status").val();
+
+        if (supply_id == "")
+        {
+            $.ajax(
+            {
+                url: apiURL + "supplies/",
+                type: "POST",
+                data: JSON.stringify(
+                {		
+                    "supplier_id": supplier_id,
+                    "supply_category_id": supply_category_id,
+                    "supply_name": supply_name,
+                    "supply_quantity": supply_quantity,
+                    "supply_unit_type": supply_unit_type,
+                    "supply_unit_cost": supply_unit_cost,
+                    "supply_status": supply_status,
+                    "supply_description": supply_description,
+                    "supply_reorder_interval": supply_reorder_interval,
+                    "supply_expiration": supply_expiration,
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    console.log(data)
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', true)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+            $('#button_add').prop('disabled', false)
+        }
+    });
 });
 
 //    $.ajaxSetup(
@@ -19,7 +77,7 @@ loadTable = () =>
     $("#data-table").dataTable().fnDestroy();
     $("#data-table").dataTable({
         serverSide: true,
-        scrollX: true,
+        // scrollX: true,
         responsive: false,
         buttons:[
             {extend: 'excel', text: 'Save to Excel File'}
@@ -115,7 +173,7 @@ loadTable = () =>
                         '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["supply_id"] +
                         '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
                     // delete
@@ -144,7 +202,7 @@ loadTable = () =>
                 '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["supply_id"] +
                 '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
             // delete
@@ -186,4 +244,173 @@ viewData = (supply_id) =>
     window.location.replace(baseURL + 'admin/supplies/'+supply_id);
     console.log(supply_id);
 }
+
+loadSuppliers = () => {
+    $.ajax({
+        url: apiURL + "suppliers",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Suppliers, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.supplier_id +
+                    "'>" +
+                    dataOptions.supplier_name +
+                    "</option>";
+
+                $("#supplier_id").append(options);
+                $("#e_supplier_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadSuppliers();
+
+loadSupplyCategories = () => {
+    $.ajax({
+        url: apiURL + "supply_categories",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Supply_Categories, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.supply_category_id +
+                    "'>" +
+                    dataOptions.supply_category_name +
+                    "</option>";
+
+                $("#supply_category_id").append(options);
+                $("#e_supply_category_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadSupplyCategories();
+
+// function to edit data
+editData = (supply_id, type) => 
+{
+	$.ajax(
+		{
+		url: apiURL + "supplies/" + supply_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            if (type == 1) 
+            {
+                $("#e_uuid").val(data["supply_id"]);
+                $("#e_supply_name").val(data["supply_name"]);
+                $("#e_supplier_id").val(data["supplier_id"]).trigger("change");
+                $("#e_supply_category_id").val(data["supply_category_id"]).trigger("change");
+                $("#e_supply_quantity").val(data["supply_quantity"]);
+                $("#e_supply_unit_type").val(data["supply_unit_type"]);
+                $("#e_supply_unit_cost").val(data["supply_unit_cost"]);
+                $("#e_supply_description").val(data["supply_description"]);
+                $("#e_supply_reorder_interval").val(data["supply_reorder_interval"]).trigger("change");
+                $("#e_supply_expiration").val(data["supply_expiration"]);
+                $("#e_supply_status").val(data["supply_status"]).trigger("change");
+               
+                $("#e_form_id").on("submit", function (e)
+                {
+                    var supply_id = $("#e_uuid").val();
+                    var supplier_id = $("#e_supplier_id").val()
+                    var supply_category_id = $("#e_supply_category_id").val();
+                    var supply_name = $("#e_supply_name").val();
+                    var supply_quantity = $("#e_supply_quantity").val();
+                    var supply_unit_type = $("#e_supply_unit_type").val();
+                    var supply_unit_cost = $("#e_supply_unit_cost").val();
+                    var supply_description = $("#e_supply_description").val();
+                    var supply_reorder_interval = $("#e_supply_reorder_interval").val();
+                    var supply_expiration = "2021-08-28T04:29:33.292Z"
+                    var supply_status = $("#e_supply_status").val();
+
+                    $.ajax(
+                    {
+                        url: apiURL + "supplies/" + supply_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "supplier_id": supplier_id,
+                            "supply_category_id": supply_category_id,
+                            "supply_name": supply_name,
+                            "supply_quantity": supply_quantity,
+                            "supply_unit_type": supply_unit_type,
+                            "supply_unit_cost": supply_unit_cost,
+                            "supply_status": supply_status,
+                            "supply_description": supply_description,
+                            "supply_reorder_interval": supply_reorder_interval,
+                            "supply_expiration": supply_expiration,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            $('#button_save').prop('disabled', true)
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                    $('#button_save').prop('disabled', false)
+                });
+            }
+		},
+		error: function (data) {},
+	});
+};
+
+// function to delete data
+deleteData = (supply_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "supplies/" + supply_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};
 	

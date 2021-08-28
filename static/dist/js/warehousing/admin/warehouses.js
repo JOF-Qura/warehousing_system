@@ -1,6 +1,52 @@
 $(function() 
 {
     loadTable();
+
+    // function to save/update record
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var warehouse_id = $("#uuid").val();
+        var warehouse_manager_id = $("#warehouse_manager_id").val()
+        var warehouse_name = $("#warehouse_name").val()
+        var warehouse_contact = $("#warehouse_contact").val();
+        var warehouse_address = $("#warehouse_address").val();
+        var warehouse_description = $("#warehouse_description").val();
+
+        if (warehouse_id == "")
+        {
+            $.ajax(
+            {
+                url: apiURL + "warehouses/",
+                type: "POST",
+                data: JSON.stringify(
+                {		
+                    "warehouse_manager_id": warehouse_manager_id,
+                    "warehouse_name": warehouse_name,
+                    "warehouse_contact": warehouse_contact,
+                    "warehouse_address": warehouse_address,
+                    "warehouse_description": warehouse_description,
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', false)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+        }
+    });
 });
 
 //    $.ajaxSetup(
@@ -145,3 +191,31 @@ loadTable = () =>
         },
     });
 };
+
+loadEmployees = () => {
+    $.ajax({
+        url: apiURL + "employees",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Employees, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.employee_id +
+                    "'>" +
+                    dataOptions.employee_first_name +
+                    "</option>";
+
+                $("#warehouse_manager_id").append(options);
+                $("#e_warehouse_manager_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadEmployees();

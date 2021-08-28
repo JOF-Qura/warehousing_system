@@ -1,6 +1,48 @@
 $(function() 
 {
     loadTable();
+
+     // function to save/update record
+     $("#form_id").on("submit", function (e)
+     {
+         e.preventDefault();
+         trimInputFields();
+         var hospital_department_id = $("#uuid").val();
+         var hospital_manager_id = $("#hospital_manager_id").val()
+         var hospital_department_name = $("#hospital_department_name").val()
+         var hospital_department_description = $("#hospital_department_description").val();
+
+         if (hospital_department_id == "")
+         {
+             $.ajax(
+             {
+                 url: apiURL + "hospital_departments/",
+                 type: "POST",
+                 data: JSON.stringify(
+                 {		
+                     "hospital_manager_id": hospital_manager_id,
+                     "hospital_department_name": hospital_department_name,
+                     "hospital_department_description": hospital_department_description,
+                 }),
+                 dataType: "JSON",
+                 contentType: 'application/json',
+                 processData: false,
+                 cache: false,
+                 success: function (data) 
+                 {
+                     $('#form_id').trigger("reset")
+                     $('#button_add').prop('disabled', false)
+                     notification("success", "Success!", data.message);
+                     loadTable();
+                     $("#adding_modal").modal('hide')
+                 },
+                 error: function ({ responseJSON }) 
+                 {
+                     
+                 },
+             });
+         }
+     });
 });
 
 //    $.ajaxSetup(
@@ -127,3 +169,31 @@ loadTable = () =>
         },
     });
 };
+
+loadEmployees = () => {
+    $.ajax({
+        url: apiURL + "employees",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Employees, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.employee_id +
+                    "'>" +
+                    dataOptions.employee_first_name +
+                    "</option>";
+
+                $("#hospital_manager_id").append(options);
+                $("#e_hospital_manager_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadEmployees();

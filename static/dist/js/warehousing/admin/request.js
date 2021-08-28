@@ -31,6 +31,7 @@ loadTable = () =>
             { sClass: "text-left" },
             { sClass: "text-left" },
             { sClass: "text-left" },
+            { sClass: "text-left" },
             { sClass: "text-center" },
         ],
         columns: [
@@ -44,6 +45,13 @@ loadTable = () =>
             {
                 data: "request_date",
                 name: "request_date",
+                searchable: true,
+                // width: "6.66%",
+                className: "dtr-control",
+            },
+             {
+                data: "requestor",
+                name: "requestor",
                 searchable: true,
                 // width: "6.66%",
                 className: "dtr-control",
@@ -126,9 +134,10 @@ loadTable = () =>
 
             $("td:eq(0)", nRow).html(request_id);
             $("td:eq(1)", nRow).html(aData["request_date"]);
-            $("td:eq(2)", nRow).html(aData["request_type"]);
-            $("td:eq(3)", nRow).html(aData["request_status"]);
-            $("td:eq(4)", nRow).html(buttons);
+            $("td:eq(2)", nRow).html(aData["requestor"]);
+            $("td:eq(3)", nRow).html(aData["request_type"]);
+            $("td:eq(4)", nRow).html(aData["request_status"]);
+            $("td:eq(5)", nRow).html(buttons);
 
         },
         drawCallback: function (settings) {

@@ -1,6 +1,50 @@
 $(function() 
 {
     loadTable();
+
+    // function to save/update record
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var supplier_id = $("#uuid").val();
+        var supplier_name = $("#supplier_name").val()
+        var supplier_contact = $("#supplier_contact").val();
+        var supplier_email = $("#supplier_email").val();
+        var supplier_description = $("#supplier_description").val();
+
+        if (supplier_id == "")
+        {
+            $.ajax(
+            {
+                url: apiURL + "suppliers/",
+                type: "POST",
+                data: JSON.stringify(
+                {		
+                    "supplier_name": supplier_name,
+                    "supplier_contact": supplier_contact,
+                    "supplier_email": supplier_email,
+                    "supplier_description": supplier_description,
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', false)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+        }
+    });
 });
 
 //    $.ajaxSetup(
@@ -19,7 +63,7 @@ loadTable = () =>
     $("#data-table").dataTable().fnDestroy();
     $("#data-table").dataTable({
         serverSide: true,
-        scrollX: true,
+        // scrollX: true,
         responsive: false,
         buttons:[
             {extend: 'excel', text: 'Save to Excel File'}
@@ -70,13 +114,13 @@ loadTable = () =>
                 {
                     let buttons = "";
                     // info
-                    buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["supplier_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                    // buttons +=
+                    //     '<button type="button" onClick="return editData(\'' +
+                    //     aData["supplier_id"] +
+                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["supplier_id"] +
                         '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
                     // delete
@@ -100,12 +144,12 @@ loadTable = () =>
             let buttons = "";
             // info
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["supplier_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                // '<button type="button" onClick="return editData(\'' +
+                // aData["supplier_id"] +
+                // '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["supplier_id"] +
                 '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
             // delete
@@ -135,4 +179,101 @@ loadTable = () =>
             // $("#data-table").removeClass("dataTable");
         },
     });
+};
+
+// function to edit data
+editData = (supplier_id, type) => 
+{
+    $("#e_form_id")[0].reset();
+	$.ajax(
+		{
+		url: apiURL + "suppliers/" + supplier_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            if (type == 1) 
+            {
+                $("#e_uuid").val(data["supplier_id"]);
+                s = $("#e_supplier_name").val(data["supplier_name"]);
+                $("#e_supplier_contact").val(data["supplier_contact"]);
+                $("#e_supplier_email").val(data["supplier_email"]);
+                $("#e_supplier_description").val(data["supplier_description"]);
+
+                console.log(s)
+                
+                $("#e_form_id").on("submit", function (e)
+                {
+                    var supplier_id = $("#e_uuid").val();
+                    var supplier_name = $("#e_supplier_name").val()
+                    var supplier_contact = $("#e_supplier_contact").val()
+                    var supplier_email = $("#e_supplier_email").val()
+                    var supplier_description = $("#e_supplier_description").val()
+                    
+
+                    $.ajax(
+                    {
+                        url: apiURL + "suppliers/" + supplier_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "supplier_name": supplier_name,
+                            "supplier_description": supplier_description,
+                            "supplier_contact": supplier_contact,
+                            "supplier_email": supplier_email,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                });
+            }
+		},
+		error: function (data) {},
+	});
+};
+
+// function to delete data
+deleteData = (supplier_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "suppliers/" + supplier_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
 };

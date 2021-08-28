@@ -108,12 +108,12 @@
     </section>
     <!-- /.content -->
 
-    <!-- Adding/Updating User Modal -->
+    <!-- Adding Supply Modal -->
     <div class="modal fade" id="adding_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">User Form</h4>
+                    <h4 class="modal-title">Supply Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -126,26 +126,94 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="user_email" id="user_emailLabel">Email address</label>
-                                        <input type="email" class="form-control" id="user_email" placeholder="Enter email">
+                                        <label for="supply_name" id="supply_nameLabel">Supply Name</label>
+                                        <input type="input" class="form-control" id="supply_name" placeholder="Enter Supply Name" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="user_password" id="user_passwordLabel">Password</label>
-                                        <input type="password" class="form-control" id="user_password" placeholder="Password">
+                                        <label for="supplier_id">Supplier</label>
+                                        <select class="form-control" id="supplier_id" name="supplier_id" required>
+                                            
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="user_type">User type</label>
-                                        <select class="form-control" id="user_type" name="user_type">
-                                            <option value="Manager">Manager</option>
-                                            <option value="Staff">Staff</option>
+                                        <label for="supply_category_id">Supply Category</label>
+                                        <select class="form-control" id="supply_category_id" name="supply_category_id" required>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_quantity" id="supply_quantityLabel">Supply Quantity</label>
+                                        <input type="number" class="form-control" id="supply_quantity" placeholder="Enter Quantity" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_unit_type">Supply Unit Type</label>
+                                        <select class="form-control" id="supply_unit_type" name="supply_unit_type" required>
+                                            <option value="pcs">pcs</option>
+                                            <option value="box">box</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_unit_cost" id="supply_unit_costLabel">Supply Unit Cost</label>
+                                        <input type="number" class="form-control" id="supply_unit_cost" placeholder="Enter Cost per Unit" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_description" id="supply_descriptionLabel">Supply Descrription</label>
+                                        <input type="input" class="form-control" id="supply_description" placeholder="Enter Description">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_reorder_interval" id="supply_reorder_intervalLabel">Supply Reorder Interval</label>
+                                        <select class="form-control" id="supply_reorder_interval" name="supply_reorder_interval" required>
+                                            <option value="Daily">Daily</option>
+                                            <option value="Weekly">Weekly</option>
+                                            <option value="Monthly">Monthly</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_expiration" id="supply_expirationLabel">Supply Expiration</label>
+                                        <input type="date" class="form-control" id="supply_expiration" placeholder="Enter Reorder Interval" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_status" id="supply_statusLabel">Supply Status</label>
+                                        <select class="form-control" id="supply_status" name="supply_status" required>
+                                            <option value="Good">Good</option>
+                                            <option value="Expired">Expired</option>
+                                            <option value="Lost">Lost</option>
                                         </select>
                                     </div>
                                 </div>
@@ -162,7 +230,131 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding User Modal -->
+    <!-- END Adding Supply Modal -->
+
+    <!-- Editing Supply Modal -->
+    <div class="modal fade" id="editing_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Supply Category</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal_Editing">
+                    <!-- CONTENT -->
+                    <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="e_uuid" id="e_uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_name" id="e_supply_nameLabel">Supply Name</label>
+                                        <input type="input" class="form-control" id="e_supply_name" placeholder="Enter Supply Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supplier_id">Supplier</label>
+                                        <select class="form-control" id="e_supplier_id" name="e_supplier_id" required>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_category_id">Supply Category</label>
+                                        <select class="form-control" id="e_supply_category_id" name="e_supply_category_id" required>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_quantity" id="e_supply_quantityLabel">Supply Quantity</label>
+                                        <input type="number" class="form-control" id="e_supply_quantity" placeholder="Enter Quantity" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_unit_type">Supply Unit Type</label>
+                                        <select class="form-control" id="e_supply_unit_type" name="e_supply_unit_type" required>
+                                            <option value="pcs">pcs</option>
+                                            <option value="box">box</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_unit_cost" id="e_supply_unit_costLabel">Supply Unit Cost</label>
+                                        <input type="number" class="form-control" id="e_supply_unit_cost" placeholder="Enter Cost per Unit" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_description" id="e_supply_descriptionLabel">Supply Descrription</label>
+                                        <input type="input" class="form-control" id="e_supply_description" placeholder="Enter Description">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_reorder_interval" id="e_supply_reorder_intervalLabel">Supply Reorder Interval</label>
+                                        <select class="form-control" id="e_supply_reorder_interval" name="e_supply_reorder_interval" required>
+                                            <option value="Daily">Daily</option>
+                                            <option value="Weekly">Weekly</option>
+                                            <option value="Monthly">Monthly</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_expiration" id="e_supply_expirationLabel">Supply Expiration</label>
+                                        <input type="date" class="form-control" id="e_supply_expiration" placeholder="Enter Reorder Interval" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_status" id="e_supply_statusLabel">Supply Status</label>
+                                        <select class="form-control" id="e_supply_status" name="e_supply_status" required>
+                                            <option value="Good">Good</option>
+                                            <option value="Expired">Expired</option>
+                                            <option value="Lost">Lost</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Editing Supply Modal -->
 
 
 

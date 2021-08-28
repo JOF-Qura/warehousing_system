@@ -22,6 +22,8 @@ from routes.Admin import (authRoutes
                     , supplierRoutes
                     , supply_categoriesRoutes
                     , warehouseRoutes
+                    , returnRoutes
+                    # , return_detailRoutes
                     )
 
 # importing all models
@@ -39,7 +41,9 @@ from models.Admin import (userModel
                     , requestModel
                     , supply_categoryModel
                     , supplyModel 
-                    , postModel)
+                    , postModel
+                    , returnModel
+                    , return_detailModel)
 
 # importing models one by one
 from models.Admin.userModel import Users

@@ -9,8 +9,8 @@ class SupplyBase(BaseModel):
     supply_name: str
     supply_reorder_interval: str
     supply_description: str
+    supply_status: str
     supply_unit_cost: int
-    other_details: Optional[str]
     supply_unit_type: str
     supply_quantity: int
     supply_expiration: dt
@@ -29,7 +29,7 @@ class UpdateSupply(BaseModel):
     supply_reorder_interval: Optional[str]
     supply_description: Optional[str]
     supply_unit_cost: Optional[int]
-    other_details: Optional[str]
+    supply_status: Optional[str]
     supply_unit_type: Optional[str]
     supply_quantity: Optional[int]
     supply_expiration: Optional[dt]

@@ -7,6 +7,7 @@ from typing import List, Optional
 
 class RequestBase(BaseModel):
     request_date: Optional[dt]
+    requestor: Optional[str]
     request_type: Optional[str]
     request_status: Optional[str]
     
@@ -19,6 +20,7 @@ class CreateRequest(RequestBase):
 
 class UpdateRequest(BaseModel):
     request_date: Optional[dt]
+    requestor: Optional[str]
     request_type: Optional[str]
     request_status: Optional[str]
 

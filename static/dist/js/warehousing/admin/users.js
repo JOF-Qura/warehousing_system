@@ -31,9 +31,11 @@ $(function()
                 cache: false,
                 success: function (data) 
                 {
-                    console.log(user_email);
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', false)
                     notification("success", "Success!", data.message);
                     loadTable();
+                    $("#adding_modal").modal('hide')
                 },
                 error: function ({ responseJSON }) 
                 {
@@ -60,7 +62,7 @@ loadTable = () =>
     $("#data-table").dataTable().fnDestroy();
     $("#data-table").dataTable({
         serverSide: true,
-        scrollX: true,
+        // scrollX: true,
         responsive: false,
         buttons:[
             {extend: 'excel', text: 'Save to Excel File'}
@@ -118,7 +120,7 @@ loadTable = () =>
                     buttons +=
                         '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["user_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit"></i></button> ';
                     // delete
                     if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
                     {
@@ -126,7 +128,7 @@ loadTable = () =>
                     buttons +=
                         '<button type="button" onClick="return deleteData(\'' +
                         aData["user_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"></i></button> ';
                     }
                     return buttons; // same class in i element removed it from a element
                 },
@@ -150,7 +152,7 @@ loadTable = () =>
             buttons +=
                 '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["user_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                '\',1)" class="btn btn-info waves-effect"><center><i class="fas fa-edit"></i></center></button> ';
             // ------------ FOR STATUS -------------------------    
             if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
             {
@@ -158,7 +160,7 @@ loadTable = () =>
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
                 aData["user_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"></i></button> ';
             }
             // ------------ END FOR STATUS ----------------------   
 
@@ -295,6 +297,7 @@ editData = (user_id, type) =>
                             {
                                 notification("success", "Success!", data.message);
                                 loadTable();
+                                $("#editing_modal").modal('hide')
                             },
                             error: function ({ responseJSON }) 
                             {
@@ -343,7 +346,7 @@ editData = (user_id, type) =>
                                 cache: false,
                                 success: function (data) 
                                 {
-                                    console.log(user_type);
+                                    $("#editing_modal").modal('hide')
                                     notification("success", "Success!", data.message);
                                     loadTable();
                                 },

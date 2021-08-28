@@ -11,6 +11,7 @@ class Request(Base):
 #Column
     request_id                  = Column(String(36), primary_key=True, default=text('UUID()'))
     request_date                = Column(DateTime(255), nullable=False)
+    requestor                   = Column(String(255), nullable=False)
     request_type                = Column(String(255), nullable=False)
     request_status              = Column(String(255), nullable=False, default="Pending")
 

@@ -41,7 +41,6 @@ def datatable(request: Request, db: Session = Depends(get_db)):
                     Supplies.supply_description.like('%' + user_input + '%'),
                     Supplies.supply_reorder_interval.like('%' + user_input + '%'),
                     Supplies.supply_expiration.like('%' + user_input + '%'),
-                    Supplies.other_details.like('%' + user_input + '%'),
                     Supplies.created_at.like('%' + user_input + '%'),
                     Supplies.updated_at.like('%' + user_input + '%'),
                 )
@@ -59,7 +58,6 @@ def datatable(request: Request, db: Session = Depends(get_db)):
             'supply_description',
             'supply_reorder_interval',
             'supply_expiration',
-            'other_details',
             'created_at',
             'updated_at',
         ])
@@ -100,7 +98,7 @@ def create_supply(request: supplySchema.CreateSupply, db: Session = Depends(get_
         supply_description = request.supply_description,
         supply_reorder_interval = request.supply_reorder_interval,
         supply_expiration = request.supply_expiration,
-        other_details = request.other_details
+        supply_status = request.supply_status
     )
     db.add(to_store)
     db.commit()
@@ -117,7 +115,7 @@ def update_supply(supply_id: str, Supply: supplySchema.UpdateSupply, db: Session
         'supply_description': Supply.supply_description,
         'supply_reorder_interval': Supply.supply_reorder_interval,
         'supply_expiration': Supply.supply_expiration,
-        'other_details': Supply.other_details,
+        'supply_status': Supply.supply_status,
     }):
         raise HTTPException(404, 'Supply to update is not found')
     db.commit()
