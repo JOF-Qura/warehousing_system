@@ -35,7 +35,7 @@
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success">Add New Inventory Location</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Inventory Location</a>
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->
@@ -99,6 +99,54 @@
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+    <!-- Adding Hospital Department Modal -->
+    <div class="modal fade" id="adding_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Inventory Location Form</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CONTENT -->
+                    <form id="form_id" name="form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="uuid" id="uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="inventory_location_name" id="inventory_location_nameLabel">Inventory Location Name</label>
+                                        <input type="input" class="form-control" id="inventory_location_name" placeholder="Category" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_category_id" id="supply_category_idLabel">Category</label>
+                                        <select class="form-control" id="supply_category_id" name="supply_category_id">
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                          
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_add">Add</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Adding Hospital Department Modal -->
 {%endblock%}
 
 {%block scripts%}

@@ -1,6 +1,47 @@
 $(function() 
 {
     loadTable();
+
+    // function to save/update record
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var warehouse_id = $("#uuid").val();
+        var inventory_location_name = $("#inventory_location_name").val()
+        var supply_category_id = $("#supply_category_id").val()
+
+
+        if (warehouse_id == "")
+        {
+            $.ajax(
+            {
+                url: apiURL + "inventory_locations/",
+                type: "POST",
+                data: JSON.stringify(
+                {		
+                    "inventory_location_name": inventory_location_name,
+                    "supply_category_id": supply_category_id,
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', false)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+        }
+    });
 });
 
 //    $.ajaxSetup(
@@ -19,7 +60,7 @@ loadTable = () =>
     $("#data-table").dataTable().fnDestroy();
     $("#data-table").dataTable({
         serverSide: true,
-        scrollX: true,
+        // scrollX: true,
         responsive: false,
         buttons:[
             {extend: 'excel', text: 'Save to Excel File'}
@@ -53,10 +94,10 @@ loadTable = () =>
                 {
                     let buttons = "";
                     // info
-                    buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["inventory_location_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                    // buttons +=
+                    //     '<button type="button" onClick="return editData(\'' +
+                    //     aData["inventory_location_id"] +
+                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
                         '<button type="button" onClick="return editData(\'' +
@@ -82,10 +123,10 @@ loadTable = () =>
         {
             let buttons = "";
             // info
-            buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["inventory_location_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+            // buttons +=
+            //     '<button type="button" onClick="return editData(\'' +
+            //     aData["inventory_location_id"] +
+            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
                 '<button type="button" onClick="return editData(\'' +
@@ -118,3 +159,31 @@ loadTable = () =>
         },
     });
 };
+
+loadCategory = () => {
+    $.ajax({
+        url: apiURL + "supply_categories",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Supply_Categories, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.supply_category_id +
+                    "'>" +
+                    dataOptions.supply_category_name +
+                    "</option>";
+
+                $("#supply_category_id").append(options);
+                $("#e_supply_category_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadCategory();

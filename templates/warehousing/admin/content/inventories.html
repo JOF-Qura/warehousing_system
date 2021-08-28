@@ -35,7 +35,7 @@
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success">Add New Supply</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Inventory</a>
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->
@@ -100,6 +100,55 @@
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+    <!-- Adding Inventory Modal -->
+    <div class="modal fade" id="adding_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Inventory Form</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CONTENT -->
+                    <form id="form_id" name="form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="uuid" id="uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="inventory_location_id" id="inventory_location_idLabel">Location</label>
+                                        <select class="form-control" id="inventory_location_id" name="inventory_location_id">
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_id" id="supply_idLabel">Supply</label>
+                                        <select class="form-control" id="supply_id" name="supply_id">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="button_add">Add</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Adding Inventory Modal -->
 {%endblock%}
 
 {%block scripts%}

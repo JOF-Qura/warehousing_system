@@ -1,6 +1,58 @@
 $(function() 
 {
     loadTable();
+
+     // function to save/update record
+     $("#form_id").on("submit", function (e)
+     {
+         e.preventDefault();
+         trimInputFields();
+         var outbound_report_id = $("#uuid").val();
+         var hospital_department_id = $("#hospital_department_id").val()
+         var employee_id = $("#employee_id").val();
+         var status = $("#status").val();
+         var total_quantity = $("#total_quantity").val();
+         var complete_shipment_date = "2021-08-28T04:29:33.292Z"
+         var expected_shipment_date = "2021-08-28T04:29:33.292Z"
+
+ 
+ 
+         if (outbound_report_id == "")
+         {
+             $.ajax(
+             {
+                 url: apiURL + "outbound_reports/",
+                 type: "POST",
+                 data: JSON.stringify(
+                 {		
+                     "hospital_department_id": hospital_department_id,
+                     "employee_id": employee_id,
+                     "status": status,
+                     "total_quantity": total_quantity,
+                     "expected_shipment_date": expected_shipment_date,
+                     "complete_shipment_date": complete_shipment_date,
+                 }),
+                 dataType: "JSON",
+                 contentType: 'application/json',
+                 processData: false,
+                 cache: false,
+                 success: function (data) 
+                 {
+                     console.log(data)
+                     $('#form_id').trigger("reset")
+                     $('#button_add').prop('disabled', true)
+                     notification("success", "Success!", data.message);
+                     loadTable();
+                     $("#adding_modal").modal('hide')
+                 },
+                 error: function ({ responseJSON }) 
+                 {
+                     
+                 },
+             });
+             $('#button_add').prop('disabled', false)
+         }
+     });
 });
 
 //    $.ajaxSetup(
@@ -172,3 +224,59 @@ loadTable = () =>
         },
     });
 };
+
+loadHospitalDepartment = () => {
+    $.ajax({
+        url: apiURL + "hospital_departments",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Hospital_Departments, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.hospital_department_id +
+                    "'>" +
+                    dataOptions.hospital_department_name +
+                    "</option>";
+
+                $("#hospital_department_id").append(options);
+                $("#e_hospital_department_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadHospitalDepartment();
+
+loadEmployee = () => {
+    $.ajax({
+        url: apiURL + "employees",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Employees, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.employee_id +
+                    "'>" +
+                    dataOptions.employee_first_name +
+                    "</option>";
+
+                $("#employee_id").append(options);
+                $("#e_employee_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadEmployee();

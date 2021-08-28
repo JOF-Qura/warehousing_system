@@ -1,6 +1,51 @@
 $(function() 
 {
     loadTable();
+    
+    // function to save/update record
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var request_id = $("#uuid").val();
+        var requestor = $("#requestor").val()
+        var request_date = "2021-08-28T04:29:33.292Z"
+        var request_type = $("#request_type").val();
+        var request_status = $("#request_status").val();
+
+        if (request_id == "")
+        {
+            $.ajax(
+            {
+                url: apiURL + "request/",
+                type: "POST",
+                data: JSON.stringify(
+                {		
+                    "requestor": requestor,
+                    "request_date": request_date,
+                    "request_type": request_type,
+                    "request_status": request_status
+                    
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', false)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+        }
+    });
 });
 
 //    $.ajaxSetup(
@@ -19,7 +64,7 @@ loadTable = () =>
     $("#data-table").dataTable().fnDestroy();
     $("#data-table").dataTable({
         serverSide: true,
-        scrollX: true,
+        // scrollX: true,
         responsive: false,
         buttons:[
             {extend: 'excel', text: 'Save to Excel File'}

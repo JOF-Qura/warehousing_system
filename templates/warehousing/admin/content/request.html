@@ -35,7 +35,7 @@
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success">Add New Request</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Request</a>
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->
@@ -102,6 +102,77 @@
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+    <!-- Adding/Updating Request Modal -->
+    <div class="modal fade" id="adding_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Request Form</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CONTENT -->
+                    <form id="form_id" name="form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="uuid" id="uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="request_date" id="request_dateLabel">Request Date</label>
+                                        <input type="date" class="form-control" id="request_date" placeholder="Enter email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="requestor">Requestor</label>
+                                        <select class="form-control" id="requestor" name="requestor">
+                                            <option value="Warehouse">Warehouse</option>
+                                            <option value="Procurement">Procurement</option>
+                                            <option value="Hospital Department">Hospital Department</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="request_type">Request type</label>
+                                        <select class="form-control" id="request_type" name="request_type">
+                                            <option value="For Request">For Request</option>
+                                            <option value="To Request">To Request</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="request_status">Request Status</label>
+                                        <select class="form-control" id="request_status" name="request_status">
+                                            <option value="Pending">Pending</option>
+                                            <option value="For Delivery">For Delivery</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_add">Add</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Adding User Modal -->
 {%endblock%}
 
 {%block scripts%}

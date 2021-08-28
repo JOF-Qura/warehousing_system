@@ -14,7 +14,7 @@ class Outbound_Reports(Base):
     status                      = Column(String(255), nullable=False)
     total_quantity              = Column(mysql.INTEGER(20), nullable=False)
     expected_shipment_date      = Column(DateTime(255), nullable=False)
-    complete_shipment_date      = Column(DateTime(255), nullable=False)
+    complete_shipment_date      = Column(DateTime(255), nullable=True)
 
     created_at                  = Column(DateTime, default=text('NOW()'))
     updated_at                  = Column(DateTime, onupdate=text('NOW()'))
