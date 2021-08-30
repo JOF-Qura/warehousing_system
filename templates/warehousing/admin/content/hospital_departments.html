@@ -14,21 +14,13 @@
 
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
-                    <os</a></li>  
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supplies</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
-                        <li class="breadcrumb-item"><a href="#">Request</a></li>
-                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
-                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
-                        <li class="breadcrumb-item active">Hospital Departments</li>
-                        <li class="breadcrumb-item"><a href="#">Users</a></li>
-                        <li class="breadcrumb-item"><a href="#">Employee
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="hospital_departments_nav">Hospital Departments</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/hospital_departments/'){document.getElementById("hospital_departments_nav").classList.add('active')}</script>
+                    </ol>
                 </div>
                 <!-- / breadcrumb -->
             </div>
@@ -83,7 +75,7 @@
                                         <th>Department Name</th>
                                         <th>Hospital Manager ID</th>
                                         <th>Description</th>
-                                        <th>Actions</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -155,6 +147,61 @@
         </div><!-- /.modal -->
     </div>
     <!-- END Adding Hospital Department Modal -->
+
+    <!-- Editing Hospital Department Modal -->
+    <div class="modal fade" id="editing_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Hospital Department</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal_viewing">
+                    <!-- CONTENT -->
+                    <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="e_uuid" id="e_uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_hospital_manager_id" id="e_hospital_manager_idLabel">Hospital Department Manager</label>
+                                        <select class="form-control" id="e_hospital_manager_id" name="e_hospital_manager_id">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_hospital_department_name" id="e_hospital_department_nameLabel">Hospital Department Name</label>
+                                        <input type="input" class="form-control" id="e_hospital_department_name" placeholder="Hospital Department Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_hospital_department_description" id="e_hospital_department_descriptionLabel">Description </label>
+                                        <input type="input" class="form-control" id="e_hospital_department_description" placeholder="Enter Description Description" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Editing Hospital Department Modal -->
 {%endblock%}
 
 {%block scripts%}

@@ -19,7 +19,7 @@ class Warehouses(Base):
     updated_at                  = Column(DateTime, onupdate=text('NOW()'))
     
     #Foreignkey
-    warehouse_manager_id        = Column(String(36), ForeignKey('employees.employee_id'), nullable=True)
+    warehouse_manager_id        = Column(String(36), ForeignKey('employees.employee_id'), nullable=True, unique=True)
 
 #Relationship/s
     #Relationship/s of this Table

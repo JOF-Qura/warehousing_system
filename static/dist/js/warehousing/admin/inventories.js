@@ -101,24 +101,25 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center", 
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
                     // info
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" onClick="return viewData(\'' +
                         aData["inventory_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                        '\',0)" class="btn btn-secondary waves-effect"><i class="fas fa-eye font-size-16 align-middle"> View</i></button> ';
                     // edit
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["inventory_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
                     // delete
                     buttons +=
                         '<button type="button" onClick="return deleteData(\'' +
                         aData["inventory_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
                     return buttons; // same class in i element removed it from a element
                 },
@@ -135,19 +136,19 @@ loadTable = () =>
             let buttons = "";
             // info
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" onClick="return viewData(\'' +
                 aData["inventory_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                '\',0)" class="btn btn-secondary waves-effect"><i class="fas fa-eye font-size-16 align-middle"> View</i></button> ';
             // edit
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["inventory_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
             // delete
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
                 aData["inventory_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
             var inventory_id = ""
 
@@ -227,3 +228,101 @@ loadInventoryLocation = () => {
     });
 };
 loadInventoryLocation();
+
+viewData = (inventory_id) => 
+{
+    window.location.replace(baseURL + 'admin/inventories/'+inventory_id);
+    console.log(inventory_id);
+}
+
+// function to edit data
+editData = (inventory_id, type) => 
+{;
+	$.ajax(
+		{
+		url: apiURL + "inventories/" + inventory_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            if (type == 1) 
+            {
+                $("#e_uuid").val(data["inventory_id"]);
+                $("#e_inventory_location_id").val(data["inventory_location_id"]).trigger('change');
+                $("#e_supply_id").val(data["supply_id"]).trigger('change');
+
+                console.log(s)
+                
+                $("#e_form_id").on("submit", function (e)
+                {
+                    e.preventDefault();
+                    trimInputFields();
+                    var inventory_id = $("#uuid").val();
+                    var inventory_location_id = $("#inventory_location_id").val()
+                    var supply_id = $("#supply_id").val()
+                    
+
+                    $.ajax(
+                    {
+                        url: apiURL + "inventories/" + inventory_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "inventory_location_id": inventory_location_id,
+                            "supply_id": supply_id,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                });
+            }
+		},
+		error: function (data) {},
+	});
+};
+
+// function to delete data
+deleteData = (inventory_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "inventories/" + inventory_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};

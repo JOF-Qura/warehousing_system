@@ -149,6 +149,7 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center", 
                 render: function (aData, type, row) 
                 {
                     let buttons = "";

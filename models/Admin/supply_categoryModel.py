@@ -10,7 +10,7 @@ class Supply_Categories(Base):
 
 #Columns
     supply_category_id              = Column(String(36), primary_key=True, default=text('UUID()'))
-    supply_category_name            = Column(String(255), nullable=False)
+    supply_category_name            = Column(String(255), nullable=False, unique=True)
     supply_category_description     = Column(Desc(255), nullable=True)
 
     created_at                      = Column(DateTime, default=text('NOW()'))

@@ -43,10 +43,10 @@ def verify(form: AuthForm, response: Response, db: Session = Depends(get_db)):
         if user:
             match = password_verify(form.user_password, user.user_password)
             if match:
-                data = TokenData(user_type = user.user_type, user_email = user.user_email, user_password = user.user_password)
+                data = TokenData(user_id = user.user_id, user_type = user.user_type, user_email = user.user_email, user_password = user.user_password)
                 token = jwt.encode(dict(data), secret)
                 response.set_cookie('token', token, httponly=True)
-                return {'message': 'Log In Success!'}
+                return {'message': 'Log In Success!', 'data': data, 'token': token}
         
         return {'message': 'User not found.'}
     except Exception as e:

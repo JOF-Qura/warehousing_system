@@ -30,11 +30,11 @@ $(function()
                  cache: false,
                  success: function (data) 
                  {
-                     $('#form_id').trigger("reset")
-                     $('#button_add').prop('disabled', false)
-                     notification("success", "Success!", data.message);
-                     loadTable();
-                     $("#adding_modal").modal('hide')
+                    $('#form_id').trigger("reset")
+                    $('#button_add').prop('disabled', true)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
                  },
                  error: function ({ responseJSON }) 
                  {
@@ -42,7 +42,8 @@ $(function()
                  },
              });
          }
-     });
+    });
+    $('#button_add').prop('disabled', false)
 });
 
 //    $.ajaxSetup(
@@ -99,24 +100,25 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center", 
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
                     // info
-                    buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["hospital_department_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                    // buttons +=
+                    //     '<button type="button" onClick="return editData(\'' +
+                    //     aData["hospital_department_id"] +
+                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["hospital_department_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
                     // delete
                     buttons +=
                         '<button type="button" onClick="return deleteData(\'' +
                         aData["hospital_department_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
                     return buttons; // same class in i element removed it from a element
                 },
@@ -132,20 +134,20 @@ loadTable = () =>
         {
             let buttons = "";
             // info
-            buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["hospital_department_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+            // buttons +=
+            //     '<button type="button" onClick="return editData(\'' +
+            //     aData["hospital_department_id"] +
+            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["hospital_department_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
             // delete
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
                 aData["hospital_department_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
             var hospital_department_id = ""
 
@@ -197,3 +199,98 @@ loadEmployees = () => {
     });
 };
 loadEmployees();
+
+// function to edit data
+editData = (hospital_department_id, type) => 
+{
+    $("#e_form_id")[0].reset();
+	$.ajax(
+		{
+		url: apiURL + "hospital_departments/" + hospital_department_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            if (type == 1) 
+            {
+                $("#e_uuid").val(data["hospital_department_id"]);
+                $("#e_hospital_manager_id").val(data["hospital_manager_id"]).trigger("change");
+                $("#e_hospital_department_name").val(data["hospital_department_name"])
+                $("#e_hospital_department_description").val(data["hospital_department_description"]);
+
+                $("#e_form_id").on("submit", function (e)
+                {
+                    var hospital_department_id = $("#e_uuid").val();
+                    var hospital_manager_id = $("#e_hospital_manager_id").val()
+                    var hospital_department_name = $("#e_hospital_department_name").val();
+                    var hospital_department_description = $("#e_hospital_department_description").val();
+
+                    $.ajax(
+                    {
+                        url: apiURL + "hospital_departments/" + hospital_department_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "hospital_manager_id": hospital_manager_id,
+                            "hospital_department_name": hospital_department_name,
+                            "hospital_department_description": hospital_department_description,
+
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            $('#button_save').prop('disabled', true)
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                    $('#button_save').prop('disabled', false)
+                });
+            }
+		},
+		error: function (data) {},
+	});
+    $('#button_save').prop('disabled', false)
+};
+
+// function to delete data
+deleteData = (hospital_department_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "supplies/" + hospital_department_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};

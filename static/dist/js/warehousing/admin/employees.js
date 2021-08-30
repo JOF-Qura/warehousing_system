@@ -18,6 +18,15 @@ $(function()
         var employee_first_name = $("#employee_first_name").val();
         var employee_age = $("#employee_age").val();
 
+        if (user_id == "" || user_id == null)
+        {
+            user_id = null;
+        }
+        else
+        {
+            user_id = data["user_id"]
+        }
+
         if (employee_id == "")
         {
             $.ajax(
@@ -42,7 +51,7 @@ $(function()
                 success: function (data) 
                 {
                     $('#form_id').trigger("reset")
-                    $('#button_add').prop('disabled', false)
+                    $('#button_add').prop('disabled', true)
                     notification("success", "Success!", data.message);
                     loadTable();
                     $("#adding_modal").modal('hide')
@@ -53,6 +62,7 @@ $(function()
                 },
             });
         }
+        $('#button_add').prop('disabled', false)
     });
 });
 
@@ -150,24 +160,25 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center", 
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
                     // info
-                    buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["employee_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                    // buttons +=
+                    //     '<button type="button" onClick="return editData(\'' +
+                    //     aData["employee_id"] +
+                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="fas fa-eye font-size-16 align-middle"> View</i></button> ';
                     // edit
                     buttons +=
                         '<button type="button" data-toggle="modal" data-target="#editing_modal"  onClick="return editData(\'' +
                         aData["employee_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
                     // delete
                     buttons +=
                         '<button type="button"  onClick="return deleteData(\'' +
                         aData["employee_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
                     return buttons; // same class in i element removed it from a element
                 },
             },
@@ -182,15 +193,15 @@ loadTable = () =>
         {
             let buttons = "";
             // info
-            buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["employee_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+            // buttons +=
+            //     '<button type="button" onClick="return editData(\'' +
+            //     aData["employee_id"] +
+            //     '\',0)" class="btn btn-secondary waves-effect"><i class="fas fa-eye font-size-16 align-middle"> View</i></button> ';
             // edit
             buttons +=
                 '<button type="button" data-toggle="modal" data-target="#editing_modal"  onClick="return editData(\'' +
                 aData["employee_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
             // ------------ FOR STATUS -------------------------    
             // if (aData["isActive"] == "Active") 
             // {
@@ -198,13 +209,13 @@ loadTable = () =>
             // buttons +=
             //     '<button type="button" onClick="return deleteData(\'' +
             //     aData["employee_id"] +
-            //     '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+            //     '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
             // }
             // ------------ END FOR STATUS ----------------------   
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
                 aData["employee_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
             // var dateCreated = new Date(aData["user_created_date"]);
             // var createdDate = dateCreated.toLocaleString();
@@ -220,6 +231,8 @@ loadTable = () =>
                 user_id = aData["user_id"]
             }
 
+            var full_name = 
+
             $("td:eq(0)", nRow).html(user_id);
             $("td:eq(1)", nRow).html(aData["user_type"]);
             $("td:eq(2)", nRow).html(aData["employee_first_name"]);
@@ -234,6 +247,7 @@ loadTable = () =>
             // $("#data-table").removeClass("dataTable");
         },
     });
+    columns.adjust().draw();
 };
 
 loadUsers = () => {
@@ -341,6 +355,8 @@ editData = (employee_id, type) =>
                         cache: false,
                         success: function (data) 
                         {
+                            $('#form_id').trigger("reset")
+                            $('#button_save').prop('disabled', true)
                             notification("success", "Success!", data.message);
                             loadTable();
                             $("#editing_modal").modal('hide')
@@ -351,6 +367,7 @@ editData = (employee_id, type) =>
                         },
                     });
                 });
+                $('#button_save').prop('disabled', false)
             }
 		},
 		error: function (data) {},

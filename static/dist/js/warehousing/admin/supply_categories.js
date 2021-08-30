@@ -29,7 +29,7 @@ $(function()
                 success: function (data) 
                 {
                     $('#form_id').trigger("reset")
-                    $('#button_add').prop('disabled', false)
+                    $('#button_add').prop('disabled', true)
                     notification("success", "Success!", data.message);
                     loadTable();
                     $("#adding_modal").modal('hide')
@@ -41,6 +41,7 @@ $(function()
             });
         }
     });
+    $('#button_add').prop('disabled', false)
 });
 
 //    $.ajaxSetup(
@@ -97,6 +98,7 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center",
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
@@ -109,12 +111,12 @@ loadTable = () =>
                     buttons +=
                         '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["supply_category_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
                     // delete
                     buttons +=
                         '<button type="button" onClick="return deleteData(\'' +
                         aData["supply_category_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
                     return buttons; // same class in i element removed it from a element
                 },
@@ -138,12 +140,12 @@ loadTable = () =>
             buttons +=
                 '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["supply_category_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
             // delete
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
                 aData["supply_category_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
             var supply_category_id = ""
 
@@ -188,6 +190,8 @@ editData = (supply_category_id, type) =>
                 
                 $("#e_form_id").on("submit", function (e)
                 {
+                    e.preventDefault();
+                    trimInputFields();
                     var supply_category_id = $("#e_uuid").val();
                     var supply_category_name = $("#e_supply_category_name").val()
                     var supply_category_description = $("#e_supply_category_description").val()

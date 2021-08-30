@@ -120,24 +120,25 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center", 
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
-                    // info
-                    buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["warehouse_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                    // // info
+                    // buttons +=
+                    //     '<button type="button" onClick="return editData(\'' +
+                    //     aData["warehouse_id"] +
+                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["warehouse_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
                     // delete
                     buttons +=
                         '<button type="button" onClick="return deleteData(\'' +
                         aData["warehouse_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
                     return buttons; // same class in i element removed it from a element
                 },
@@ -152,21 +153,21 @@ loadTable = () =>
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
             let buttons = "";
-            // info
-            buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["warehouse_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+            // // info
+            // buttons +=
+            //     '<button type="button" onClick="return editData(\'' +
+            //     aData["warehouse_id"] +
+            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["warehouse_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
             // delete
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
                 aData["warehouse_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
 
             var warehouse_id = ""
 
@@ -219,3 +220,108 @@ loadEmployees = () => {
     });
 };
 loadEmployees();
+
+// function to edit data
+editData = (warehouse_id, type) => 
+{
+    $("#e_form_id")[0].reset();
+	$.ajax(
+		{
+		url: apiURL + "warehouses/" + warehouse_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            if (type == 1) 
+            {
+                $("#e_uuid").val(data["warehouse_id"]);
+                $("#e_warehouse_manager_id").val(data.manager["employee_id"]).trigger("change");
+                $("#e_warehouse_name").val(data["warehouse_name"]);
+                $("#e_warehouse_contact").val(data["warehouse_contact"]);
+                $("#e_warehouse_address").val(data["warehouse_address"]);
+                $("#e_warehouse_description").val(data["warehouse_description"]);
+                
+                console.log(data)
+
+                $("#e_form_id").on("submit", function (e)
+                {
+                    e.preventDefault();
+                    trimInputFields();
+                    var warehouse_id = $("#e_uuid").val();
+                    var warehouse_manager_id = $("#e_warehouse_manager_id").val()
+                    var warehouse_name = $("#e_warehouse_name").val()
+                    var warehouse_contact = $("#e_warehouse_contact").val()
+                    var warehouse_address = $("#e_warehouse_address").val()
+                    var warehouse_description = $("#e_warehouse_description").val()                    
+
+                    $.ajax(
+                    {
+                        url: apiURL + "warehouses/" + warehouse_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "warehouse_manager_id": warehouse_manager_id,
+                            "warehouse_name": warehouse_name,
+                            "warehouse_contact": warehouse_contact,
+                            "warehouse_name": warehouse_name,
+                            "warehouse_address": warehouse_address,
+                            "warehouse_description": warehouse_description,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            $('#e_form_id').trigger("reset")
+                            $('#button_save').prop('disabled', true)
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                });
+                $('#button_save').prop('disabled', false)
+            }
+		},
+		error: function (data) {},
+	});
+};
+
+// function to delete data
+deleteData = (warehouse_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "warehouses/" + warehouse_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};

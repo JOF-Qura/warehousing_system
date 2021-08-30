@@ -23,7 +23,7 @@ class Employees(Base):
 
 
     #Foreignkey
-    user_id                 = Column(String(36), ForeignKey('users.user_id'), nullable=True)
+    user_id                 = Column(String(36), ForeignKey('users.user_id'), nullable=True, unique=True)
     
 #Relationship/s
     #Relationship/s of this Table

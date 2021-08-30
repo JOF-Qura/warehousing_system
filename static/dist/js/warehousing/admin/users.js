@@ -108,6 +108,7 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center", 
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
@@ -120,7 +121,7 @@ loadTable = () =>
                     buttons +=
                         '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                         aData["user_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit"></i></button> ';
+                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit"> Edit</i></button> ';
                     // delete
                     if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
                     {
@@ -128,7 +129,7 @@ loadTable = () =>
                     buttons +=
                         '<button type="button" onClick="return deleteData(\'' +
                         aData["user_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"></i></button> ';
+                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"> Delete</i></button> ';
                     }
                     return buttons; // same class in i element removed it from a element
                 },
@@ -152,7 +153,7 @@ loadTable = () =>
             buttons +=
                 '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                 aData["user_id"] +
-                '\',1)" class="btn btn-info waves-effect"><center><i class="fas fa-edit"></i></center></button> ';
+                '\',1)" class="btn btn-info waves-effect"><center><i class="fas fa-edit"> Edit</i></center></button> ';
             // ------------ FOR STATUS -------------------------    
             if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
             {
@@ -160,7 +161,7 @@ loadTable = () =>
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
                 aData["user_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"></i></button> ';
+                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"> Delete</i></button> ';
             }
             // ------------ END FOR STATUS ----------------------   
 

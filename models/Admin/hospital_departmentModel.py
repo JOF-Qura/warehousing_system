@@ -19,7 +19,7 @@ class Hospital_Departments(Base):
 
 
     #Foreignkey
-    hospital_manager_id                 = Column(String(36), ForeignKey('employees.employee_id'), nullable=True)
+    hospital_manager_id                 = Column(String(36), ForeignKey('employees.employee_id'), nullable=True, unique=True)
 
  #Relationship/s
      #Relationship/s of this Table

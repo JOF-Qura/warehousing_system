@@ -1,3 +1,4 @@
+from enum import unique
 from sqlalchemy import Integer, String, DateTime, text, Text as Desc
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
@@ -10,7 +11,7 @@ class Inventory_Locations(Base):
 
 #Column
     inventory_location_id           = Column(String(36), primary_key=True, default=text('UUID()'))
-    inventory_location_name         = Column(String(255), nullable=False)
+    inventory_location_name         = Column(String(255), nullable=False, unique=True)
 
     created_at                      = Column(DateTime, default=text('NOW()'))
     updated_at                      = Column(DateTime, onupdate=text('NOW()'))

@@ -14,21 +14,13 @@
 
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
-                    <os</a></li>  
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supplies</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
-                        <li class="breadcrumb-item"><a href="#">Request</a></li>
-                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
-                        <li class="breadcrumb-item active">Warehouses</li>
-                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
-                        <li class="breadcrumb-item"><a href="#">Users</a></li>
-                        <li class="breadcrumb-item"><a href="#">Employee
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="warehouses_nav">Warehouses</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/warehouses/'){document.getElementById("warehouses_nav").classList.add('active')}</script>
+                    </ol>
                 </div>
                 <!-- / breadcrumb -->
             </div>
@@ -80,12 +72,12 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Warehouse Name</th>
-                                        <th>Warehouse Manager</th>
-                                        <th>Description</th>
-                                        <th>Warehouse Address</th>
-                                        <th>Contact</th>
-                                        <th>Actions</th>
+                                        <th width="20%">Warehouse Name</th>
+                                        <th width="10%">Warehouse Manager</th>
+                                        <th width="20%">Description</th>
+                                        <th width="15%">Warehouse Address</th>
+                                        <th width="10%">Contact</th>
+                                        <th width="25%" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -194,6 +186,7 @@
                                     <div class="form-group">
                                         <label for="e_warehouse_manager_id" id="e_warehouse_manager_idLabel">Warehouse Manager</label>
                                         <select class="form-control" id="e_warehouse_manager_id" name="e_warehouse_manager_id">
+                                            
                                         </select>
                                     </div>
                                 </div>

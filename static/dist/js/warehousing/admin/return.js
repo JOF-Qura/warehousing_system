@@ -7,24 +7,24 @@ $(function()
     {
         e.preventDefault();
         trimInputFields();
-        var request_id = $("#uuid").val();
-        var requestor = $("#requestor").val()
-        var request_date = "2021-08-28T04:29:33.292Z"
-        var request_type = $("#request_type").val();
-        var request_status = $("#request_status").val();
+        var return_id = $("#uuid").val();
+        var returner = $("#returner").val()
+        var return_date = "2021-08-28T04:29:33.292Z"
+        var return_type = $("#return_type").val();
+        var return_status = $("#return_status").val();
 
-        if (request_id == "")
+        if (return_id == "")
         {
             $.ajax(
             {
-                url: apiURL + "request/",
+                url: apiURL + "return/",
                 type: "POST",
                 data: JSON.stringify(
                 {		
-                    "requestor": requestor,
-                    "request_date": request_date,
-                    "request_type": request_type,
-                    "request_status": request_status
+                    "returner": returner,
+                    "return_date": return_date,
+                    "return_type": return_type,
+                    "return_status": return_status
                     
                 }),
                 dataType: "JSON",
@@ -81,36 +81,36 @@ loadTable = () =>
         ],
         columns: [
             {
-                data: "request_id",
-                name: "request_id",
+                data: "return_id",
+                name: "return_id",
                 searchable: true,
                 // width: "6.66%",
                 className: "dtr-control",
             },
             {
-                data: "request_date",
-                name: "request_date",
+                data: "return_date",
+                name: "return_date",
                 searchable: true,
                 // width: "6.66%",
                 className: "dtr-control",
             },
              {
-                data: "requestor",
-                name: "requestor",
+                data: "returner",
+                name: "returner",
                 searchable: true,
                 // width: "6.66%",
                 className: "dtr-control",
             },
             {
-                data: "request_type",
-                name: "request_type",
+                data: "return_type",
+                name: "return_type",
                 searchable: true,
                 // width: "6.66%",
                 className: "dtr-control",
             },
             {
-                data: "request_status",
-                name: "request_status",
+                data: "return_status",
+                name: "return_status",
                 searchable: true,
                 // width: "6.66%",
                 className: "dtr-control",
@@ -125,17 +125,17 @@ loadTable = () =>
                     // info
                     buttons +=
                         '<button type="button" onClick="return editData(\'' +
-                        aData["request_id"] +
+                        aData["return_id"] +
                         '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
                         '<button type="button" onClick="return editData(\'' +
-                        aData["request_id"] +
+                        aData["return_id"] +
                         '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
                     // delete
                     buttons +=
                         '<button type="button" onClick="return deleteData(\'' +
-                        aData["request_id"] +
+                        aData["return_id"] +
                         '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
 
                     return buttons; // same class in i element removed it from a element
@@ -144,7 +144,7 @@ loadTable = () =>
         ],
         ajax: 
         {
-            url: '/request/datatable',
+            url: '/returns/datatable',
             type: "GET",
             ContentType: "application/x-www-form-urlencoded",
         },
@@ -154,35 +154,35 @@ loadTable = () =>
             // info
             buttons +=
                 '<button type="button" onClick="return editData(\'' +
-                aData["request_id"] +
+                aData["return_id"] +
                 '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
                 '<button type="button" onClick="return editData(\'' +
-                aData["request_id"] +
+                aData["return_id"] +
                 '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
             // delete
             buttons +=
                 '<button type="button" onClick="return deleteData(\'' +
-                aData["request_id"] +
+                aData["return_id"] +
                 '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
 
-            var request_id = ""
+            var return_id = ""
 
-            if(aData["request_id"] == null)
+            if(aData["return_id"] == null)
             {
-                request_id = "null"
+                return_id = "null"
             }
             else
             {
-                request_id = aData["request_id"]
+                return_id = aData["return_id"]
             }
 
-            $("td:eq(0)", nRow).html(request_id);
-            $("td:eq(1)", nRow).html(aData["request_date"]);
-            $("td:eq(2)", nRow).html(aData["requestor"]);
-            $("td:eq(3)", nRow).html(aData["request_type"]);
-            $("td:eq(4)", nRow).html(aData["request_status"]);
+            $("td:eq(0)", nRow).html(return_id);
+            $("td:eq(1)", nRow).html(aData["return_date"]);
+            $("td:eq(2)", nRow).html(aData["returner"]);
+            $("td:eq(3)", nRow).html(aData["return_type"]);
+            $("td:eq(4)", nRow).html(aData["return_status"]);
             $("td:eq(5)", nRow).html(buttons);
 
         },

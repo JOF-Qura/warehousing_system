@@ -16,21 +16,13 @@
 
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
-                    <os</a></li>  
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supplies</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
-                        <li class="breadcrumb-item"><a href="#">Request</a></li>
-                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
-                        <li class="breadcrumb-item active">Suppliers</li>
-                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
-                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
-                        <li class="breadcrumb-item"><a href="#">Users</a></li>
-                        <li class="breadcrumb-item"><a href="#">Employee
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="suppliers_nav">Suppliers</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/suppliers/'){document.getElementById("suppliers_nav").classList.add('active')}</script>
+                    </ol>
                 </div>
                 <!-- / breadcrumb -->
             </div>
@@ -86,7 +78,7 @@
                                         <th>Contact</th>
                                         <th>Email</th>
                                         <th>Description</th>
-                                        <th>Actions</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,127 +96,127 @@
     </section>
     <!-- /.content -->
 
-         <!-- Adding Supplier Modal -->
-         <div class="modal fade" id="adding_modal">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Supplier Form</h4>
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- CONTENT -->
-                        <form id="form_id" name="form_id" enctype="multipart/form_data">
-                            <div class="card-body">
-                                <div class="row">
-                                    <input type="hidden" name="uuid" id="uuid" value="" />
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="supplier_name" id="supplier_nameLabel">Supplier Name</label>
-                                            <input type="input" class="form-control" id="supplier_name" placeholder="Enter Supplier Name" required>
-                                        </div>
+    <!-- Adding Supplier Modal -->
+    <div class="modal fade" id="adding_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Supplier Form</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CONTENT -->
+                    <form id="form_id" name="form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="uuid" id="uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supplier_name" id="supplier_nameLabel">Supplier Name</label>
+                                        <input type="input" class="form-control" id="supplier_name" placeholder="Enter Supplier Name" required>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="supplier_contact" id="supplier_contactLabel">Supplier Contact</label>
-                                            <input type="number" class="form-control" id="supplier_contact" placeholder="Enter Supplier Contact" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="supplier_email" id="supplier_emailLabel">Supplier Email</label>
-                                            <input type="email" class="form-control" id="supplier_email" placeholder="Enter Supplier Email" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="supplier_description" id="supplier_descriptionLabel">Supplier Descrription</label>
-                                            <textarea class="form-control" id="supplier_description" placeholder="Enter Supplier Description"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- BUTTONS -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="Submit" class="btn btn-primary" id="button_add">Add</button>
-                                </div>
-                                <!-- END BUTTONS -->
                             </div>
-                        </form> <!-- END CONTENT -->
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div>
-        <!-- END Adding Supplier Modal -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supplier_contact" id="supplier_contactLabel">Supplier Contact</label>
+                                        <input type="number" class="form-control" id="supplier_contact" placeholder="Enter Supplier Contact" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supplier_email" id="supplier_emailLabel">Supplier Email</label>
+                                        <input type="email" class="form-control" id="supplier_email" placeholder="Enter Supplier Email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supplier_description" id="supplier_descriptionLabel">Supplier Descrription</label>
+                                        <textarea class="form-control" id="supplier_description" placeholder="Enter Supplier Description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_add">Add</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Adding Supplier Modal -->
     
-        <!-- Editing Supplier Modal -->
-        <div class="modal fade" id="editing_modal">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit Supplier</h4>
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="modal_viewing">
-                        <!-- CONTENT -->
-                        <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
-                            <div class="card-body">
-                                <div class="row">
-                                    <input type="hidden" name="e_uuid" id="e_uuid" value="" />
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="e_supplier_name" id="e_supplier_nameLabel">Supplier Name</label>
-                                            <input type="input" class="form-control" id="e_supplier_name" placeholder="Enter Supplier Name" required>
-                                        </div>
+    <!-- Editing Supplier Modal -->
+    <div class="modal fade" id="editing_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Supplier</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal_viewing">
+                    <!-- CONTENT -->
+                    <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="e_uuid" id="e_uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supplier_name" id="e_supplier_nameLabel">Supplier Name</label>
+                                        <input type="input" class="form-control" id="e_supplier_name" placeholder="Enter Supplier Name" required>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="e_supplier_contact" id="e_supplier_contactLabel">Supplier Contact</label>
-                                            <input type="number" class="form-control" id="e_supplier_contact" placeholder="Enter Supplier Contact" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="e_supplier_email" id="e_supplier_emailLabel">Supplier Email</label>
-                                            <input type="email" class="form-control" id="e_supplier_email" placeholder="Enter Supplier Email" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="e_supplier_description" id="e_supplier_descriptionLabel">Supplier Descrription</label>
-                                            <textarea class="form-control" id="e_supplier_description" placeholder="Enter Supplier Description"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- BUTTONS -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
-                                </div>
-                                <!-- END BUTTONS -->
                             </div>
-                        </form> <!-- END CONTENT -->
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div>
-        <!-- END Editing Supplier Modal -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supplier_contact" id="e_supplier_contactLabel">Supplier Contact</label>
+                                        <input type="number" class="form-control" id="e_supplier_contact" placeholder="Enter Supplier Contact" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supplier_email" id="e_supplier_emailLabel">Supplier Email</label>
+                                        <input type="email" class="form-control" id="e_supplier_email" placeholder="Enter Supplier Email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supplier_description" id="e_supplier_descriptionLabel">Supplier Descrription</label>
+                                        <textarea class="form-control" id="e_supplier_description" placeholder="Enter Supplier Description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Editing Supplier Modal -->
 {%endblock%}
 
 {%block scripts%}

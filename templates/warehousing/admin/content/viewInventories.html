@@ -1,0 +1,87 @@
+<!-- Apply layout from base.html -->
+{%extends 'warehousing/admin/default/base.html'%} 
+
+<!-- Enter content for block 'content' -->
+{%block content%}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <!-- Title -->
+                <div class="col-sm-6">
+                    <h1>View Inventory</h1>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="inventories_nav"><a href="/warehousing/admin/inventories">Inventories</a></li>
+                </div>
+                <!-- / breadcrumb -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="h3">{{inventories.inventory_id}}</div>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Inventory Location:</b>
+                                </div>
+                                <div class="col-md-6">
+                                    {{inventories.inventory_location.inventory_location_name}}
+                                </div>    
+                            </div>
+                            <hr>
+                            <div class="row ">
+                                <div class="col-md-3">
+                                    <b>Supply:</b>
+                                </div>
+                                <div class="col-md-6">
+                                    {{inventories.inventory_supply.supply_name}}
+                                </div>    
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Qty:
+                                </div>
+                                <div class="col-md-6">
+                                    {{inventories.inventory_supply.supply_quantity}}
+                                </div>    
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-body">
+                            <div>Date Created: {{inventories.created_at}}</div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->    
+{%endblock%}
+
+{%block scripts%}
+    <script src="#"></script>
+{%endblock%}

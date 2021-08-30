@@ -15,23 +15,16 @@
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item "><a href="#">Supplies</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
-                        <li class="breadcrumb-item active">Inventories</li>
-                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
-                        <li class="breadcrumb-item"><a href="#">Request</a></li>
-                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
-                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
-                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
-                        <li class="breadcrumb-item"><a href="#">Users</a></li>
-                        <li class="breadcrumb-item"><a href="#">Employees</a></li>  
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="inventories_nav">Inventories</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/inventories/'){document.getElementById("inventories_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
             </div>
+            <br>
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
@@ -80,10 +73,10 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Inventory ID</th>
-                                        <th>Inventory Location Name</th>
-                                        <th>Supply Name</th>
-                                        <th>Actions</th>
+                                        <th width="25%">Inventory ID</th>
+                                        <th width="25%">Inventory Location Name</th>
+                                        <th width="25%">Supply Name</th>
+                                        <th width="25%" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -149,6 +142,57 @@
         </div><!-- /.modal -->
     </div>
     <!-- END Adding Inventory Modal -->
+
+    <!-- editing Inventory Modal -->
+    <div class="modal fade" id="editing_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Inventory</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CONTENT -->
+                    <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <div class="row">
+                                <input type="hidden" name="e_uuid" id="e_uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_inventory_location_id" id="e_inventory_location_idLabel">Location</label>
+                                        <select class="form-control" id="e_inventory_location_id" name="e_inventory_location_id">
+
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_id" id="e_supply_idLabel">Supply</label>
+                                        <select class="form-control" id="e_supply_id" name="e_supply_id">
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="button_save">Save</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END editing Inventory Modal -->
 {%endblock%}
 
 {%block scripts%}

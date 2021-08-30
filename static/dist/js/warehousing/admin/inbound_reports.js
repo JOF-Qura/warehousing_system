@@ -1,6 +1,52 @@
 $(function() 
 {
     loadTable();
+
+     // function to save/update record
+     $("#form_id").on("submit", function (e)
+     {
+         e.preventDefault();
+         trimInputFields();
+         var inbound_report_id = $("#uuid").val();
+         var request_id = $("#request_id").val()
+         var employee_id = $("#employee_id").val();
+         var status = $("#status").val();
+         var total_quantity = $("#total_quantity").val();
+
+         if (inbound_report_id == "")
+         {
+             $.ajax(
+             {
+                 url: apiURL + "inbound_reports/",
+                 type: "POST",
+                 data: JSON.stringify(
+                 {		
+                     "request_id": request_id,
+                     "employee_id": employee_id,
+                     "status": status,
+                     "total_quantity": total_quantity,
+                 }),
+                 dataType: "JSON",
+                 contentType: 'application/json',
+                 processData: false,
+                 cache: false,
+                 success: function (data) 
+                 {
+                     console.log(data)
+                     $('#form_id').trigger("reset")
+                     $('#button_add').prop('disabled', true)
+                     notification("success", "Success!", data.message);
+                     loadTable();
+                     $("#adding_modal").modal('hide')
+                 },
+                 error: function ({ responseJSON }) 
+                 {
+                     
+                 },
+             });
+             $('#button_add').prop('disabled', false)
+         }
+     });
 });
 
 //    $.ajaxSetup(
@@ -81,6 +127,7 @@ loadTable = () =>
             {
                 data: null,
                 // width: "30%",
+                class: "text-center", 
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
@@ -154,3 +201,59 @@ loadTable = () =>
         },
     });
 };
+
+loadRequest = () => {
+    $.ajax({
+        url: apiURL + "request",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Request, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.request_id +
+                    "'>" +
+                    dataOptions.request_id +
+                    "</option>";
+
+                $("#request_id").append(options);
+                $("#e_request_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadRequest();
+
+loadEmployee = () => {
+    $.ajax({
+        url: apiURL + "employees",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Employees, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.employee_id +
+                    "'>" +
+                    dataOptions.employee_first_name +
+                    "</option>";
+
+                $("#employee_id").append(options);
+                $("#e_employee_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadEmployee();

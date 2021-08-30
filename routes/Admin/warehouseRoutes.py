@@ -22,16 +22,22 @@ router = APIRouter(
 
 #================================ Warehouses Table =================================#
 
+
 # Warehouses DataTable
 @router.get('/datatable')
 def datatable(request: Request, db: Session = Depends(get_db)):
     try:
+        def get_full_name(employee_last_name, employee_first_name, employee_middle_name):
+            full_name = Employees.employee_last_name() + ", " + Employees.employee_first_name() + " " + Employees.employee_middle_name
+            return full_name
         def perform_search(queryset, user_input):
             return queryset.filter(
                 or_
                 (
                     Warehouses.warehouse_id.like('%' + user_input + '%'),
                     Employees.employee_last_name.like('%' + user_input + '%'),
+                    Employees.employee_first_name.like('%' + user_input + '%'),
+                    Employees.employee_middle_name.like('%' + user_input + '%'),
                     Warehouses.warehouse_name.like('%' + user_input + '%'),
                     Warehouses.warehouse_description.like('%' + user_input + '%'),
                     Warehouses.warehouse_address.like('%' + user_input + '%'),

@@ -9,7 +9,7 @@
             <div class="row mb-2">
                 <!-- Title -->
                 <div class="col-sm-6">
-                    <h1>Inbound Reports</h1>
+                    <h1>Return</h1>
                 </div>
 
                 <!-- Breadcrumb -->
@@ -18,8 +18,8 @@
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
                         <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="inbound_reports_nav">Inbound Reports</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/inbound_reports/'){document.getElementById("inbound_reports_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="return_nav">Return</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/return/'){document.getElementById("return_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
@@ -27,7 +27,7 @@
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Inbound Reports</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Return</a>
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->
@@ -63,7 +63,7 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Inbound Reports</h3>
+                            <h3 class="card-title">Return</h3>
                         </div>
                         <!-- /.card-header -->
 
@@ -72,12 +72,11 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Inbound Reports ID</th>
-                                        <th>Request ID</th>
-                                        <th>Employee Name</th>
+                                        <th>Return ID</th>
+                                        <th>Return Date</th>
+                                        <th>Returner</th>
+                                        <th>Return Type</th>
                                         <th>Status</th>
-                                        <th>Total Quantity</th>
-                                        <th>Date Created</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -96,12 +95,12 @@
     </section>
     <!-- /.content -->
 
-    <!-- Adding Inbound Report Modal -->
+    <!-- Adding/Updating Return Modal -->
     <div class="modal fade" id="adding_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Inbound Report Form</h4>
+                    <h4 class="modal-title">Return Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -114,8 +113,19 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="request_id">Request</label>
-                                        <select class="form-control" id="request_id" name="request_id" required>
+                                        <label for="Return_date" id="Return_dateLabel">Return Date</label>
+                                        <input type="date" class="form-control" id="Return_date" placeholder="Enter email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="returner">Returner</label>
+                                        <select class="form-control" id="returner" name="returner">
+                                            <option value="Warehouse">Warehouse</option>
+                                            <option value="Procurement">Procurement</option>
+                                            <option value="Hospital Department">Hospital Department</option>
                                         </select>
                                     </div>
                                 </div>
@@ -123,8 +133,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_id">Employee</label>
-                                        <select class="form-control" id="employee_id" name="employee_id" required>
+                                        <label for="Return_type">Return type</label>
+                                        <select class="form-control" id="Return_type" name="Return_type">
+                                            <option value="For Return">For Return</option>
+                                            <option value="To Return">To Return</option>
                                         </select>
                                     </div>
                                 </div>
@@ -132,18 +144,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" name="status" required>
-                                            <option value="On Going">On Going</option>
+                                        <label for="Return_status">Return Status</label>
+                                        <select class="form-control" id="Return_status" name="Return_status">
+                                            <option value="Pending">Pending</option>
+                                            <option value="For Delivery">For Delivery</option>
                                         </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="total_quantity" id="total_quantityLabel">Total Quantity</label>
-                                        <input type="number" class="form-control" id="total_quantity" placeholder="Enter Total Quantity" required>
                                     </div>
                                 </div>
                             </div>
@@ -159,11 +164,11 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding Inbound Report Modal -->
+    <!-- END Adding User Modal -->
 {%endblock%}
 
 {%block scripts%}
-<script src="{{url_for('static', path='/dist/js/warehousing/admin/inbound_reports.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/warehousing/admin/return.js')}}"></script>
 {%endblock%}
 
 

@@ -14,21 +14,13 @@
 
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
-                    <os</a></li>  
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supplies</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
-                        <li class="breadcrumb-item"><a href="#">Request</a></li>
-                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
-                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
-                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
-                        <li class="breadcrumb-item"><a href="#">Users</a></li>
-                        <li class="breadcrumb-item active">Employees</li>
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="employees_nav">Employees</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/employees/'){document.getElementById("employees_nav").classList.add('active')}</script>
+                    </ol>
                 </div>
                 <!-- / breadcrumb -->
             </div>
@@ -80,15 +72,15 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>User Email</th>
-                                        <th>User Type</th>
-                                        <th>First Name</th>
-                                        <th>Middle Name</th>
-                                        <th>Last Name</th>
-                                        <th>Age</th>
-                                        <th>Contact</th>
-                                        <th>Address</th>
-                                        <th>Actions</th>
+                                        <th width="10%">User Email</th>
+                                        <th width="5%">User Type</th>
+                                        <th width="10%">First Name</th>
+                                        <th width="10%">Middle Name</th>
+                                        <th width="10%">Last Name</th>
+                                        <th width="5%">Age</th>
+                                        <th width="10%">Contact</th>
+                                        <th width="10%">Address</th>
+                                        <th width="25%" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,6 +118,7 @@
                                     <div class="form-group">
                                         <label for="user_id" id="user_idLabel">User</label>
                                         <select class="form-control" id="user_id" name="user_id">
+                                            <option value="">Not a System User</option>
                                         </select>
                                     </div>
                                 </div>
@@ -206,7 +199,7 @@
     </div>
     <!-- END Adding Employee Modal -->
 
-    <!-- Editing User Modal -->
+    <!-- Editing Employee Modal -->
     <div class="modal fade" id="editing_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -305,7 +298,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Editing User Modal -->
+    <!-- END Editing Employee Modal -->
 
 {%endblock%}
 

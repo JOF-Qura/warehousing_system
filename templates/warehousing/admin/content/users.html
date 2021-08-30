@@ -15,19 +15,11 @@
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supplies</a></li>
-                        <li class="breadcrumb-item"><a href="#">Supply Categories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventories</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inventory Location</a></li>
-                        <li class="breadcrumb-item"><a href="#">Request</a></li>
-                        <li class="breadcrumb-item"><a href="#">Outbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Inbound</a></li>
-                        <li class="breadcrumb-item"><a href="#">Suppliers</a></li>
-                        <li class="breadcrumb-item"><a href="#">Warehouses</a></li>
-                        <li class="breadcrumb-item"><a href="#">Hospital Departments</a></li>
-                        <li class="breadcrumb-item active">Users</li>
-                        <li class="breadcrumb-item"><a href="#">Employees</a></li>  
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="users_nav">Users</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/users/'){document.getElementById("users_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
@@ -86,7 +78,7 @@
                                         <th>User Type</th>  
                                         <th>isActive</th>
                                         <th>Date Created</th>
-                                        <th>Actions</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -140,6 +132,7 @@
                                     <div class="form-group">
                                         <label for="user_type">User type</label>
                                         <select class="form-control" id="user_type" name="user_type">
+                                            <option value="Admin">Admin</option>
                                             <option value="Manager">Manager</option>
                                             <option value="Staff">Staff</option>
                                         </select>
@@ -199,6 +192,7 @@
                                     <div class="form-group">
                                         <label for="e_user_type">User type</label>
                                         <select class="form-control" id="e_user_type" name="e_user_type">
+                                            <option value="Admin">Admin</option>
                                             <option value="Manager">Manager</option>
                                             <option value="Staff">Staff</option>
                                         </select>
