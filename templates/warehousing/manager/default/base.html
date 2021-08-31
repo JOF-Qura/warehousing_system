@@ -1,3 +1,13 @@
+<script>
+    var TOKEN = sessionStorage.getItem('TOKEN')
+    var LocalTOKEN = localStorage.getItem('TOKEN')
+    
+    if(TOKEN == null || TOKEN == "")
+    {
+        window.location.replace("http://localhost:8000/warehousing/");
+    }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
     

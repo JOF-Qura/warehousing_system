@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{url_for('static', path='/dist/css/adminlte.min.css')}}">
+
+    <!-- Additional CSS -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.css')}}">
+
 </head>
 <body class="hold-transition login-page bg-white">
     <div class="login-box">
@@ -26,7 +31,7 @@
 
                 <form id="form_id" name="form_id" enctype="multipart/form_data">
                     <div class="input-group mb-3">
-                        <input type="email" id="user_email" class="form-control" placeholder="Email">
+                        <input type="email" id="user_email" class="form-control" placeholder="Email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -34,7 +39,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" id="user_password" class="form-control" placeholder="Password">
+                        <input type="password" id="user_password" class="form-control" placeholder="Password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -86,6 +91,10 @@
 <script src="{{url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{url_for('static', path='/dist/js/adminlte.min.js')}}"></script>
+
+<!-- Additional JS -->
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
 <!-- Common JS -->
 <script src="{{url_for('static', path='/dist/js/warehousing/common.js')}}"></script>

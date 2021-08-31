@@ -2,6 +2,24 @@ const apiURL = "http://localhost:8000/";
 const baseURL = "http://localhost:8000/warehousing/"
 
 
+_GET = (param) =>
+{
+	var vars = {};
+	window.location.href.replace( location.hash, '' ).replace( 
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
+
+	if ( param ) {
+		return vars[param] ? vars[param] : null;	
+	}
+	return vars;
+}
+
+// var $_GET = _GET()
+
 // type = error, warning, success, info
 // title - string
 // message = string

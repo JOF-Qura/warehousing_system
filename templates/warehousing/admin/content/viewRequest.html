@@ -9,7 +9,7 @@
             <div class="row mb-2">
                 <!-- Title -->
                 <div class="col-sm-6">
-                    <h1>Request</h1>
+                    <h1>Request Detail</h1>
                 </div>
 
                 <!-- Breadcrumb -->
@@ -18,43 +18,15 @@
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
                         <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="request_nav">Request /li>
-                        <script>if(window.location.pathname == '/warehousing/admin/request/'){document.getElementById("request_nav").classList.add('active')}</script>
-                    </ol>
+                        <li class="breadcrumb-item" id ="supplies_nav"><a href="/warehousing/admin/supplies">Supplies</a></li>                    </ol>
                 </div>
                 <!-- / breadcrumb -->
-            </div>
-            <div class="row">     
-                <!-- Button -->
-                <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Request</a>
-                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
-                </div>
-                <!-- / Button -->
             </div>
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content-header -->
 
-    <!-- For TESTING -->
-    <!-- <div class="row align-items-center justify-content-center"> -->
-        <!-- Python conditional statement -->
-        <!-- {%for user in users%}
-            <div class="card card-outline card-primary w-75">
-                <div class="card-header">
-                    <div class="h3">ID: {{user.user_id}}</div>
-                    <div class="subtitle">Email: {{user.user_email}}</div>
-                </div>
-                <div class="card-body">
-                    <div>Date Created: {{user.created_at}}</div>
-                </div>
-            </div>
-        {%else%}
-            <h3>No users to show.</h3>
-        {%endfor%}
-    </div> -->
-
-    <!-- Main content -->
+    <!-- Main Content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -63,7 +35,39 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Request</h3>
+                            <div class="h3" id="card_header_id">
+                                Reuqest ID: {{req.request_id}}
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="row" id="rd_id">
+
+                            </div>
+                            <hr>
+                            <div class="row" id="sp_id">
+
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-body">
+                            <div>Date Created: </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div> <!-- /.col -->
+            </div> <!-- /.row -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <h3 class="card-title">Request Supply</h3>
+                            <button class="btn btn-primary float-right" onclick="return addSupply()">Add Supply Request</button>
                         </div>
                         <!-- /.card-header -->
 
@@ -72,11 +76,9 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th width="20%">Request ID</th>
-                                        <th width="15%">Request Date</th>
-                                        <th width="15%">Requestor</th>
-                                        <th width="15%">Request Type</th>
-                                        <th width="10%">Status</th>
+                                        <th width="15%">Supply</th>
+                                        <th width="15%">Quantity</th>
+                                        <th width="15%">Status</th>
                                         <th width="25%" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -93,14 +95,14 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
-
-    <!-- Adding Request Modal -->
+    <!-- /.content -->   
+    
+    <!-- Adding Supply Request Modal -->
     <div class="modal fade" id="adding_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Request Form</h4>
+                    <h4 class="modal-title">Add Supply Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -164,12 +166,14 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding Request Modal -->
-
+    <!-- END Adding Supply Request Modal -->
 {%endblock%}
 
 {%block scripts%}
-<script src="{{url_for('static', path='/dist/js/warehousing/admin/request.js')}}"></script>
+    <script> 
+        var request_id = _GET('request_id') 
+
+        console.log(request_id);
+    </script>
+    <script src="{{url_for('static', path='/dist/js/warehousing/admin/viewRequest.js')}}"></script>
 {%endblock%}
-
-

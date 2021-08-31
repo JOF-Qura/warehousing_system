@@ -8,9 +8,11 @@ $(function()
             type: "POST",
             success: function (data)
             {
-                localStorage.removeItem("TOKEN");
-                localStorage.removeItem("email");
-                localStorage.removeItem("type");
+                sessionStorage.removeItem("TOKEN");
+                sessionStorage.removeItem("USER_EMAIL");
+                sessionStorage.removeItem("USER_TYPE");
+                sessionStorage.clear();
+                localStorage.clear();
                 
                 window.location.replace(baseURL );
             }

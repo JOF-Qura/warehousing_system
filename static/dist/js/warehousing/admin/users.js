@@ -165,6 +165,9 @@ loadTable = () =>
             }
             // ------------ END FOR STATUS ----------------------   
 
+            var dateCreated = new Date(aData["created_at"]);
+			var createdDate = dateCreated.toLocaleString();
+
             var user_id = ""
 
             if(aData["user_id"] == null)
@@ -187,7 +190,7 @@ loadTable = () =>
             {
                 $("td:eq(2)", nRow).html('<b style="color:OrangeRed !important;">'+ aData["active_status"] + '</b>');
             }
-            $("td:eq(3)", nRow).html(aData["created_at"]);
+            $("td:eq(3)", nRow).html(createdDate);
             $("td:eq(4)", nRow).html(buttons);
 
         },

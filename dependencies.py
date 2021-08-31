@@ -3,8 +3,6 @@ from fastapi.responses import HTMLResponse
 from jose import jwt, JWTError
 from fastapi.templating import Jinja2Templates
 
-
-
 secret = 'a very shady secret'
 
 def get_token(token: str = Cookie('token')):

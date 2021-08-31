@@ -247,7 +247,7 @@ loadTable = () =>
             // $("#data-table").removeClass("dataTable");
         },
     });
-    columns.adjust().draw();
+    // columns.adjust().draw();
 };
 
 loadUsers = () => {

@@ -40,9 +40,13 @@ def register(request: CreateUser, db: Session = Depends(get_db)):
 def verify(form: AuthForm, response: Response, db: Session = Depends(get_db)):
     try:
         user = db.query(Users).filter(Users.user_email == form.user_email).first()
-        if user:
+        if not user:
+            return 404
+        elif user:
             match = password_verify(form.user_password, user.user_password)
-            if match:
+            if not match:
+                return 4041
+            elif match:
                 data = TokenData(user_id = user.user_id, user_type = user.user_type, user_email = user.user_email, user_password = user.user_password)
                 token = jwt.encode(dict(data), secret)
                 response.set_cookie('token', token, httponly=True)

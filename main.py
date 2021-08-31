@@ -53,7 +53,8 @@ from models.Admin.supply_categoryModel import Supply_Categories
 from models.Admin.inventoryModel import Inventories
 from models.Admin.inventory_locationModel import Inventory_Locations
 from models.Admin.requestModel import Request as RequestModel
-from models.Admin.returnModel import Return as ReturnModel
+from models.Admin.requestModel import Request as RequestModel
+from models.Admin.request_detailModel import Request_Details
 from models.Admin.outbound_reportModel import Outbound_Reports
 from models.Admin.inbound_reportModel import Inbound_Reports
 from models.Admin.supplierModel import Suppliers
@@ -310,6 +311,18 @@ def index(request: Request, inventory_id: str, db: Session = Depends(get_db), cu
         {
             'request': request,
             'inventories': inventories
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/admin/request_details', response_class=HTMLResponse)
+def index(request: Request, request_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        req = db.query(Request_Details).filter(Request_Details.request_id == request_id).all()
+        return template.TemplateResponse('warehousing/admin/content/viewRequest.html', 
+        {
+            'request': request,
+            'req': req
         })
     except Exception as e:
         print(e)

@@ -2,6 +2,10 @@ $(function()
 {
     loadTable();
     
+addData = () =>
+{
+    $("#request_status").hide();
+    $("#request_statusLabel").hide();
     // function to save/update record
     $("#form_id").on("submit", function (e)
     {
@@ -25,7 +29,6 @@ $(function()
                     "request_date": request_date,
                     "request_type": request_type,
                     "request_status": request_status
-                    
                 }),
                 dataType: "JSON",
                 contentType: 'application/json',
@@ -46,6 +49,7 @@ $(function()
             });
         }
     });
+}    
 });
 
 //    $.ajaxSetup(
@@ -124,7 +128,7 @@ loadTable = () =>
                     let buttons = "";
                     // info
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" onClick="return viewData(\'' +
                         aData["request_id"] +
                         '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
@@ -153,7 +157,7 @@ loadTable = () =>
             let buttons = "";
             // info
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
+                '<button type="button" onClick="return viewData(\'' +
                 aData["request_id"] +
                 '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
@@ -167,6 +171,9 @@ loadTable = () =>
                 aData["request_id"] +
                 '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
 
+            var DateRequest = new Date(aData["request_date"]);
+            var requestedDate = DateRequest.toLocaleString();
+
             var request_id = ""
 
             if(aData["request_id"] == null)
@@ -179,7 +186,7 @@ loadTable = () =>
             }
 
             $("td:eq(0)", nRow).html(request_id);
-            $("td:eq(1)", nRow).html(aData["request_date"]);
+            $("td:eq(1)", nRow).html(requestedDate);
             $("td:eq(2)", nRow).html(aData["requestor"]);
             $("td:eq(3)", nRow).html(aData["request_type"]);
             $("td:eq(4)", nRow).html(aData["request_status"]);
@@ -191,3 +198,9 @@ loadTable = () =>
         },
     });
 };
+
+viewData = (request_id) => 
+{
+    window.location.replace(baseURL + 'admin/request_details?request_id='+request_id);
+    console.log(request_id);
+}

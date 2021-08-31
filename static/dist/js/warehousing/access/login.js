@@ -23,30 +23,42 @@ $(function()
             cache: false,
             success: function (data) 
             {
-                console.log(user_email);
-                console.log(user_password);
                 console.log(data);
-                console.log(data.data.user_type)
-
-                localStorage.setItem('TOKEN', data.token);
-                localStorage.setItem('USER_EMAIL', data.data.user_email);
-                localStorage.setItem('USER_TYPE', data.data.user_type);
-
-                let session_data = "";
-
-                    session_data += 'token=' + data.token;
-                    session_data += '&user_email=' + data.data.user_email;
-                    session_data += '&user_type=' + data.data.user_type;
-                
-                // console.log(session_data);
-
-                if (data.data.user_type == "Admin")
+                if(data == 404)
                 {
-                    window.location.replace(baseURL + 'admin');
+                    notification('error', 'Error!', "Invalid Email")
                 }
-                else if (data.data.user_type == "Manager")
+                else if (data == 4041)
                 {
-                    window.location.replace(baseURL + 'manager');
+                    notification('error', 'Error!', "Invalid Password")
+                }
+                else
+                {
+                    console.log(user_email);
+                    console.log(user_password);
+                    console.log(data);
+                    console.log(data.data.user_type)
+    
+                    sessionStorage.setItem('TOKEN', data.token);
+                    sessionStorage.setItem('USER_EMAIL', data.data.user_email);
+                    sessionStorage.setItem('USER_TYPE', data.data.user_type);
+    
+                    let session_data = "";
+    
+                        session_data += 'token=' + data.token;
+                        session_data += '&user_email=' + data.data.user_email;
+                        session_data += '&user_type=' + data.data.user_type;
+                    
+                    console.log(session_data);
+    
+                    if (data.data.user_type == "Admin")
+                    {
+                        window.location.replace(baseURL + 'admin');
+                    }
+                    else if (data.data.user_type == "Manager")
+                    {
+                        window.location.replace(baseURL + 'manager');
+                    }
                 }
             },
             error: function ({ responseJSON }) 

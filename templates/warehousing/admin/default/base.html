@@ -1,3 +1,14 @@
+<script>
+    var TOKEN = sessionStorage.getItem('TOKEN')
+    var LocalTOKEN = localStorage.getItem('TOKEN')
+    
+    if(TOKEN == null || TOKEN == "")
+    {
+        window.location.replace("http://localhost:8000/warehousing/");
+    }
+</script>
+
+
 <!DOCTYPE html>
 <html lang="en">
     
@@ -29,6 +40,10 @@
     <!-- Additional CSS -->
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.css')}}">
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.css')}}">
+
+    <!-- Common JS -->
+    <script src="{{url_for('static', path='/dist/js/warehousing/common.js')}}"></script>
+
 
 
     <!-- BLOCK FOR PLUGINS STYLESHEET -->
@@ -412,8 +427,6 @@
 <script src="{{url_for('static', path='/dist/js/warehousing/access/logout.js')}}"></script>
 
 
-<!-- Common JS -->
-<script src="{{url_for('static', path='/dist/js/warehousing/common.js')}}"></script>
 
 
 
