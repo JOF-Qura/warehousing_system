@@ -23,13 +23,15 @@ $(function()
             cache: false,
             success: function (data) 
             {
-                console.log(data);
+                
                 if(data == 404)
                 {
+                    console.log(data);
                     notification('error', 'Error!', "Invalid Email")
                 }
                 else if (data == 4041)
                 {
+                    console.log(data);
                     notification('error', 'Error!', "Invalid Password")
                 }
                 else

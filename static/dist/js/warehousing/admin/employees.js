@@ -18,13 +18,15 @@ $(function()
         var employee_first_name = $("#employee_first_name").val();
         var employee_age = $("#employee_age").val();
 
+
+
         if (user_id == "" || user_id == null)
         {
             user_id = null;
         }
         else
         {
-            user_id = data["user_id"]
+            user_id = user_id
         }
 
         if (employee_id == "")
@@ -164,21 +166,47 @@ loadTable = () =>
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
-                    // info
-                    // buttons +=
-                    //     '<button type="button" onClick="return editData(\'' +
+
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            // '<div class="dropdown-item d-flex" role="button"onClick="return viewData(\'' +
                     //     aData["employee_id"] +
-                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="fas fa-eye font-size-16 align-middle"> View</i></button> ';
-                    // edit
-                    buttons +=
-                        '<button type="button" data-toggle="modal" data-target="#editing_modal"  onClick="return editData(\'' +
-                        aData["employee_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
-                    // delete
-                    buttons +=
-                        '<button type="button"  onClick="return deleteData(\'' +
-                        aData["employee_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
+                    //     '\',0)>'  +
+                            //     '<div style="width: 2rem">' +
+                            //         '<i class="fas fa-eye mr-1"></i>'  +
+                            //     '</div>' +
+                            //     '<div>View Employee</div>'  +
+                            // '</div>'  +
+                        // Edit
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["employee_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit Employee' +
+                                '</div>'  +
+                            '</div>' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            aData["employee_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete Employee' +
+                                '</div>'  +
+                            '</div>'  +
+                        '</div>'  +
+                    '</div>';
                     return buttons; // same class in i element removed it from a element
                 },
             },
@@ -192,35 +220,52 @@ loadTable = () =>
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
             let buttons = "";
-            // info
-            // buttons +=
-            //     '<button type="button" onClick="return editData(\'' +
-            //     aData["employee_id"] +
-            //     '\',0)" class="btn btn-secondary waves-effect"><i class="fas fa-eye font-size-16 align-middle"> View</i></button> ';
-            // edit
-            buttons +=
-                '<button type="button" data-toggle="modal" data-target="#editing_modal"  onClick="return editData(\'' +
-                aData["employee_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
-            // ------------ FOR STATUS -------------------------    
-            // if (aData["isActive"] == "Active") 
-            // {
-            // // delete
-            // buttons +=
-            //     '<button type="button" onClick="return deleteData(\'' +
-            //     aData["employee_id"] +
-            //     '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
-            // }
-            // ------------ END FOR STATUS ----------------------   
-            buttons +=
-                '<button type="button" onClick="return deleteData(\'' +
-                aData["employee_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
+
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            // '<div class="dropdown-item d-flex" role="button"onClick="return viewData(\'' +
+                    //     aData["employee_id"] +
+                    //     '\',0)>'  +
+                            //     '<div style="width: 2rem">' +
+                            //         '<i class="fas fa-eye mr-1"></i>'  +
+                            //     '</div>' +
+                            //     '<div>View Employee</div>'  +
+                            // '</div>'  +
+                        // Edit
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["employee_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit Employee' +
+                                '</div>'  +
+                            '</div>' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            aData["employee_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete Employee' +
+                                '</div>'  +
+                            '</div>'  +
+                        '</div>'  +
+                    '</div>';
 
             // var dateCreated = new Date(aData["user_created_date"]);
             // var createdDate = dateCreated.toLocaleString();
 
-            var user_id = ""
+            var employee_id = ""
 
             if(aData["user_id"] == null)
             {

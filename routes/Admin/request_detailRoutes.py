@@ -76,6 +76,15 @@ def get_one_request_detail(request_id:str, db: Session = Depends(get_db)):
                             detail=f"Request Detail with the request_id {request_id} is not available")
     return emp
 
+# GET request detail by request_id
+@router.get('/{request_id}/{supply_id}', response_model=List[request_detailSchema.ShowRequestDetail])
+def count_response(request_id:str, supply_id:str, db: Session = Depends(get_db)):
+    query = db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_id == request_id, request_detailModel.Request_Details.supply_id == supply_id).all()
+    if not query:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Request Detail with the request_id {request_id} is not available")
+    return query
+
 # CREATE Request Detail
 @router.post('/')
 def create_request_detail(request: request_detailSchema.CreateRequestDetail, db: Session = Depends(get_db)):
@@ -83,7 +92,6 @@ def create_request_detail(request: request_detailSchema.CreateRequestDetail, db:
         request_id = request.request_id,
         supply_id = request.supply_id,
         quantity = request.quantity,
-        status = request.status,
     )
     db.add(to_store)
     db.commit()

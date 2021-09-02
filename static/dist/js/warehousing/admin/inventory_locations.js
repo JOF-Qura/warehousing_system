@@ -94,21 +94,47 @@ loadTable = () =>
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
-                    // info
-                    // buttons +=
-                    //     '<button type="button" onClick="return editData(\'' +
+
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            // '<div class="dropdown-item d-flex" role="button"onClick="return viewData(\'' +
                     //     aData["inventory_location_id"] +
-                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-                    // edit
-                    buttons +=
-                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                        aData["inventory_location_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
-                    // delete
-                    buttons +=
-                        '<button type="button" onClick="return deleteData(\'' +
-                        aData["inventory_location_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
+                    //     '\',0)>'  +
+                            //     '<div style="width: 2rem">' +
+                            //         '<i class="fas fa-eye mr-1"></i>'  +
+                            //     '</div>' +
+                            //     '<div>View Inventory Location</div>'  +
+                            // '</div>'  +
+                        // Edit
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["inventory_location_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit Inventory Location' +
+                                '</div>'  +
+                            '</div>' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            aData["inventory_location_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete Inventory Location' +
+                                '</div>'  +
+                            '</div>'  +
+                        '</div>'  +
+                    '</div>';
 
                     return buttons; // same class in i element removed it from a element
                 },
@@ -123,21 +149,47 @@ loadTable = () =>
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
             let buttons = "";
-            // info
-            // buttons +=
-            //     '<button type="button" onClick="return editData(\'' +
-            //     aData["inventory_location_id"] +
-            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-            // edit
-            buttons +=
-                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                aData["inventory_location_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit font-size-16 align-middle"> Edit</i></button> ';
-            // delete
-            buttons +=
-                '<button type="button" onClick="return deleteData(\'' +
-                aData["inventory_location_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt font-size-16 align-middle"> Delete</i></button> ';
+
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            // '<div class="dropdown-item d-flex" role="button"onClick="return viewData(\'' +
+                    //     aData["inventory_location_id"] +
+                    //     '\',0)>'  +
+                            //     '<div style="width: 2rem">' +
+                            //         '<i class="fas fa-eye mr-1"></i>'  +
+                            //     '</div>' +
+                            //     '<div>View Inventory Location</div>'  +
+                            // '</div>'  +
+                        // Edit
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["inventory_location_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit Inventory Location' +
+                                '</div>'  +
+                            '</div>' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            aData["inventory_location_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete Inventory Location' +
+                                '</div>'  +
+                            '</div>'  +
+                        '</div>'  +
+                    '</div>';
 
             var inventory_location_id = ""
 

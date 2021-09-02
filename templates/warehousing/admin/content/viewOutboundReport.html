@@ -9,7 +9,7 @@
             <div class="row mb-2">
                 <!-- Title -->
                 <div class="col-sm-6">
-                    <h1>Request Detail</h1>
+                    <h1>Outbound Report Detail</h1>
                 </div>
 
                 <!-- Breadcrumb -->
@@ -30,18 +30,24 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                
+            <!-- Left Column -->
+                <div class="col-md-9">
                     <!-- Card -->
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-md-9">
-                                    <div class="h5" id="card_header_id">
+                                <div class="col-md-7">
+                                    <div class="h5" id="l_card_header_id">
+                                        
                                     </div>
                                 </div>
-                                <div class="col-md-3" id="send_request_id">
-                                    
+                                <div class="col-md-5" id="edit_btn">
+                                    <button class="btn btn-info float-right">
+                                        <i class="fas fa-edit"></i>
+                                        Edit Status
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -49,14 +55,44 @@
 
                         <!-- Card Body -->
                         <div class="card-body">
-                            <form>
-                                <div class="row" id="rd_id">
+                            <!-- <form> -->
+                                <div class="row" id="l_rd_id">
 
                                 </div>
-                            </form>
+                            <!-- </form> -->
                             <hr>
-                            <div class="row" id="sp_id">
+                            <div class="row" id="l_sp_id">
                             
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <!-- <div class="card-body">
+                            <div>Date Created: </div>
+                        </div> -->
+                    </div>
+                    <!-- /.card -->
+                </div> <!-- /.col -->
+
+            <!-- Right Column -->
+                <div class="col-md-3">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="h5" id="r_card_header_id">
+                                        Hospital Department
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="row" id="r_rd_id">
+                               
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -76,11 +112,11 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col">
-                                    <h3 class="card-title">Requested Supplies</h3>
+                                    <h3 class="card-title">Supplies</h3>
                                 </div>
-                                <div class="col" id="add_supply_id">
+                                <!-- <div class="col" id="add_supply_id">
                                     <button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Request</button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -160,9 +196,9 @@
 
 {%block scripts%}
     <script> 
-        var request_id = _GET('request_id') 
+        var outbound_report_id = _GET('outbound_report_id') 
 
-        console.log(request_id);
+        console.log(outbound_report_id);
     </script>
-    <script src="{{url_for('static', path='/dist/js/warehousing/admin/viewRequest.js')}}"></script>
+    <script src="{{url_for('static', path='/dist/js/warehousing/admin/viewOutboundReport.js')}}"></script>
 {%endblock%}

@@ -29,7 +29,7 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form id="form_id" name="form_id" enctype="multipart/form_data">
+                <form id="form_id" name="form_id" enctype="multipart/form_data" class="needs-validation" novalidate>
                     <div class="input-group mb-3">
                         <input type="email" id="user_email" class="form-control" placeholder="Email" required>
                         <div class="input-group-append">
@@ -37,6 +37,9 @@
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
+                        <div class="invalid-feedback">
+                            Email is required.
+                          </div>
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" id="user_password" class="form-control" placeholder="Password" required>
@@ -45,16 +48,11 @@
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        <div class="invalid-feedback">
+                            Please enter a password.
+                          </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div>
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
@@ -102,5 +100,28 @@
 
 <script src="{{url_for('static', path='/dist/js/warehousing/access/login.js')}}"></script>
 
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () 
+    {
+        'use strict'
+    
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+    
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+    
+            form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
 </body>
 </html>

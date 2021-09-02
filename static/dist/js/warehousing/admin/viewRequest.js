@@ -4,51 +4,67 @@ $(function()
 
     addSupply = () =>
     {
-    $("#request_status").hide();
-    $("#request_statusLabel").hide();
-    // function to save/update record
-    $("#form_id").on("submit", function (e)
-    {
-        e.preventDefault();
-        trimInputFields();
-        var request_id = $("#uuid").val();
-        var requestor = $("#requestor").val()
-        var request_date = "2021-08-28T04:29:33.292Z"
-        var request_type = $("#request_type").val();
-        var request_status = $("#request_status").val();
-
-        if (request_id == "")
+        // function to save/update record
+        $("#form_id").on("submit", function (e)
         {
+            e.preventDefault();
+            trimInputFields();
+            var req_id = request_id
+            var supply_id = $("#supply_id").val()
+            var quantity = $("#quantity").val();
+
             $.ajax(
             {
-                url: apiURL + "request/",
-                type: "POST",
-                data: JSON.stringify(
-                {		
-                    "requestor": requestor,
-                    "request_date": request_date,
-                    "request_type": request_type,
-                    "request_status": request_status
-                }),
-                dataType: "JSON",
-                contentType: 'application/json',
-                processData: false,
-                cache: false,
-                success: function (data) 
+                url: apiURL + "request_detail/" + req_id + "/" + supply_id,
+                type: "GET",
+                dataType: "json",
+                success: function (countData) 
                 {
-                    $('#form_id').trigger("reset")
-                    $('#button_add').prop('disabled', false)
-                    notification("success", "Success!", data.message);
-                    loadTable();
-                    $("#adding_modal").modal('hide')
-                },
-                error: function ({ responseJSON }) 
-                {
-                    
-                },
+                    count = 0
+
+                    if (countData.length != 0)
+                    {
+                        count = countData.length
+                    }
+
+                    if (count > 0)
+                    {
+                        notification('error', 'Error', 'Supply is already on request list')
+                    }
+                    else
+                    {
+                        $.ajax(
+                        {
+                            url: apiURL + "request_detail/",
+                            type: "POST",
+                            data: JSON.stringify(
+                            {		
+                                "request_id": req_id,
+                                "supply_id": supply_id,
+                                "quantity": quantity,
+                            }),
+                            dataType: "JSON",
+                            contentType: 'application/json',
+                            processData: false,
+                            cache: false,
+                            success: function (data) 
+                            {
+                                $('#form_id').trigger("reset")
+                                $('#button_add').prop('disabled', false)
+                                notification("success", "Success!", data.message);
+                                loadTable();
+                                viewRequestDetails();
+                                $("#adding_modal").modal('hide')
+                            },
+                            error: function ({ responseJSON }) 
+                            {
+                                
+                            },
+                        });
+                    }
+                }
             });
-        }
-    });
+        });
     }    
 });
 
@@ -56,12 +72,32 @@ $(function()
 viewRequestDetails = () =>
 {
     $.ajax(
-		{
+	{
 		url: apiURL + "request/" + request_id,
 		type: "GET",
 		dataType: "json",
 		success: function (data) 
 		{
+            console.log(data)
+            $("#send_request_id").empty();
+
+            if (data.request_type == "To Request")
+            {
+                var details = "";                                      
+                details =
+                    '<button class="btn btn-primary float-right">Send Request</button>'
+                $("#send_request_id").append(details);
+            }
+            else if (data.request_type == "For Request")
+            {
+                var details = "";                                      
+                details =
+                    '<button class="btn btn-info float-right">Edit Request</button>'
+                $("#send_request_id").append(details);
+            }
+			
+            
+            
             console.log(data)
             var dateCreated = new Date(data.created_at);
 			var createdDate = dateCreated.toLocaleString();
@@ -78,14 +114,22 @@ viewRequestDetails = () =>
 
             $("#rd_id").empty();
 
+            status = ""
+
+            if (data.request_status == "Pending")
+            {
+                status =  '<div class="col-md-9"><span class="badge badge-warning">' + data.request_status + '</span></div>'
+            }
+            else if (data.request_status == "Approved")
+            {
+                status =  '<div class="col-md-9"><span class="badge badge-success">' + data.request_status + '</span></div>'
+            }
 			var details = "";                                      
             details =                          
                 '<div class="col-md-3">' +
                     '<b>Status:</b>' +
                 '</div>' +
-                '<div class="col-md-9">' +
-                    data.request_status +
-                '</div>' +                     
+                status +                    
                 '<div class="col-md-3">' +
                     '<b>Request Date:</b>' +
                 '</div>' +
@@ -106,6 +150,7 @@ viewRequestDetails = () =>
                 '<div class="col-md-9">' +
                     data.request_type;                      
             $("#rd_id").append(details);
+
             $.ajax(
                 {
                 url: apiURL + "request_detail/" + request_id,
@@ -113,12 +158,40 @@ viewRequestDetails = () =>
                 dataType: "json",
                 success: function (RDdata) 
                 {
+                    lenght = 0;
+
+                    if (RDdata.length != 0)
+                    {
+                        length = RDdata.length
+                    }
+
+                    console.log(RDdata.length)
                     $("#sp_id").empty();
         
                     var details = "";
                     var supplies = "";
-                    var div = ""                                      
-                    details =                                               
+                    var div = "";
+
+                    if (length == 0)
+                    {
+                        details =                                               
+                        '<div class="col-md-12">' +
+                            '<div class="row">' +
+                                '<div class="col-md-3">' +
+                                    '<b>Requested Supplies:</b>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="row">' +
+                                '<div class="col-md-3"> &nbsp;&nbsp;&nbsp;&nbsp;' +
+                                    'Please add Supply to Request'
+                                '</div>' +
+                            '</div>';
+                        '</div>';
+                        $("#sp_id").append(details + supplies + div);
+                    }  
+                    if (length > 0)
+                    {
+                        details =                                               
                         '<div class="col-md-12">' +
                             '<div class="row">' +
                                 '<div class="col-md-3">' +
@@ -136,22 +209,48 @@ viewRequestDetails = () =>
                                             RDdata[i].supply.supply_name +
                                         '</div>' +
                                         '<div class="col-md-9"> &nbsp;&nbsp;' +
-                                            RDdata[i].quantity +
+                                            'x' + RDdata[i].quantity +
                                         '</div>' +
                                     '</div>';
                             }
                         div =
                         '</div>';
-                    $("#sp_id").append(details + supplies + div);
-        
-        
-                    
+                        $("#sp_id").append(details + supplies + div);
+                    } 
                 }
             });
         }
     });
 }
 viewRequestDetails();
+
+loadSupply = () => {
+    $.ajax({
+        url: apiURL + "supplies",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Supplies, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.supply_id +
+                    "'>" +
+                    dataOptions.supply_name +
+                    "</option>";
+
+                $("#supply_id").append(options);
+                $("#e_supply_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadSupply();
 
 
 

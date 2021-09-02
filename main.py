@@ -53,9 +53,10 @@ from models.Admin.supply_categoryModel import Supply_Categories
 from models.Admin.inventoryModel import Inventories
 from models.Admin.inventory_locationModel import Inventory_Locations
 from models.Admin.requestModel import Request as RequestModel
-from models.Admin.requestModel import Request as RequestModel
+from models.Admin.returnModel import Return as ReturnModel
 from models.Admin.request_detailModel import Request_Details
 from models.Admin.outbound_reportModel import Outbound_Reports
+from models.Admin.outbound_report_detailModel import Outbound_Report_Details
 from models.Admin.inbound_reportModel import Inbound_Reports
 from models.Admin.supplierModel import Suppliers
 from models.Admin.warehouseModel import Warehouses
@@ -326,6 +327,31 @@ def index(request: Request, request_id: str, db: Session = Depends(get_db), curr
         })
     except Exception as e:
         print(e)
+
+@app.get('/warehousing/admin/outbound_report_details', response_class=HTMLResponse)
+def index(request: Request, outbound_report_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        out_report_d = db.query(Outbound_Report_Details).filter(Outbound_Report_Details.outbound_report_id == outbound_report_id).all()
+        return template.TemplateResponse('warehousing/admin/content/viewOutboundReport.html', 
+        {
+            'request': request,
+            'out_report_d': out_report_d
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/admin/inbound_report_details', response_class=HTMLResponse)
+def index(request: Request, inbound_report_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        in_report_d = db.query(Inbound_Reports).filter(Inbound_Reports.inbound_report_id == inbound_report_id).all()
+        return template.TemplateResponse('warehousing/admin/content/viewInboundReport.html', 
+        {
+            'request': request,
+            'in_report_d': in_report_d
+        })
+    except Exception as e:
+        print(e)
+
 
 
 # ---------------------------- Manager Template ------------------------------ #

@@ -108,22 +108,31 @@
                 </div>
                 <div class="modal-body">
                     <!-- CONTENT -->
-                    <form id="form_id" name="form_id" enctype="multipart/form_data">
+                    <form id="form_id" name="form_id" enctype="multipart/form_data" class="needs-validation" novalidate>
                         <div class="card-body">
                             <div class="row">
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
-                                    <div class="form-group">
+                                    <div class="form-group" >
                                         <label for="user_email" id="user_emailLabel">Email address</label>
-                                        <input type="email" class="form-control" id="user_email" placeholder="Enter email">
+                                        <span class="required-field"> </span>
+                                        <input type="email" class="form-control" id="user_email" placeholder="Enter email" required>
+                                        <div class="invalid-feedback">
+                                            Email is required.
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="user_password" id="user_passwordLabel">Password</label>
-                                        <input type="password" class="form-control" id="user_password" placeholder="Password">
+                                        <span class="required-field"> </span>
+                                        <input type="password" class="form-control" id="user_password" placeholder="Password" required>
+                                        <div class="invalid-feedback">
+                                            Password is required.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -131,12 +140,16 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="user_type">User type</label>
-                                        <select class="form-control" id="user_type" name="user_type">
+                                        <span class="required-field"> </span>
+                                        <select class="form-control" id="user_type" name="user_type" required>
                                             <option value="Admin">Admin</option>
                                             <option value="Manager">Manager</option>
                                             <option value="Staff">Staff</option>
                                         </select>
-                                    </div>
+                                        <div class="invalid-feedback">
+                                            User Type is required.
+                                        </div>
+                                    </div>      
                                 </div>
                             </div>
                             <!-- BUTTONS -->
@@ -154,7 +167,7 @@
     <!-- END Adding User Modal -->
 
     <!-- Viewing User Modal -->
-    <div class="modal fade" id="viewing_modal">
+    <!-- <div class="modal fade" id="viewing_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -163,13 +176,16 @@
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
                 </div>
-                <div class="modal-body" id="modal_viewing">
+                <div class="modal-body" id="modal_viewing"> -->
                     <!-- CONTENT -->
                     
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div>
+                <!-- </div> -->
+                <!-- /.modal-content -->
+            <!-- </div> -->
+            <!-- /.modal-dialog -->
+        <!-- </div> -->
+        <!-- /.modal -->
+    <!-- </div>  -->
     <!-- END Viewing User Modal -->
 
     <!-- Editing User Modal -->
@@ -224,6 +240,7 @@
         </div><!-- /.modal -->
     </div>
     <!-- END Viewing User Modal -->
+
 {%endblock%}
 
 

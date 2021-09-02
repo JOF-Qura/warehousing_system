@@ -90,7 +90,6 @@ def update_request(request_id: str, r: requestSchema.UpdateRequest, db: Session 
     if not db.query(requestModel.Request).filter(requestModel.Request.request_id == request_id).update({
         'request_status': r.request_status,
         'requestor': r.requestor,
-        'request_date': r.request_date,
         'request_type': r.request_type,
     }):
         raise HTTPException(404, 'Request to update is not found')

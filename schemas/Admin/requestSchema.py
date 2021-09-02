@@ -19,7 +19,6 @@ class CreateRequest(RequestBase):
     pass
 
 class UpdateRequest(BaseModel):
-    request_date: Optional[dt]
     requestor: Optional[str]
     request_type: Optional[str]
     request_status: Optional[str]

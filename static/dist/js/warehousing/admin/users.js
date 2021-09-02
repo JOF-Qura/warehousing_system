@@ -13,7 +13,7 @@ $(function()
         var user_email = $("#user_email").val();
         var user_password = $("#user_password").val();
 
-        if (user_id == "")
+        if (user_id == "" && user_type != "" && user_email != "" && user_email != "" && user_password !="")
         {
             $.ajax(
             {
@@ -112,25 +112,47 @@ loadTable = () =>
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
-                    // info
-                    // buttons +=
-                    //     '<button type="button" data-toggle="modal" data-target="#viewing_modal" onClick="return viewData(\'' +
+
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            // '<div class="dropdown-item d-flex" role="button"onClick="return viewData(\'' +
                     //     aData["user_id"] +
-                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-                    // edit
-                    buttons +=
-                        '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                        aData["user_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="fas fa-edit"> Edit</i></button> ';
-                    // delete
-                    if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
-                    {
-                    // delete
-                    buttons +=
-                        '<button type="button" onClick="return deleteData(\'' +
-                        aData["user_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"> Delete</i></button> ';
-                    }
+                    //     '\',0)>'  +
+                            //     '<div style="width: 2rem">' +
+                            //         '<i class="fas fa-eye mr-1"></i>'  +
+                            //     '</div>' +
+                            //     '<div>View User</div>'  +
+                            // '</div>'  +
+                        // Edit
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["user_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit User' +
+                                '</div>'  +
+                            '</div>' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            aData["user_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete User' +
+                                '</div>'  +
+                            '</div>'  +
+                        '</div>'  +
+                    '</div>';
                     return buttons; // same class in i element removed it from a element
                 },
             },
@@ -144,26 +166,67 @@ loadTable = () =>
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
             let buttons = "";
+
+            buttons +=
+            '<div class="text-center dropdown">' +
+                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                    '<i class="fas fa-ellipsis-v"></i>'  +
+                '</div>' +
+                '<div class="dropdown-menu dropdown-menu-right">'  +
+                //Info
+                    // '<div class="dropdown-item d-flex" role="button"onClick="return viewData(\'' +
+            //     aData["user_id"] +
+            //     '\',0)>'  +
+                    //     '<div style="width: 2rem">' +
+                    //         '<i class="fas fa-eye mr-1"></i>'  +
+                    //     '</div>' +
+                    //     '<div>View User</div>'  +
+                    // '</div>'  +
+                // Edit
+                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                    aData["user_id"] +
+                    '\',1)">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-edit mr-1"></i>'  +
+                        '</div>' +
+                        '<div>' +
+                            'Edit User' +
+                        '</div>'  +
+                    '</div>' +
+                // Delete
+                    '<div class="dropdown-divider"></div>' +
+                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                    aData["user_id"] + 
+                    '\')">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        '</div>' +
+                        '<div>' +
+                            'Delete User' +
+                        '</div>'  +
+                    '</div>'  +
+                '</div>'  +
+            '</div>';
             // // info
             // buttons +=
             //     '<button type="button" data-toggle="modal" data-target="#viewing_modal" onClick="return viewData(\'' +
             //     aData["user_id"] +
             //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
-            buttons +=
-                '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                aData["user_id"] +
-                '\',1)" class="btn btn-info waves-effect"><center><i class="fas fa-edit"> Edit</i></center></button> ';
-            // ------------ FOR STATUS -------------------------    
-            if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
-            {
-            // delete
-            buttons +=
-                '<button type="button" onClick="return deleteData(\'' +
-                aData["user_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"> Delete</i></button> ';
-            }
-            // ------------ END FOR STATUS ----------------------   
+            // buttons +=
+            //     '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+            //     aData["user_id"] +
+            //     '\',1)" class="btn btn-info waves-effect"><center><i class="fas fa-edit"> Edit</i></center></button>';
+            // // ------------ FOR STATUS -------------------------    
+            // if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
+            // {
+            // // delete
+            // buttons +=
+            //     '<button type="button" onClick="return deleteData(\'' +
+            //     aData["user_id"] +
+            //     '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"> Delete</i></button>';
+            // }
+            // // ------------ END FOR STATUS ----------------------   
 
             var dateCreated = new Date(aData["created_at"]);
 			var createdDate = dateCreated.toLocaleString();
@@ -401,3 +464,4 @@ deleteData = (user_id) =>
 		}
 	});
 };
+
