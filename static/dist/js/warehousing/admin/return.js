@@ -2,50 +2,55 @@ $(function()
 {
     loadTable();
     
-    // function to save/update record
-    $("#form_id").on("submit", function (e)
+    addData = () =>
     {
-        e.preventDefault();
-        trimInputFields();
-        var return_id = $("#uuid").val();
-        var returner = $("#returner").val()
-        var return_date = "2021-08-28T04:29:33.292Z"
-        var return_type = $("#return_type").val();
-        var return_status = $("#return_status").val();
-
-        if (return_id == "")
+        $("#return_statusLabel").hide();
+        $("#return_status").hide();
+        // function to save/update record
+        $("#form_id").on("submit", function (e)
         {
-            $.ajax(
+            e.preventDefault();
+            trimInputFields();
+            var return_id = $("#uuid").val();
+            var returner = $("#returner").val()
+            var return_date = "2021-08-28T04:29:33.292Z"
+            var return_type = $("#return_type").val();
+            var return_status = $("#return_status").val();
+
+            if (return_id == "")
             {
-                url: apiURL + "return/",
-                type: "POST",
-                data: JSON.stringify(
-                {		
-                    "returner": returner,
-                    "return_date": return_date,
-                    "return_type": return_type,
-                    "return_status": return_status
-                    
-                }),
-                dataType: "JSON",
-                contentType: 'application/json',
-                processData: false,
-                cache: false,
-                success: function (data) 
+                $.ajax(
                 {
-                    $('#form_id').trigger("reset")
-                    $('#button_add').prop('disabled', false)
-                    notification("success", "Success!", data.message);
-                    loadTable();
-                    $("#adding_modal").modal('hide')
-                },
-                error: function ({ responseJSON }) 
-                {
-                    
-                },
-            });
-        }
-    });
+                    url: apiURL + "returns/",
+                    type: "POST",
+                    data: JSON.stringify(
+                    {		
+                        "returner": returner,
+                        "return_date": return_date,
+                        "return_type": return_type,
+                        "return_status": return_status
+                        
+                    }),
+                    dataType: "JSON",
+                    contentType: 'application/json',
+                    processData: false,
+                    cache: false,
+                    success: function (data) 
+                    {
+                        $('#form_id').trigger("reset")
+                        $('#button_add').prop('disabled', false)
+                        notification("success", "Success!", data.message);
+                        loadTable();
+                        $("#adding_modal").modal('hide')
+                    },
+                    error: function ({ responseJSON }) 
+                    {
+                        
+                    },
+                });
+            }
+        });
+    }
 });
 
 //    $.ajaxSetup(
@@ -122,21 +127,49 @@ loadTable = () =>
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
-                    // info
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["return_id"] +
-                        '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-                    // edit
-                    buttons +=
-                        '<button type="button" onClick="return editData(\'' +
-                        aData["return_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
-                    // delete
-                    buttons +=
-                        '<button type="button" onClick="return deleteData(\'' +
-                        aData["return_id"] +
-                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                            aData["return_id"] + 
+                            '\', 0)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-eye mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'View Return' +
+                                '</div>'  +
+                            '</div>'  +
+                        // Edit
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["return_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit Return' +
+                                '</div>'  +
+                            '</div>' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            aData["return_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete Return' +
+                                '</div>'  +
+                            '</div>'  +
+                        '</div>'  +
+                    '</div>';
 
                     return buttons; // same class in i element removed it from a element
                 },
@@ -151,21 +184,49 @@ loadTable = () =>
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
             let buttons = "";
-            // info
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["return_id"] +
-                '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-            // edit
-            buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["return_id"] +
-                '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
-            // delete
-            buttons +=
-                '<button type="button" onClick="return deleteData(\'' +
-                aData["return_id"] +
-                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+            '<div class="text-center dropdown">' +
+                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                    '<i class="fas fa-ellipsis-v"></i>'  +
+                '</div>' +
+                '<div class="dropdown-menu dropdown-menu-right">'  +
+                //Info
+                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                    aData["return_id"] + 
+                    '\', 0)">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-eye mr-1"></i>'  +
+                        '</div>' +
+                        '<div>' +
+                            'View Return' +
+                        '</div>'  +
+                    '</div>'  +
+                // Edit
+                    '<div class="dropdown-divider"></div>' +
+                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                    aData["return_id"] +
+                    '\',1)">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-edit mr-1"></i>'  +
+                        '</div>' +
+                        '<div>' +
+                            'Edit Return' +
+                        '</div>'  +
+                    '</div>' +
+                // Delete
+                    '<div class="dropdown-divider"></div>' +
+                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                    aData["return_id"] + 
+                    '\')">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        '</div>' +
+                        '<div>' +
+                            'Delete Return' +
+                        '</div>'  +
+                    '</div>'  +
+                '</div>'  +
+            '</div>';
 
             var return_id = ""
 

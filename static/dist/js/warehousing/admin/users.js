@@ -207,29 +207,12 @@ loadTable = () =>
                     '</div>'  +
                 '</div>'  +
             '</div>';
-            // // info
-            // buttons +=
-            //     '<button type="button" data-toggle="modal" data-target="#viewing_modal" onClick="return viewData(\'' +
-            //     aData["user_id"] +
-            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-            // edit
-            // buttons +=
-            //     '<button type="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-            //     aData["user_id"] +
-            //     '\',1)" class="btn btn-info waves-effect"><center><i class="fas fa-edit"> Edit</i></center></button>';
-            // // ------------ FOR STATUS -------------------------    
-            // if (aData["active_status"] == "Yes" || aData["active_status"] == "Active" || aData["active_status"] == null) 
-            // {
-            // // delete
-            // buttons +=
-            //     '<button type="button" onClick="return deleteData(\'' +
-            //     aData["user_id"] +
-            //     '\')" class="btn btn-danger waves-effect"><i class="fas fa-trash-alt"> Delete</i></button>';
-            // }
-            // // ------------ END FOR STATUS ----------------------   
+            
+            var createdDate = moment(aData["created_at"]).format("MMMM D, YYYY; hh:mm:ss");
+            moment(aData["created_at"]).fromNow();
 
-            var dateCreated = new Date(aData["created_at"]);
-			var createdDate = dateCreated.toLocaleString();
+            // var dateCreated = new Date(aData["created_at"]);
+			// var createdDate = dateCreated.toLocaleString();
 
             var user_id = ""
 
@@ -247,11 +230,11 @@ loadTable = () =>
 
             if (aData["active_status"] == "Active" || aData["active_status"] == "Yes")
             {
-                $("td:eq(2)", nRow).html('<span class="badge badge-success">'+ aData["active_status"] + '</span>');
+                $("td:eq(2)", nRow).html('<div class=”badge badge-success p-2 w-100”>'+ aData["active_status"] + '</div>');
             }
             else
             {
-                $("td:eq(2)", nRow).html('<b style="color:OrangeRed !important;">'+ aData["active_status"] + '</b>');
+                $("td:eq(2)", nRow).html('<div class=”badge badge-warning p-2 w-100”>'+ aData["active_status"] + '</div>');
             }
             $("td:eq(3)", nRow).html(createdDate);
             $("td:eq(4)", nRow).html(buttons);

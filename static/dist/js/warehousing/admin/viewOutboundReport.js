@@ -103,6 +103,128 @@ viewOutboundReportDetails = () =>
 }
 viewOutboundReportDetails();
 
+loadHospitalDepartment = () => {
+    $.ajax({
+        url: apiURL + "hospital_departments",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Hospital_Departments, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.hospital_department_id +
+                    "'>" +
+                    dataOptions.hospital_department_name +
+                    "</option>";
+
+                $("#hospital_department_id").append(options);
+                $("#e_hospital_department_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadHospitalDepartment();
+
+loadEmployee = () => {
+    $.ajax({
+        url: apiURL + "employees",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Employees, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.employee_id +
+                    "'>" +
+                    dataOptions.employee_first_name +
+                    "</option>";
+
+                $("#employee_id").append(options);
+                $("#e_employee_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadEmployee();
+
+// function to edit data
+editData = () => 
+{
+	$.ajax(
+		{
+		url: apiURL + "outbound_reports/" + outbound_report_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            console.log(data);
+            $("#e_uuid").val(data["outbound_report_id"]);
+            $("#e_hospital_department_id").val(data["hospital_department_id"]).trigger('change');
+            $("#e_employee_id").val(data["employee_id"]).trigger('change');
+            $("#e_status").val(data["status"]).trigger('change');
+            $("#e_total_quantity").val(data["total_quantity"]);
+            $("#e_expected_shipment_date").val(data["expected_shipment_date"]).trigger('change');
+            $("#e_complete_shipment_date").val(data["complete_shipment_date"]).trigger('change');
+
+            
+            $("#e_form_id").on("submit", function (e)
+            {
+                e.preventDefault();
+                trimInputFields();
+                var outbound_report_id = $("#e_uuid").val();
+                var hospital_department_id = $("#e_hospital_department_id").val()
+                var employee_id = $("#e_employee_id").val()
+                var status = $("#e_status").val()
+                var expected_shipment_date = "2021-08-28T04:29:33.292Z"
+                var complete_shipment_date = "2021-08-28T04:29:33.292Z"
+                
+
+                $.ajax(
+                {
+                    url: apiURL + "outbound_reports/" + outbound_report_id,
+                    type: "PUT",
+                    data: JSON.stringify(
+                    {		
+                        "hospital_department_id": hospital_department_id,
+                        "employee_id": employee_id,
+                        "status": status,
+                        "expected_shipment_date": expected_shipment_date,
+                        "complete_shipment_date": complete_shipment_date
+                    }),
+                    dataType: "JSON",
+                    contentType: 'application/json',
+                    processData: false,
+                    cache: false,
+                    success: function (data) 
+                    {
+                        notification("success", "Success!", data.message);
+                        loadTable();
+                        $("#editing_modal").modal('hide')
+                    },
+                    error: function ({ responseJSON }) 
+                    {
+                        
+                    },
+                });
+            });
+		},
+		error: function (data) {},
+	});
+};
+
+
 // loadSupply = () => {
 //     $.ajax({
 //         url: apiURL + "supplies",

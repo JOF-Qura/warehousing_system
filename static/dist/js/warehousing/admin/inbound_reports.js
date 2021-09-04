@@ -313,6 +313,105 @@ loadEmployee = () => {
 };
 loadEmployee();
 
+// function to edit data
+editData = (inbound_report_id, type) => 
+{
+	$.ajax(
+		{
+		url: apiURL + "inbound_reports/" + inbound_report_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            if (type == 1) 
+            {
+                console.log(data);
+                $("#e_uuid").val(data["inbound_report_id"]);
+                $("#e_request_id").val(data["request_id"]).trigger('change');
+                $("#e_employee_id").val(data["employee_id"]).trigger('change');
+                $("#e_status").val(data["status"]).trigger('change');
+                $("#e_total_quantity").val(data["total_quantity"]);
+
+                
+                $("#e_form_id").on("submit", function (e)
+                {
+                    e.preventDefault();
+                    trimInputFields();
+                    var inbound_report_id = $("#e_uuid").val();
+                    var request_id = $("#e_request_id").val()
+                    var employee_id = $("#e_employee_id").val()
+                    var total_quantity = $("#e_total_quantity").val()
+                    var status = $("#e_status").val()
+                    
+
+                    $.ajax(
+                    {
+                        url: apiURL + "inbound_reports/" + inbound_report_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "request_id": request_id,
+                            "employee_id": employee_id,
+                            "total_quantity": total_quantity,
+                            "status": status,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            console.log(data)
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                });
+            }
+		},
+		error: function (data) {},
+	});
+};
+
+// function to delete data
+deleteData = (inbound_report_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "inbound_reports/" + inbound_report_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};
+
 
 viewData = (inbound_report_id) => 
 {

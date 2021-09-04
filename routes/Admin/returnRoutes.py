@@ -42,10 +42,10 @@ def datatable(request: Request, db: Session = Depends(get_db)):
         table = DataTable(dict(request.query_params), Returns, db.query(Returns), 
         [
             'return_id',
-            'request_date',
+            'return_date',
             'returner',
-            'request_type',
-            'request_status',
+            'return_type',
+            'return_status',
             'created_at',
             'updated_at',
         ])

@@ -92,7 +92,7 @@ viewRequestDetails = () =>
             {
                 var details = "";                                      
                 details =
-                    '<button class="btn btn-info float-right">Edit Request</button>'
+                    '<button class="btn btn-info float-right"  data-toggle="modal" data-target="#editing_modal" onClick="return editRequest()">Edit Request</button>'
                 $("#send_request_id").append(details);
             }
 			
@@ -120,7 +120,7 @@ viewRequestDetails = () =>
             {
                 status =  '<div class="col-md-9"><span class="badge badge-warning">' + data.request_status + '</span></div>'
             }
-            else if (data.request_status == "Approved")
+            else if (data.request_status == "For Delivery")
             {
                 status =  '<div class="col-md-9"><span class="badge badge-success">' + data.request_status + '</span></div>'
             }
@@ -251,6 +251,65 @@ loadSupply = () => {
     });
 };
 loadSupply();
+
+
+editRequest = () => 
+{
+    $.ajax(
+		{
+		url: apiURL + "request/" + request_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+           
+            $("#e_uuid").val(request_id);
+            $("#e_requestor").val(data["requestor"]).trigger('change');
+            $("#e_request_type").val(data["request_type"]).trigger('change');
+            $("#e_request_status").val(data["request_status"]).trigger('change');
+            
+            $("#e_form_id").on("submit", function (e)
+            {
+                e.preventDefault();
+                trimInputFields();
+                var request_id = $("#e_uuid").val();
+                var requestor = $("#e_requestor").val()
+                var request_type = $("#e_request_type").val()
+                var request_status = $("#e_request_status").val()
+                
+
+                $.ajax(
+                {
+                    url: apiURL + "request/" + request_id,
+                    type: "PUT",
+                    data: JSON.stringify(
+                    {		
+                        "requestor": requestor,
+                        "request_type": request_type,
+                        "request_status": request_status,
+                    }),
+                    dataType: "JSON",
+                    contentType: 'application/json',
+                    processData: false,
+                    cache: false,
+                    success: function (data) 
+                    {
+                        notification("success", "Success!", data.message);
+                        loadTable();
+                        viewRequestDetails();
+                        $("#editing_modal").modal('hide')
+                    },
+                    error: function ({ responseJSON }) 
+                    {
+                        
+                    },
+                });
+            });
+            
+		},
+		error: function (data) {},
+	});
+}
 
 
 

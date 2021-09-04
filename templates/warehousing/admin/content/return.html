@@ -27,7 +27,7 @@
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Return</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Return</a>
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->
@@ -113,8 +113,8 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="Return_date" id="Return_dateLabel">Return Date</label>
-                                        <input type="date" class="form-control" id="Return_date" placeholder="Enter email">
+                                        <label for="return_date" id="return_dateLabel">Return Date</label>
+                                        <input type="date" class="form-control" id="return_date" placeholder="Enter Date">
                                     </div>
                                 </div>
                             </div>
@@ -133,8 +133,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="Return_type">Return type</label>
-                                        <select class="form-control" id="Return_type" name="Return_type">
+                                        <label for="return_type">Return type</label>
+                                        <select class="form-control" id="return_type" name="return_type">
                                             <option value="For Return">For Return</option>
                                             <option value="To Return">To Return</option>
                                         </select>
@@ -144,8 +144,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="Return_status">Return Status</label>
-                                        <select class="form-control" id="Return_status" name="Return_status">
+                                        <label for="return_status" id="return_statusLabel">Return Status</label>
+                                        <select class="form-control" id="return_status" name="return_status">
                                             <option value="Pending">Pending</option>
                                             <option value="For Delivery">For Delivery</option>
                                         </select>

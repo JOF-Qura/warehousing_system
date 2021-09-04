@@ -44,7 +44,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-5" id="edit_btn">
-                                    <button class="btn btn-info float-right">
+                                    <button class="btn btn-info float-right" data-toggle="modal" data-target="#editing_modal" onClick="return editData()">
                                         <i class="fas fa-edit"></i>
                                         Edit Status
                                     </button>
@@ -191,7 +191,87 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding Supply Request Modal -->
+    
+        <!-- editing Outbound Report Modal -->
+        <div class="modal fade" id="editing_modal">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Outbound Report</h4>
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- CONTENT -->
+                        <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
+                            <div class="card-body">
+                                <div class="row">
+                                    <input type="hidden" name="e_uuid" id="e_uuid" value="" />
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_hospital_department_id">Hospital Department</label>
+                                            <select class="form-control" id="e_hospital_department_id" name="e_hospital_department_id" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_employee_id">Employee</label>
+                                            <select class="form-control" id="e_employee_id" name="e_employee_id" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_status">Status</label>
+                                            <select class="form-control" id="e_status" name="e_status" required>
+                                                <option value="On Going">On Going</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_total_quantity" id="e_total_quantityLabel">Total Quantity</label>
+                                            <input type="number" class="form-control" id="e_total_quantity" placeholder="Enter Total Quantity" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="expected_shipment_date" id="e_expected_shipment_dateLabel">Expected Shipment Date</label>
+                                            <input type="date" class="form-control" id="e_expected_shipment_date" placeholder="Enter Reorder Interval" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="complete_shipment_date" id="e_complete_shipment_dateLabel">Shipped Date</label>
+                                            <input type="date" class="form-control" id="e_complete_shipment_date" placeholder="Enter Reorder Interval" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- BUTTONS -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
+                                </div>
+                                <!-- END BUTTONS -->
+                            </div>
+                        </form> <!-- END CONTENT -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- END editing Outbound Report Modal -->
 {%endblock%}
 
 {%block scripts%}

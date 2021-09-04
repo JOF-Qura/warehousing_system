@@ -224,49 +224,49 @@ loadTable = () =>
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
             let buttons = "";
-                buttons +=
-                '<div class="text-center dropdown">' +
-                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                        '<i class="fas fa-ellipsis-v"></i>'  +
-                    '</div>' +
-                    '<div class="dropdown-menu dropdown-menu-right">'  +
-                    //Info
-                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                        aData["supply_id"] + 
-                        '\', 0)">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-eye mr-1"></i>'  +
-                            '</div>' +
-                            '<div>' +
-                                'View Supply' +
-                            '</div>'  +
-                        '</div>'  +
-                    // Edit
-                        '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                        aData["supply_id"] +
-                        '\',1)">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-edit mr-1"></i>'  +
-                            '</div>' +
-                            '<div>' +
-                                'Edit Supply' +
-                            '</div>'  +
+            buttons +=
+            '<div class="text-center dropdown">' +
+                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                    '<i class="fas fa-ellipsis-v"></i>'  +
+                '</div>' +
+                '<div class="dropdown-menu dropdown-menu-right">'  +
+                //Info
+                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                    aData["supply_id"] + 
+                    '\', 0)">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-eye mr-1"></i>'  +
                         '</div>' +
-                    // Delete
-                        '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                        aData["supply_id"] + 
-                        '\')">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-trash-alt mr-1"></i>'  +
-                            '</div>' +
-                            '<div>' +
-                                'Delete Supply' +
-                            '</div>'  +
+                        '<div>' +
+                            'View Supply' +
                         '</div>'  +
                     '</div>'  +
-                '</div>';
+                // Edit
+                    '<div class="dropdown-divider"></div>' +
+                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                    aData["supply_id"] +
+                    '\',1)">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-edit mr-1"></i>'  +
+                        '</div>' +
+                        '<div>' +
+                            'Edit Supply' +
+                        '</div>'  +
+                    '</div>' +
+                // Delete
+                    '<div class="dropdown-divider"></div>' +
+                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                    aData["supply_id"] + 
+                    '\')">'  +
+                        '<div style="width: 2rem">' +
+                            '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        '</div>' +
+                        '<div>' +
+                            'Delete Supply' +
+                        '</div>'  +
+                    '</div>'  +
+                '</div>'  +
+            '</div>';
             var supply_id = ""
 
             if(aData["supply_id"] == null)

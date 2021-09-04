@@ -54,7 +54,7 @@ viewInboundReportDetails = () =>
                     '<b>Employee:</b>' +
                 '</div>' +
                 '<div class="col-md-9">' +
-                    data.emp.employee_last_name + "," + data.emp.employee_first_name
+                    data.emp.employee_last_name + ", " + data.emp.employee_first_name
                 '</div>' +
 
                 '<div class="col-md-3">' +
@@ -109,6 +109,125 @@ viewInboundReportDetails = () =>
     });
 }
 viewInboundReportDetails();
+
+
+loadRequest = () => {
+    $.ajax({
+        url: apiURL + "request",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Request, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.request_id +
+                    "'>" +
+                    dataOptions.request_id +
+                    "</option>";
+
+                $("#request_id").append(options);
+                $("#e_request_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadRequest();
+
+loadEmployee = () => {
+    $.ajax({
+        url: apiURL + "employees",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Employees, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.employee_id +
+                    "'>" +
+                    dataOptions.employee_first_name +
+                    "</option>";
+
+                $("#employee_id").append(options);
+                $("#e_employee_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadEmployee();
+
+// function to edit data
+editData = () => 
+{
+	$.ajax(
+		{
+		url: apiURL + "inbound_reports/" + inbound_report_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            console.log(data);
+            $("#e_uuid").val(data["inbound_report_id"]);
+            $("#e_request_id").val(data["request_id"]).trigger('change');
+            $("#e_employee_id").val(data["employee_id"]).trigger('change');
+            $("#e_status").val(data["status"]).trigger('change');
+            $("#e_total_quantity").val(data["total_quantity"]);
+
+            
+            $("#e_form_id").on("submit", function (e)
+            {
+                e.preventDefault();
+                trimInputFields();
+                var inbound_report_id = $("#e_uuid").val();
+                var request_id = $("#e_request_id").val()
+                var employee_id = $("#e_employee_id").val()
+                var total_quantity = $("#e_total_quantity").val()
+                var status = $("#e_status").val()
+                
+
+                $.ajax(
+                {
+                    url: apiURL + "inbound_reports/" + inbound_report_id,
+                    type: "PUT",
+                    data: JSON.stringify(
+                    {		
+                        "request_id": request_id,
+                        "employee_id": employee_id,
+                        "total_quantity": total_quantity,
+                        "status": status,
+                    }),
+                    dataType: "JSON",
+                    contentType: 'application/json',
+                    processData: false,
+                    cache: false,
+                    success: function (data) 
+                    {
+                        console.log(data)
+                        notification("success", "Success!", data.message);
+                        loadTable();
+                        $("#editing_modal").modal('hide')
+                    },
+                    error: function ({ responseJSON }) 
+                    {
+                        
+                    },
+                });
+            });
+		},
+		error: function (data) {},
+	});
+};
 
 viewRequestDetails = () => 
 {
