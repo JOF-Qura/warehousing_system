@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'warehousing/admin/default/base.html'%} 
+{%extends 'warehousing/staff/default/base.html'%} 
 
 <!-- Enter content for block 'content' -->
 {%block content%}
@@ -15,11 +15,11 @@
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/staff/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <script>if(window.location.pathname == '/warehousing/staff/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
                         <li class="breadcrumb-item" id ="inventory_locations_nav">Inventory Locations</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/inventory_locations/'){document.getElementById("inventory_locations_nav").classList.add('active')}</script>
+                        <script>if(window.location.pathname == '/warehousing/staff/inventory_locations/'){document.getElementById("inventory_locations_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
@@ -28,7 +28,7 @@
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Inventory Location</a>
+                    <!-- <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Inventory Location</a> -->
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->

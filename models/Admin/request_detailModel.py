@@ -19,7 +19,7 @@ class Request_Details(Base):
 
     #Foreignkey
     request_id                  = Column(String(36), ForeignKey('request.request_id'), nullable=True)
-    supply_id                   = Column(String(36), ForeignKey('supplies.supply_id'), nullable=True)
+    supply_id                   = Column(String(36), ForeignKey('supplies.supply_id'), nullable=True, unique=True)
 
 #Relationship/s
     #Relationship/s of this Table

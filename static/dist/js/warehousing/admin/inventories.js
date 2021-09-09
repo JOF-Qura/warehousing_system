@@ -105,49 +105,144 @@ loadTable = () =>
                 render: function (aData, type, row) 
                 {
                     let buttons = "";
-                    buttons +=
-                    '<div class="text-center dropdown">' +
-                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                            '<i class="fas fa-ellipsis-v"></i>'  +
-                        '</div>' +
-                        '<div class="dropdown-menu dropdown-menu-right">'  +
-                        //Info
-                            '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                            aData["inventory_id"] + 
-                            '\', 0)">'  +
-                                '<div style="width: 2rem">' +
-                                    '<i class="fas fa-eye mr-1"></i>'  +
-                                '</div>' +
-                                '<div>' +
-                                    'View Inventory' +
-                                '</div>'  +
-                            '</div>'  +
-                        // Edit
-                            '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                            aData["inventory_id"] +
-                            '\',1)">'  +
-                                '<div style="width: 2rem">' +
-                                    '<i class="fas fa-edit mr-1"></i>'  +
-                                '</div>' +
-                                '<div>' +
-                                    'Edit Inventory' +
-                                '</div>'  +
+                    if (USER_TYPE == "Admin")
+                    {
+                        buttons +=
+                        '<div class="text-center dropdown">' +
+                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                '<i class="fas fa-ellipsis-v"></i>'  +
                             '</div>' +
-                        // Delete
-                            '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                            aData["inventory_id"] + 
-                            '\')">'  +
-                                '<div style="width: 2rem">' +
-                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                            '<div class="dropdown-menu dropdown-menu-right">'  +
+                            //Info
+                                '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                aData["inventory_id"] + 
+                                '\', 0)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-eye mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'View Inventory' +
+                                    '</div>'  +
+                                '</div>'  +
+                            // Edit
+                                '<div class="dropdown-divider"></div>' +
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                aData["inventory_id"] +
+                                '\',1)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-edit mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'Edit Inventory' +
+                                    '</div>'  +
                                 '</div>' +
-                                '<div>' +
-                                    'Delete Inventory' +
+                            // Delete
+                                '<div class="dropdown-divider"></div>' +
+                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                aData["inventory_id"] + 
+                                '\')">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'Delete Inventory' +
+                                    '</div>'  +
                                 '</div>'  +
                             '</div>'  +
-                        '</div>'  +
-                    '</div>';
+                        '</div>';
+                    }
+                    else if ( USER_TYPE == "Manager")
+                    {
+                        buttons +=
+                        '<div class="text-center dropdown">' +
+                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                '<i class="fas fa-ellipsis-v"></i>'  +
+                            '</div>' +
+                            '<div class="dropdown-menu dropdown-menu-right">'  +
+                            //Info
+                                '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                aData["inventory_id"] + 
+                                '\', 0)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-eye mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'View Inventory' +
+                                    '</div>'  +
+                                '</div>'  +
+                            // Edit
+                                // '<div class="dropdown-divider"></div>' +
+                                // '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                // aData["inventory_id"] +
+                                // '\',1)">'  +
+                                //     '<div style="width: 2rem">' +
+                                //         '<i class="fas fa-edit mr-1"></i>'  +
+                                //     '</div>' +
+                                //     '<div>' +
+                                //         'Edit Inventory' +
+                                //     '</div>'  +
+                                // '</div>' +
+                            // Delete
+                                // '<div class="dropdown-divider"></div>' +
+                                // '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                // aData["inventory_id"] + 
+                                // '\')">'  +
+                                //     '<div style="width: 2rem">' +
+                                //         '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                //     '</div>' +
+                                //     '<div>' +
+                                //         'Delete Inventory' +
+                                //     '</div>'  +
+                                // '</div>'  +
+                            '</div>'  +
+                        '</div>';
+                    }
+                    else if (USER_TYPE == "Staff")
+                    {
+                        buttons +=
+                        '<div class="text-center dropdown">' +
+                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                '<i class="fas fa-ellipsis-v"></i>'  +
+                            '</div>' +
+                            '<div class="dropdown-menu dropdown-menu-right">'  +
+                            //Info
+                                '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                aData["inventory_id"] + 
+                                '\', 0)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-eye mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'View Inventory' +
+                                    '</div>'  +
+                                '</div>'  +
+                            // Edit
+                                // '<div class="dropdown-divider"></div>' +
+                                // '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                // aData["inventory_id"] +
+                                // '\',1)">'  +
+                                //     '<div style="width: 2rem">' +
+                                //         '<i class="fas fa-edit mr-1"></i>'  +
+                                //     '</div>' +
+                                //     '<div>' +
+                                //         'Edit Inventory' +
+                                //     '</div>'  +
+                                // '</div>' +
+                            // Delete
+                                // '<div class="dropdown-divider"></div>' +
+                                // '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                // aData["inventory_id"] + 
+                                // '\')">'  +
+                                //     '<div style="width: 2rem">' +
+                                //         '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                //     '</div>' +
+                                //     '<div>' +
+                                //         'Delete Inventory' +
+                                //     '</div>'  +
+                                // '</div>'  +
+                            '</div>'  +
+                        '</div>';
+                    }
 
                     return buttons; // same class in i element removed it from a element
                 },
@@ -162,49 +257,144 @@ loadTable = () =>
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
             let buttons = "";
-            buttons +=
-            '<div class="text-center dropdown">' +
-                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                    '<i class="fas fa-ellipsis-v"></i>'  +
-                '</div>' +
-                '<div class="dropdown-menu dropdown-menu-right">'  +
-                //Info
-                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                    aData["inventory_id"] + 
-                    '\', 0)">'  +
-                        '<div style="width: 2rem">' +
-                            '<i class="fas fa-eye mr-1"></i>'  +
-                        '</div>' +
-                        '<div>' +
-                            'View Inventory' +
-                        '</div>'  +
-                    '</div>'  +
-                // Edit
-                    '<div class="dropdown-divider"></div>' +
-                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                    aData["inventory_id"] +
-                    '\',1)">'  +
-                        '<div style="width: 2rem">' +
-                            '<i class="fas fa-edit mr-1"></i>'  +
-                        '</div>' +
-                        '<div>' +
-                            'Edit Inventory' +
-                        '</div>'  +
+            if (USER_TYPE == "Admin")
+            {
+                buttons +=
+                '<div class="text-center dropdown">' +
+                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                        '<i class="fas fa-ellipsis-v"></i>'  +
                     '</div>' +
-                // Delete
-                    '<div class="dropdown-divider"></div>' +
-                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                    aData["inventory_id"] + 
-                    '\')">'  +
-                        '<div style="width: 2rem">' +
-                            '<i class="fas fa-trash-alt mr-1"></i>'  +
+                    '<div class="dropdown-menu dropdown-menu-right">'  +
+                    //Info
+                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                        aData["inventory_id"] + 
+                        '\', 0)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-eye mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'View Inventory' +
+                            '</div>'  +
+                        '</div>'  +
+                    // Edit
+                        '<div class="dropdown-divider"></div>' +
+                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                        aData["inventory_id"] +
+                        '\',1)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-edit mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'Edit Inventory' +
+                            '</div>'  +
                         '</div>' +
-                        '<div>' +
-                            'Delete Inventory' +
+                    // Delete
+                        '<div class="dropdown-divider"></div>' +
+                        '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        aData["inventory_id"] + 
+                        '\')">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-trash-alt mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'Delete Inventory' +
+                            '</div>'  +
                         '</div>'  +
                     '</div>'  +
-                '</div>'  +
-            '</div>';
+                '</div>';
+            }
+            else if ( USER_TYPE == "Manager")
+            {
+                buttons +=
+                '<div class="text-center dropdown">' +
+                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                        '<i class="fas fa-ellipsis-v"></i>'  +
+                    '</div>' +
+                    '<div class="dropdown-menu dropdown-menu-right">'  +
+                    //Info
+                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                        aData["inventory_id"] + 
+                        '\', 0)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-eye mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'View Inventory' +
+                            '</div>'  +
+                        '</div>'  +
+                    // Edit
+                        // '<div class="dropdown-divider"></div>' +
+                        // '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                        // aData["inventory_id"] +
+                        // '\',1)">'  +
+                        //     '<div style="width: 2rem">' +
+                        //         '<i class="fas fa-edit mr-1"></i>'  +
+                        //     '</div>' +
+                        //     '<div>' +
+                        //         'Edit Inventory' +
+                        //     '</div>'  +
+                        // '</div>' +
+                    // Delete
+                        // '<div class="dropdown-divider"></div>' +
+                        // '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        // aData["inventory_id"] + 
+                        // '\')">'  +
+                        //     '<div style="width: 2rem">' +
+                        //         '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        //     '</div>' +
+                        //     '<div>' +
+                        //         'Delete Inventory' +
+                        //     '</div>'  +
+                        // '</div>'  +
+                    '</div>'  +
+                '</div>';
+            }
+            else if (USER_TYPE == "Staff")
+            {
+                buttons +=
+                '<div class="text-center dropdown">' +
+                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                        '<i class="fas fa-ellipsis-v"></i>'  +
+                    '</div>' +
+                    '<div class="dropdown-menu dropdown-menu-right">'  +
+                    //Info
+                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                        aData["inventory_id"] + 
+                        '\', 0)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-eye mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'View Inventory' +
+                            '</div>'  +
+                        '</div>'  +
+                    // Edit
+                        // '<div class="dropdown-divider"></div>' +
+                        // '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                        // aData["inventory_id"] +
+                        // '\',1)">'  +
+                        //     '<div style="width: 2rem">' +
+                        //         '<i class="fas fa-edit mr-1"></i>'  +
+                        //     '</div>' +
+                        //     '<div>' +
+                        //         'Edit Inventory' +
+                        //     '</div>'  +
+                        // '</div>' +
+                    // Delete
+                        // '<div class="dropdown-divider"></div>' +
+                        // '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        // aData["inventory_id"] + 
+                        // '\')">'  +
+                        //     '<div style="width: 2rem">' +
+                        //         '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        //     '</div>' +
+                        //     '<div>' +
+                        //         'Delete Inventory' +
+                        //     '</div>'  +
+                        // '</div>'  +
+                    '</div>'  +
+                '</div>';
+            }
 
             var inventory_id = ""
 

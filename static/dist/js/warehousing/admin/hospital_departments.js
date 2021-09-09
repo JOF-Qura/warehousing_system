@@ -62,7 +62,7 @@ loadTable = () =>
     $("#data-table").dataTable().fnDestroy();
     $("#data-table").dataTable({
         serverSide: true,
-        scrollX: true,
+        // scrollX: true,
         responsive: false,
         buttons:[
             {extend: 'excel', text: 'Save to Excel File'}

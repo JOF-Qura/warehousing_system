@@ -4,6 +4,7 @@ $(function()
 
     addSupply = () =>
     {
+        console.log(request_id)
         // function to save/update record
         $("#form_id").on("submit", function (e)
         {
@@ -15,21 +16,72 @@ $(function()
 
             $.ajax(
             {
-                url: apiURL + "request_detail/" + req_id + "/" + supply_id,
+                url: apiURL + "request_detail/",
                 type: "GET",
                 dataType: "json",
-                success: function (countData) 
+                success: function (countRequest) 
                 {
                     count = 0
 
-                    if (countData.length != 0)
+                    if (countRequest.Request_Details.length != 0)
                     {
-                        count = countData.length
+                        count = countRequest.Request_Details.length
+                        console.log(count)
                     }
 
-                    if (count > 0)
+                    if(count > 0 || count != null || count != undefined)
                     {
-                        notification('error', 'Error', 'Supply is already on request list')
+                        $.ajax(
+                        {
+                            url: apiURL + "request_detail_count/" + req_id + "/" + supply_id,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (countData) 
+                            {
+                                count = 0
+            
+                                if (countData.length != 0)
+                                {
+                                    count = countData.length
+                                }
+            
+                                if (count > 0)
+                                {
+                                    notification('error', 'Error', 'Supply is already on request list')
+                                }
+                                else
+                                {
+                                    $.ajax(
+                                    {
+                                        url: apiURL + "request_detail/",
+                                        type: "POST",
+                                        data: JSON.stringify(
+                                        {		
+                                            "request_id": req_id,
+                                            "supply_id": supply_id,
+                                            "quantity": quantity,
+                                        }),
+                                        dataType: "JSON",
+                                        contentType: 'application/json',
+                                        processData: false,
+                                        cache: false,
+                                        success: function (data) 
+                                        {
+                                            $('#form_id').trigger("reset")
+                                            $('#button_add').prop('disabled', false)
+                                            notification("success", "Success!", data.message);
+                                            loadTable();
+                                            viewRequestDetails();
+                                            $("#adding_modal").modal('hide')
+                                        },
+                                        error: function ({ responseJSON }) 
+                                        {
+                                            
+                                        },
+                                    });
+                                }
+                            }
+                        });
                     }
                     else
                     {
@@ -64,6 +116,7 @@ $(function()
                     }
                 }
             });
+           
         });
     }    
 });
@@ -90,14 +143,21 @@ viewRequestDetails = () =>
             }
             else if (data.request_type == "For Request")
             {
-                var details = "";                                      
-                details =
-                    '<button class="btn btn-info float-right"  data-toggle="modal" data-target="#editing_modal" onClick="return editRequest()">Edit Request</button>'
+                var details = "";  
+                if(data.request_status == "Delivered")
+                {
+                    details = "";
+                }         
+                else
+                {
+                    details =
+                    '<button class="btn btn-primary float-right" style="margin-left: 1em" onClick="return delivered()">Done / Delivered</button>' + 
+                    '<button class="btn btn-info float-right"  data-toggle="modal" data-target="#editing_modal" onClick="return editRequest()">Edit Request</button>';
+                }                           
+                
                 $("#send_request_id").append(details);
             }
 			
-            
-            
             console.log(data)
             var dateCreated = new Date(data.created_at);
 			var createdDate = dateCreated.toLocaleString();
@@ -121,6 +181,10 @@ viewRequestDetails = () =>
                 status =  '<div class="col-md-9"><span class="badge badge-warning">' + data.request_status + '</span></div>'
             }
             else if (data.request_status == "For Delivery")
+            {
+                status =  '<div class="col-md-9"><span class="badge badge-info">' + data.request_status + '</span></div>'
+            }
+            else if (data.request_status == "Delivered")
             {
                 status =  '<div class="col-md-9"><span class="badge badge-success">' + data.request_status + '</span></div>'
             }
@@ -252,9 +316,73 @@ loadSupply = () => {
 };
 loadSupply();
 
+delivered = () =>
+{
+    Swal.fire(
+    {
+        title: "Are you sure you?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: !0,
+        confirmButtonColor: "#34c38f",
+        cancelButtonColor: "#f46a6a",
+        confirmButtonText: "Yes, it's delivered!",
+    })
+    .then(function (t) 
+    {
+        // if user clickes yes, it will change the active status to "Not Active".
+        if (t.value) 
+        {
+            $.ajax(
+            {
+                url: apiURL + "request/" + request_id,
+                type: "GET",
+                dataType: "json",
+                success: function (data) 
+                {
+                    
+                    var req_id = request_id
+                    var requestor = data["requestor"]
+                    var request_type = data["request_type"]
+                    var request_status = "Delivered"
+        
+                    $.ajax(
+                    {
+                        url: apiURL + "request/" + req_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "requestor": requestor,
+                            "request_type": request_type,
+                            "request_status": request_status,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            notification("success", "Success!", "Delivered");
+                            viewRequestDetails();
+                            
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    }); 
+                },
+                error: function (data) {},
+            });
+        }
+    });
+}
+
 
 editRequest = () => 
 {
+    // $("#e_request_statusLabel").hide();
+    // $("#e_request_status").hide();
     $.ajax(
 		{
 		url: apiURL + "request/" + request_id,
@@ -311,17 +439,6 @@ editRequest = () =>
 	});
 }
 
-
-
-//    $.ajaxSetup(
-//     {
-// 		headers: 
-//         {
-// 			Accept: "application/json",
-// 			Authorization: "Bearer " + token,
-// 			ContentType: "application/x-www-form-urlencoded",
-// 		},
-// 	});
 loadTable = () => 
 {
     $("#data-table").dataTable().fnClearTable();
@@ -374,16 +491,16 @@ loadTable = () =>
                     // info
                     // buttons +=
                     //     '<button type="button" onClick="return viewData(\'' +
-                    //     aData["request_id"] +
+                    //     aData["request_details_id"] +
                     //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                     // edit
                     buttons +=
-                        '<button type="button" onClick="return editData(\'' +
+                        '<button type="button" data-toggle="modal" data-target="#editing_supply_modal" onClick="return editSupply(\'' +
                         aData["request_details_id"] +
-                        '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
+                        '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
                     // delete
                     buttons +=
-                        '<button type="button" onClick="return deleteData(\'' +
+                        '<button type="button" onClick="return deleteSupply(\'' +
                         aData["request_details_id"] +
                         '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
 
@@ -407,12 +524,12 @@ loadTable = () =>
             //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
             // edit
             buttons +=
-                '<button type="button" onClick="return editData(\'' +
-                aData["request_details_id"] +
+                '<button type="button" data-toggle="modal" data-target="#editing_supply_modal" onClick="return editSupply(\'' +
+                aData["request_details_id"] + '\', \'' + aData["request_id"] + 
                 '\',1)" class="btn btn-info waves-effect"><i class="bx bx-edit font-size-16 align-middle">Edit</i></button> ';
             // delete
             buttons +=
-                '<button type="button" onClick="return deleteData(\'' +
+                '<button type="button" onClick="return deleteSupply(\'' +
                 aData["request_details_id"] +
                 '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
 
@@ -436,3 +553,103 @@ loadTable = () =>
 //     window.location.replace(baseURL + 'admin/request_details?request_id='+request_id);
 //     console.log(request_id);
 // }
+
+// function to edit data
+editSupply = (request_details_id, request_id, type) => 
+{
+	$.ajax(
+		{
+		url: apiURL + "request_detail/" + request_details_id + "/" + request_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+            console.log(data[0]);
+            // var req_id = data[0].request_id
+            // var sup_id = data[0].supply_id
+            // var qty = data[0].quantity
+            // var stat = data[0].status
+            if (type == 1) 
+            {
+                $("#e_uuid").val(data[0]["request_details_id"]);
+                $("#e_req_id").val(data[0]["request_id"]);
+                $("#e_supply_id").val(data[0]["supply_id"]).trigger('change');
+                $("#e_quantity").val(data[0]["quantity"]);
+                $("#e_status").val(data[0]["status"]).trigger('change')
+
+                $("#e_supply_form_id").on("submit", function (e)
+                {
+                    e.preventDefault();
+                    trimInputFields();
+                    var request_details_id = $("#e_uuid").val();
+                    var req_id = $("#e_req_id").val();
+                    var supply_id = $("#e_supply_id").val()
+                    var quantity = $("#e_quantity").val()
+                    var status = $("#e_status").val()
+
+                    $.ajax(
+                    {
+                        url: apiURL + "request_detail/" + request_details_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            // "request_id": req_id,
+                            // "supply_id": supply_id,
+                            "quantity": quantity,
+                            "status": status,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            $("#editing_supply_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                });
+            }
+		},
+		error: function (data) {},
+	});
+};
+
+// function to delete data
+deleteSupply = (request_details_id) => 
+{
+	Swal.fire(
+	{
+		title: "Are you sure you want to delete this record?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, delete it!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+			$.ajax(
+				{
+				url: apiURL + "request_detail/" + request_details_id,
+				type: "DELETE",
+				dataType: "json",
+				success: function (data) 
+                {
+                    notification("success", "Success!", data.message);
+                    loadTable();
+				},
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};

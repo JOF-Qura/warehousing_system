@@ -1,0 +1,284 @@
+<!-- Apply layout from base.html -->
+{%extends 'warehousing/manager/default/base.html'%} 
+
+<!-- Enter content for block 'content' -->
+{%block content%}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <!-- Title -->
+                <div class="col-sm-6">
+                    <h1>Outbound Report Detail</h1>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li>&nbsp; / &nbsp;</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="supplies_nav"><a href="/warehousing/admin/supplies">Supplies</a></li>                    </ol>
+                </div>
+                <!-- / breadcrumb -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                
+            <!-- Left Column -->
+                <div class="col-md-9">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="h5" id="l_card_header_id">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-5" id="edit_btn">
+                                    <button class="btn btn-info float-right" data-toggle="modal" data-target="#editing_modal" onClick="return editData()">
+                                        <i class="fas fa-edit"></i>
+                                        Edit Status
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <!-- <form> -->
+                                <div class="row" id="l_rd_id">
+
+                                </div>
+                            <!-- </form> -->
+                            <hr>
+                            <div class="row" id="l_sp_id">
+                            
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <!-- <div class="card-body">
+                            <div>Date Created: </div>
+                        </div> -->
+                    </div>
+                    <!-- /.card -->
+                </div> <!-- /.col -->
+
+            <!-- Right Column -->
+                <div class="col-md-3">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="h5" id="r_card_header_id">
+                                        Hospital Department
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="row" id="r_rd_id">
+                               
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <!-- <div class="card-body">
+                            <div>Date Created: </div>
+                        </div> -->
+                    </div>
+                    <!-- /.card -->
+                </div> <!-- /.col -->
+            </div> <!-- /.row -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h3 class="card-title">Supplies</h3>
+                                </div>
+                                <!-- <div class="col" id="add_supply_id">
+                                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Request</button>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <table id="data-table" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="15%">Supply</th>
+                                        <th width="15%">Quantity</th>
+                                        <th width="15%">Status</th>
+                                        <th width="25%" class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->   
+    
+    <!-- Adding Supply Request Modal -->
+    <div class="modal fade" id="adding_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Supply Form</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- CONTENT -->
+                    <form id="form_id" name="form_id" enctype="multipart/form_data">
+                        <div class="card-body">
+                            <input type="hidden" id="uuid" name="uuid" value="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_id">Supply</label>
+                                        <select class="form-control" id="supply_id" name="supply_id">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="quantity" id="quantityLabel">Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" placeholder="Enter Quantity" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary" id="button_add">Add</button>
+                            </div>
+                            <!-- END BUTTONS -->
+                        </div>
+                    </form> <!-- END CONTENT -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    
+        <!-- editing Outbound Report Modal -->
+        <div class="modal fade" id="editing_modal">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Outbound Report</h4>
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- CONTENT -->
+                        <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
+                            <div class="card-body">
+                                <div class="row">
+                                    <input type="hidden" name="e_uuid" id="e_uuid" value="" />
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_hospital_department_id">Hospital Department</label>
+                                            <select class="form-control" id="e_hospital_department_id" name="e_hospital_department_id" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_employee_id">Employee</label>
+                                            <select class="form-control" id="e_employee_id" name="e_employee_id" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_status">Status</label>
+                                            <select class="form-control" id="e_status" name="e_status" required>
+                                                <option value="On Going">On Going</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="e_total_quantity" id="e_total_quantityLabel">Total Quantity</label>
+                                            <input type="number" class="form-control" id="e_total_quantity" placeholder="Enter Total Quantity" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="expected_shipment_date" id="e_expected_shipment_dateLabel">Expected Shipment Date</label>
+                                            <input type="date" class="form-control" id="e_expected_shipment_date" placeholder="Enter Reorder Interval" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="complete_shipment_date" id="e_complete_shipment_dateLabel">Shipped Date</label>
+                                            <input type="date" class="form-control" id="e_complete_shipment_date" placeholder="Enter Reorder Interval" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- BUTTONS -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
+                                </div>
+                                <!-- END BUTTONS -->
+                            </div>
+                        </form> <!-- END CONTENT -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- END editing Outbound Report Modal -->
+{%endblock%}
+
+{%block scripts%}
+    <script> 
+        var outbound_report_id = _GET('outbound_report_id') 
+
+        console.log(outbound_report_id);
+    </script>
+    <script src="{{url_for('static', path='/dist/js/warehousing/admin/viewOutboundReport.js')}}"></script>
+{%endblock%}

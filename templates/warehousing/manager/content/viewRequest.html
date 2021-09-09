@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'warehousing/admin/default/base.html'%} 
+{%extends 'warehousing/manager/default/base.html'%} 
 
 <!-- Enter content for block 'content' -->
 {%block content%}
@@ -203,7 +203,6 @@
                                         <select class="form-control" id="e_request_status" name="e_request_status">
                                             <option value="Pending">Pending</option>
                                             <option value="For Delivery">For Delivery</option>
-                                            <option value="Delivered">Delivered</option>
                                         </select>
                                     </div>
                                 </div>
@@ -221,64 +220,6 @@
         </div><!-- /.modal -->
     </div>
     <!-- END editing Request Modal -->
-
-    <!-- editing Supply Request Modal -->
-    <div class="modal fade" id="editing_supply_modal">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Supply Form</h4>
-                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- CONTENT -->
-                    <form id="e_supply_form_id" name="e_supply_form_id" enctype="multipart/form_data">
-                        <div class="card-body">
-                            <input type="hidden" id="e_uuid" name="e_uuid" value="">
-                            <input type="hidden" id="e_req_id" name="e_req_id" value="">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_supply_id">Supply</label>
-                                        <select class="form-control" id="e_supply_id" name="e_supply_id" disabled>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_quantity" id="e_quantityLabel">Quantity</label>
-                                        <input type="number" class="form-control" id="e_quantity" placeholder="Enter Quantity" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_status" id="e_statusLabel">Status</label>
-                                        <select class="form-control" id="e_status" name="e_status">
-                                            <option value="Approved">Approved</option>
-                                            <option value="Pending">Pending</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- BUTTONS -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
-                            </div>
-                            <!-- END BUTTONS -->
-                        </div>
-                    </form> <!-- END CONTENT -->
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div>
-    <!-- END editing Supply Request Modal -->
 {%endblock%}
 
 {%block scripts%}

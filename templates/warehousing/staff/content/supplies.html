@@ -1,5 +1,6 @@
 <!-- Apply layout from base.html -->
-{%extends 'warehousing/admin/default/base.html'%} 
+{%extends 'warehousing/staff/default/base.html'%} 
+
 
 <!-- Enter content for block 'content' -->
 {%block content%}
@@ -9,25 +10,26 @@
             <div class="row mb-2">
                 <!-- Title -->
                 <div class="col-sm-6">
-                    <h1>Employees</h1>
+                    <h1>Supplies</h1>
                 </div>
 
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/staff/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="employees_nav">Employees</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/employees/'){document.getElementById("employees_nav").classList.add('active')}</script>
+                        <script>if(window.location.pathname == '/warehousing/staff/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="supplies_nav">Supplies</li>
+                        <script>if(window.location.pathname == '/warehousing/staff/supplies/'){document.getElementById("supplies_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
             </div>
+            <br>
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Employee</a>
+                    <!-- <a href="#" class="btn btn-success" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Supply</a> -->
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->
@@ -63,7 +65,7 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Employees</h3>
+                            <h3 class="card-title">Supplies</h3>
                         </div>
                         <!-- /.card-header -->
 
@@ -72,14 +74,15 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th width="10%">User ID</th>
-                                        <th width="5%">User Type</th>
-                                        <th width="10%">Full Name</th>
-                                        <!-- <th width="10%">Middle Name</th>
-                                        <th width="10%">Last Name</th> -->
-                                        <th width="5%">Age</th>
-                                        <th width="10%">Contact</th>
-                                        <th width="10%">Address</th>
+                                        <th width="10%">Supply Name</th>
+                                        <th width="10%">Category</th>
+                                        <th width="10%">Supplier</th>  
+                                        <th width="5%">Qty.</th>
+                                        <th width="5%">Unit Type</th>
+                                        <th width="10%">Unit Cost</th>
+                                        <th width="10%">Description</th>
+                                        <th width="5%">Reorder Interval</th>
+                                        <th width="10%">Expiration Date</th>
                                         <th width="25%" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -98,14 +101,14 @@
     </section>
     <!-- /.content -->
 
-     <!-- Adding Employee Modal -->
-     <div class="modal fade" id="adding_modal">
+    <!-- Adding Supply Modal -->
+    <div class="modal fade" id="adding_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <i class= "fas fa-file-alt"></i>
-                        Employee Form</h4>
+                        Supply Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -118,22 +121,27 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="user_id" id="user_idLabel">User</label>
-                                        <select class="form-control" id="user_id" name="user_id">
-                                            <option value="">Not a System User</option>
+                                        <label for="supply_name" id="supply_nameLabel">Supply Name</label>
+                                        <input type="input" class="form-control" id="supply_name" placeholder="Enter Supply Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supplier_id">Supplier</label>
+                                        <select class="form-control" id="supplier_id" name="supplier_id" required>
+                                            
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                               <div class="col-md-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="user_type">Employee Type</label>
-                                        <select class="form-control" id="user_type" name="user_type">
-                                            <option value="Manager">Manager</option>
-                                            <option value="Staff">Staff</option>
-                                            <option value="Driver">Driver</option>
-                                             <option value="Department Manager">Department Manager</option>
+                                        <label for="supply_category_id">Supply Category</label>
+                                        <select class="form-control" id="supply_category_id" name="supply_category_id" required>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -141,52 +149,70 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_first_name" id="employee_first_nameLabel">First Name</label>
-                                        <input type="input" class="form-control" id="employee_first_name" placeholder="First Name" required>
+                                        <label for="supply_quantity" id="supply_quantityLabel">Supply Quantity</label>
+                                        <input type="number" class="form-control" id="supply_quantity" placeholder="Enter Quantity" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_middle_name" id="employee_middle_nameLabel">Middle Name</label>
-                                        <input type="input" class="form-control" id="employee_middle_name" placeholder="Middle Name">
+                                        <label for="supply_unit_type">Supply Unit Type</label>
+                                        <select class="form-control" id="supply_unit_type" name="supply_unit_type" required>
+                                            <option value="pcs">pcs</option>
+                                            <option value="box">box</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_last_name" id="employee_last_nameLabel">Last Name</label>
-                                        <input type="input" class="form-control" id="employee_last_name" placeholder="Last Name" required>
+                                        <label for="supply_unit_cost" id="supply_unit_costLabel">Supply Unit Cost</label>
+                                        <input type="number" class="form-control" id="supply_unit_cost" placeholder="Enter Cost per Unit" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_age" id="employee_ageLabel">Age</label>
-                                        <input type="number" class="form-control" id="employee_age" placeholder="Enter Employee Age" required>
+                                        <label for="supply_description" id="supply_descriptionLabel">Supply Descrription</label>
+                                        <input type="input" class="form-control" id="supply_description" placeholder="Enter Description">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_contact" id="employee_contactLabel">Contact #</label>
-                                        <input type="number" class="form-control" id="employee_contact" placeholder="Enter Employee Contact#" required>
+                                        <label for="supply_reorder_interval" id="supply_reorder_intervalLabel">Supply Reorder Interval</label>
+                                        <select class="form-control" id="supply_reorder_interval" name="supply_reorder_interval" required>
+                                            <option value="Daily">Daily</option>
+                                            <option value="Weekly">Weekly</option>
+                                            <option value="Monthly">Monthly</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_address" id="employee_addressLabel">Address </label>
-                                        <input type="input" class="form-control" id="employee_address" placeholder="Enter Employee Address" required>
+                                        <label for="supply_expiration" id="supply_expirationLabel">Supply Expiration</label>
+                                        <input type="date" class="form-control" id="supply_expiration" placeholder="Enter Reorder Interval" required>
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="supply_status" id="supply_statusLabel">Supply Status</label>
+                                        <select class="form-control" id="supply_status" name="supply_status" required>
+                                            <option value="Good">Good</option>
+                                            <option value="Expired">Expired</option>
+                                            <option value="Lost">Lost</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- BUTTONS -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -199,21 +225,21 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding Employee Modal -->
+    <!-- END Adding Supply Modal -->
 
-    <!-- Editing Employee Modal -->
+    <!-- Editing Supply Modal -->
     <div class="modal fade" id="editing_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <i class= "fas fa-file-alt"></i>
-                        Edit Employee</h4>
+                        Edit Supply Category</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
                 </div>
-                <div class="modal-body" id="modal_viewing">
+                <div class="modal-body" id="modal_Editing">
                     <!-- CONTENT -->
                     <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
                         <div class="card-body">
@@ -221,22 +247,27 @@
                                 <input type="hidden" name="e_uuid" id="e_uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_user_id" id="e_user_idLabel">User</label>
-                                        <select class="form-control" id="e_user_id" name="e_user_id">
-                                            <option value="">Not a System User</option>
+                                        <label for="e_supply_name" id="e_supply_nameLabel">Supply Name</label>
+                                        <input type="input" class="form-control" id="e_supply_name" placeholder="Enter Supply Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supplier_id">Supplier</label>
+                                        <select class="form-control" id="e_supplier_id" name="e_supplier_id" required>
+                                            
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                               <div class="col-md-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_user_type">Employee Type</label>
-                                        <select class="form-control" id="e_user_type" name="e_user_type">
-                                            <option value="Manager">Manager</option>
-                                            <option value="Staff">Staff</option>
-                                            <option value="Driver">Driver</option>
-                                            <option value="Department Manager">Department Manager</option>
+                                        <label for="e_supply_category_id">Supply Category</label>
+                                        <select class="form-control" id="e_supply_category_id" name="e_supply_category_id" required>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -244,52 +275,70 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_employee_first_name" id="e_employee_first_nameLabel">First Name</label>
-                                        <input type="input" class="form-control" id="e_employee_first_name" placeholder="First Name" required>
+                                        <label for="e_supply_quantity" id="e_supply_quantityLabel">Supply Quantity</label>
+                                        <input type="number" class="form-control" id="e_supply_quantity" placeholder="Enter Quantity" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_employee_middle_name" id="e_employee_middle_nameLabel">Middle Name</label>
-                                        <input type="input" class="form-control" id="e_employee_middle_name" placeholder="Middle Name">
+                                        <label for="e_supply_unit_type">Supply Unit Type</label>
+                                        <select class="form-control" id="e_supply_unit_type" name="e_supply_unit_type" required>
+                                            <option value="pcs">pcs</option>
+                                            <option value="box">box</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_employee_last_name" id="e_employee_last_nameLabel">Last Name</label>
-                                        <input type="input" class="form-control" id="e_employee_last_name" placeholder="Last Name" required>
+                                        <label for="e_supply_unit_cost" id="e_supply_unit_costLabel">Supply Unit Cost</label>
+                                        <input type="number" class="form-control" id="e_supply_unit_cost" placeholder="Enter Cost per Unit" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_employee_age" id="e_employee_ageLabel">Age</label>
-                                        <input type="number" class="form-control" id="e_employee_age" placeholder="Enter Employee Age" required>
+                                        <label for="e_supply_description" id="e_supply_descriptionLabel">Supply Descrription</label>
+                                        <input type="input" class="form-control" id="e_supply_description" placeholder="Enter Description">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_employee_contact" id="e_employee_contactLabel">Contact #</label>
-                                        <input type="number" class="form-control" id="e_employee_contact" placeholder="Enter Employee Contact#" required>
+                                        <label for="e_supply_reorder_interval" id="e_supply_reorder_intervalLabel">Supply Reorder Interval</label>
+                                        <select class="form-control" id="e_supply_reorder_interval" name="e_supply_reorder_interval" required>
+                                            <option value="Daily">Daily</option>
+                                            <option value="Weekly">Weekly</option>
+                                            <option value="Monthly">Monthly</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_employee_address" id="e_employee_addressLabel">Address </label>
-                                        <input type="input" class="form-control" id="e_employee_address" placeholder="Enter Employee Address" required>
+                                        <label for="e_supply_expiration" id="e_supply_expirationLabel">Supply Expiration</label>
+                                        <input type="date" class="form-control" id="e_supply_expiration" placeholder="Enter Reorder Interval" required>
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="e_supply_status" id="e_supply_statusLabel">Supply Status</label>
+                                        <select class="form-control" id="e_supply_status" name="e_supply_status" required>
+                                            <option value="Good">Good</option>
+                                            <option value="Expired">Expired</option>
+                                            <option value="Lost">Lost</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- BUTTONS -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -302,12 +351,12 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Editing Employee Modal -->
+    <!-- END Editing Supply Modal -->
+
+
 
 {%endblock%}
 
 {%block scripts%}
-    <script src="{{url_for('static', path='/dist/js/warehousing/admin/employees.js')}}"></script>
+    <script src="{{url_for('static', path='/dist/js/warehousing/admin/supplies.js')}}"></script>
 {%endblock%}
-
-

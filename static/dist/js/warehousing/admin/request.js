@@ -199,8 +199,11 @@ loadTable = () =>
                         '<div>' +
                             'View Request' +
                         '</div>'  +
-                    '</div>'  +
+                    '</div>';
                 // Edit
+                if(aData.request_status != "Delivered")
+                {
+                    buttons +=
                     '<div class="dropdown-divider"></div>' +
                     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
                     aData["request_id"] +
@@ -211,7 +214,9 @@ loadTable = () =>
                         '<div>' +
                             'Edit Request' +
                         '</div>'  +
-                    '</div>' +
+                    '</div>';
+                };
+                buttons +=
                 // Delete
                     '<div class="dropdown-divider"></div>' +
                     '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
@@ -226,6 +231,7 @@ loadTable = () =>
                     '</div>'  +
                 '</div>'  +
             '</div>';
+
 
             var DateRequest = new Date(aData["request_date"]);
             var requestedDate = DateRequest.toLocaleString();
@@ -257,8 +263,21 @@ loadTable = () =>
 
 viewData = (request_id) => 
 {
-    window.location.replace(baseURL + 'admin/request_details?request_id='+request_id);
-    console.log(request_id);
+    if(USER_TYPE == "Admin")
+    {
+        window.location.replace(baseURL + 'admin/request_details?request_id='+request_id);
+        console.log(request_id);
+    }
+    else if(USER_TYPE == "Manager")
+    {
+        window.location.replace(baseURL + 'manager/request_details?request_id='+request_id);
+        console.log(request_id);
+    }
+    else if(USER_TYPE == "Staff")
+    {
+        window.location.replace(baseURL + 'staff/request_details?request_id='+request_id);
+        console.log(request_id);
+    }
 }
 
 // function to edit data

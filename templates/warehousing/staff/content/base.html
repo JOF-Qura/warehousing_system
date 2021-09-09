@@ -120,21 +120,90 @@
                 </div>
             </li>
 
+            <!-- Messages Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-comments"></i>
+                    <span class="badge badge-danger navbar-badge">3</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <a href="#" class="dropdown-item">
+                        <!-- Message Start -->
+                        <div class="media">
+                            <img src="{{url_for('static', path='/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                            <div class="media-body">
+                                <h3 class="dropdown-item-title">
+                                    Brad Diesel
+                                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                </h3>
+                                <p class="text-sm">Call me whenever you can...</p>
+                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                            </div>
+                        </div>
+                        <!-- Message End -->
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <!-- Message Start -->
+                        <div class="media">
+                            <img src="{{url_for('static', path='/dist/img/user8-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                            <div class="media-body">
+                                <h3 class="dropdown-item-title">
+                                    John Pierce
+                                    <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                                </h3>
+                                <p class="text-sm">I got your message bro</p>
+                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                            </div>
+                        </div>
+                        <!-- Message End -->
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <!-- Message Start -->
+                        <div class="media">
+                            <img src="{{url_for('static', path='/dist/img/user3-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                            <div class="media-body">
+                                <h3 class="dropdown-item-title">
+                                    Nora Silvester
+                                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
+                                </h3>
+                                <p class="text-sm">The subject goes here</p>
+                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                            </div>
+                        </div>
+                        <!-- Message End -->
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                </div>
+            </li>
+
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge" id="notif_number"></span>
+                    <span class="badge badge-warning navbar-badge">15</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header" id="how_many_notif">0 Supply Notification</span>
-                    <div id="notifications">
-                        
-                    </div>
+                    <span class="dropdown-item dropdown-header">15 Notifications</span>
                     <div class="dropdown-divider"></div>
-                    <div id="see_all_notif">
-
-                    </div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2"></i> 4 new messages
+                        <span class="float-right text-muted text-sm">3 mins</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-users mr-2"></i> 8 friend requests
+                        <span class="float-right text-muted text-sm">12 hours</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-file mr-2"></i> 3 new reports
+                        <span class="float-right text-muted text-sm">2 days</span>
+                    </a>    
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
             </li>
 
@@ -145,7 +214,7 @@
                     <!-- <span class="badge badge-warning navbar-badge">15</span> -->
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header"></span>
+                    <span class="dropdown-item dropdown-header"><script>USER_EMAIL</script></span>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-user-circle mr-2"></i> Profile
@@ -210,8 +279,8 @@
                     <!-- Sidebar Menu -->       
                     <li class="nav-header"><b>Dashboard</b></li>
                     <li class="nav-item">
-                        <a href="/warehousing/manager/dashboard" class="nav-link" id="dashboard_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/dashboard' || window.location.pathname == '/warehousing/manager/'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
+                        <a href="/warehousing/admin/dashboard" class="nav-link" id="dashboard_sidebar">
+                            <script>if(window.location.pathname == '/warehousing/admin/dashboard'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-chart-line"></i>
                         <p>Dashboard</p>
                         </a>
@@ -219,29 +288,29 @@
                     <!-- Inventory -->
                     <li class="nav-header"><b>Inventory</b></li>
                     <li class="nav-item">
-                        <a href="/warehousing/manager/supplies" class="nav-link" id="supply_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/supplies/'){document.getElementById("supply_sidebar").classList.add('active')}</script>
+                        <a href="/warehousing/staff/supplies" class="nav-link" id="supply_sidebar">
+                            <script>if(window.location.pathname == '/warehousing/staff/supplies/'){document.getElementById("supply_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-boxes"> </i>
                             <p> Supplies </p>
                         </a>
                     </li>
                     <li class="nav-item"> 
-                        <a href="/warehousing/manager/supply_categories" class="nav-link" id="supply_categoy_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/supply_categories/'){document.getElementById("supply_categoy_sidebar").classList.add('active')}</script>
+                        <a href="/warehousing/staff/supply_categories" class="nav-link" id="supply_categoy_sidebar">
+                            <script>if(window.location.pathname == '/warehousing/staff/supply_categories/'){document.getElementById("supply_categoy_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-clipboard-list"></i>
                             <p> Supply Categories </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/warehousing/manager/inventories" class="nav-link" id="inventory_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/inventories/'){document.getElementById("inventory_sidebar").classList.add('active')}</script>
+                        <a href="/warehousing/staff/inventories" class="nav-link" id="inventory_sidebar">
+                            <script>if(window.location.pathname == '/warehousing/staff/inventories/'){document.getElementById("inventory_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-dolly-flatbed"></i>
                             <p> Inventories </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/warehousing/manager/inventory_locations" class="nav-link" id="inventory_location_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/inventory_locations/'){document.getElementById("inventory_location_sidebar").classList.add('active')}</script>
+                        <a href="/warehousing/staff/inventory_locations" class="nav-link" id="inventory_location_sidebar">
+                            <script>if(window.location.pathname == '/warehousing/staff/inventory_locations/'){document.getElementById("inventory_location_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-pallet"></i>
                             <p> Inventory Location </p>
                         </a>
@@ -249,50 +318,17 @@
                     <!-- Reports -->
                     <li class="nav-header"><b>Request and Return</b></li>
                     <li class="nav-item">
-                        <a href="/warehousing/manager/request" class="nav-link" id="request_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/request/'){document.getElementById("request_sidebar").classList.add('active')}</script>
+                        <a href="/warehousing/staff/request" class="nav-link" id="request_sidebar">
+                            <script>if(window.location.pathname == '/warehousing/staff/request/'){document.getElementById("request_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-envelope-open-text"></i>
                             <p> Request </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/warehousing/manager/return" class="nav-link" id="return_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/return/'){document.getElementById("return_sidebar").classList.add('active')}</script>
+                        <a href="/warehousing/staff/return" class="nav-link" id="return_sidebar">
+                            <script>if(window.location.pathname == '/warehousing/staff/return/'){document.getElementById("return_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-envelope-open-text"></i>
                             <p> Return </p>
-                        </a>
-                    </li>
-                    <li class="nav-header"><b>Reports In/Out</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/manager/outbound_reports"  class="nav-link" id="outbound_report_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/outbound_reports/'){document.getElementById("outbound_report_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-poll"></i>
-                            <p> Outbound Reports </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/manager/inbound_reports" class="nav-link" id="inbound_report_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/inbound_reports/'){document.getElementById("inbound_report_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-poll-h"></i>
-                            <p> Inbound Reports </p>
-                        </a>
-                    </li>
-                    <!-- Supplier -->
-                    <li class="nav-header"><b>Supplier</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/manager/suppliers" class="nav-link" id="supplier_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/suppliers/'){document.getElementById("supplier_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-truck"></i>
-                            <p> Suppliers </p>
-                        </a>
-                    </li>
-                    <!-- Others -->
-                    <li class="nav-header"><b>Others</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/manager/employees" class="nav-link" id="employee_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/manager/employees/'){document.getElementById("employee_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-people-carry"></i>
-                            <p> Employees</p>
                         </a>
                     </li>
                     <!-- End Sidebar Menu -->
@@ -399,7 +435,7 @@
 <script src="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 <script src="{{url_for('static', path='/dist/js/warehousing/access/logout.js')}}"></script>
 
-<!-- <script src="{{url_for('static', path='/dist/js/warehousing/manager/baseManager.js')}}"></script> -->
+
 
 
 

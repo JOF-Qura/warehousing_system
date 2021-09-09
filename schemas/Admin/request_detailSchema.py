@@ -24,6 +24,7 @@ class UpdateRequestDetail(BaseModel):
 
 #Schema for response body
 class ShowRequestDetail(RequestDetailBase):
+    request_details_id: Optional[str]
     reuqest_id: Optional[str]
     supply_id: Optional[str]
     request_id: Optional[str]

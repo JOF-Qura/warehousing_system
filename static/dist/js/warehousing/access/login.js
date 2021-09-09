@@ -61,6 +61,10 @@ $(function()
                     {
                         window.location.replace(baseURL + 'manager');
                     }
+                    else if (data.data.user_type == "Staff")
+                    {
+                        window.location.replace(baseURL + 'staff');
+                    }
                 }
             },
             error: function ({ responseJSON }) 

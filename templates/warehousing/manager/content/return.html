@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'warehousing/admin/default/base.html'%} 
+{%extends 'warehousing/manager/default/base.html'%} 
 
 <!-- Enter content for block 'content' -->
 {%block content%}
@@ -9,7 +9,7 @@
             <div class="row mb-2">
                 <!-- Title -->
                 <div class="col-sm-6">
-                    <h1>Inventory Locations</h1>
+                    <h1>Return</h1>
                 </div>
 
                 <!-- Breadcrumb -->
@@ -18,17 +18,16 @@
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
                         <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="inventory_locations_nav">Inventory Locations</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/inventory_locations/'){document.getElementById("inventory_locations_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="return_nav">Return</li>
+                        <script>if(window.location.pathname == '/warehousing/admin/return/'){document.getElementById("return_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
             </div>
-            <br>
             <div class="row">     
                 <!-- Button -->
                 <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Inventory Location</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Return</a>
                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                 </div>
                 <!-- / Button -->
@@ -64,7 +63,7 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Inventory Location</h3>
+                            <h3 class="card-title">Return</h3>
                         </div>
                         <!-- /.card-header -->
 
@@ -73,8 +72,11 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Location Name</th>
-                                        <th>Supply Category Name</th>
+                                        <th>Return ID</th>
+                                        <th>Return Date</th>
+                                        <th>Returner</th>
+                                        <th>Return Type</th>
+                                        <th>Status</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -93,14 +95,12 @@
     </section>
     <!-- /.content -->
 
-    <!-- Adding Inventory Location Modal -->
+    <!-- Adding/Updating Return Modal -->
     <div class="modal fade" id="adding_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">
-                        <i class= "fas fa-file-alt"></i>
-                        Inventory Location Form</h4>
+                    <h4 class="modal-title">Return Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -113,22 +113,45 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="inventory_location_name" id="inventory_location_nameLabel">Inventory Location Name</label>
-                                        <input type="input" class="form-control" id="inventory_location_name" placeholder="Inventory Location Name" required>
+                                        <label for="return_date" id="return_dateLabel">Return Date</label>
+                                        <input type="date" class="form-control" id="return_date" placeholder="Enter Date">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_category_id" id="supply_category_idLabel">Category</label>
-                                        <select class="form-control" id="supply_category_id" name="supply_category_id">
+                                        <label for="returner">Returner</label>
+                                        <select class="form-control" id="returner" name="returner">
+                                            <option value="Warehouse">Warehouse</option>
+                                            <option value="Procurement">Procurement</option>
+                                            <option value="Hospital Department">Hospital Department</option>
                                         </select>
-                                        
                                     </div>
                                 </div>
                             </div>
-                          
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="return_type">Return type</label>
+                                        <select class="form-control" id="return_type" name="return_type">
+                                            <option value="For Return">For Return</option>
+                                            <option value="To Return">To Return</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="return_status" id="return_statusLabel">Return Status</label>
+                                        <select class="form-control" id="return_status" name="return_status">
+                                            <option value="Pending">Pending</option>
+                                            <option value="For Delivery">For Delivery</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- BUTTONS -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -141,61 +164,11 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding Inventory Location Modal -->
-
-    <!-- editing Inventory Location Modal -->
-    <div class="modal fade" id="editing_modal">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        <i class= "fas fa-file-alt"></i>
-                        Edit Inventory Location</h4>
-                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- CONTENT -->
-                    <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
-                        <div class="card-body">
-                            <div class="row">
-                                <input type="hidden" name="e_uuid" id="e_uuid" value="" />
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_inventory_location_name" id="e_inventory_location_nameLabel">Inventory Location Name</label>
-                                        <input type="input" class="form-control" id="e_inventory_location_name" placeholder="Inventory Location Name" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_supply_category_id" id="e_supply_category_idLabel">Category</label>
-                                        <select class="form-control" id="e_supply_category_id" name="e_supply_category_id">
-                                        </select>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                          
-                            <!-- BUTTONS -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
-                            </div>
-                            <!-- END BUTTONS -->
-                        </div>
-                    </form> <!-- END CONTENT -->
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div>
-    <!-- END editing Inventory Location Modal -->
+    <!-- END Adding User Modal -->
 {%endblock%}
 
 {%block scripts%}
-    <script src="{{url_for('static', path='/dist/js/warehousing/admin/inventory_locations.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/warehousing/admin/return.js')}}"></script>
 {%endblock%}
 
 

@@ -58,6 +58,33 @@ def datatable(request: Request, request_id: str, db: Session = Depends(get_db)):
     except Exception as e:
         print(e)
 
+# GET request detail by request_id
+@router.get('/{request_details_id}/{request_id}', response_model=List[request_detailSchema.ShowRequestDetail])
+def get_one_request_details_using_2param(request_details_id:str, request_id:str, db: Session = Depends(get_db)):
+    query_get = db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_details_id == request_details_id, request_detailModel.Request_Details.request_id == request_id).all()
+    if not query_get:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Request Detail with the request_details_id {request_details_id} and request_id {request_id} is not available")
+    return query_get
+
+# UPDATE Request Detail
+@router.put('/{request_details_id}')
+def update_request_detail(request_details_id: str, rd: request_detailSchema.UpdateRequestDetail, db: Session = Depends(get_db)): 
+    if not db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_details_id == request_details_id).update({
+        'quantity': rd.quantity,
+        'status': rd.status,
+    }):
+        raise HTTPException(404, 'Request Detail to update is not found')
+    db.commit()
+    return {'message': 'Request Detail updated successfully.'}
+
+# DELETE Request Detail
+@router.delete('/{request_details_id}')
+def delete_request_detail(request_details_id: str, db: Session = Depends(get_db)):
+    if not db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_details_id == request_details_id).delete():
+        raise HTTPException(404, 'Request Detail to delete is not found')
+    db.commit()
+    return {'message': 'Request Detail removed successfully.'}
 
 
 # GET all request detail
@@ -76,14 +103,14 @@ def get_one_request_detail(request_id:str, db: Session = Depends(get_db)):
                             detail=f"Request Detail with the request_id {request_id} is not available")
     return emp
 
-# GET request detail by request_id
-@router.get('/{request_id}/{supply_id}', response_model=List[request_detailSchema.ShowRequestDetail])
-def count_response(request_id:str, supply_id:str, db: Session = Depends(get_db)):
-    query = db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_id == request_id, request_detailModel.Request_Details.supply_id == supply_id).all()
-    if not query:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Request Detail with the request_id {request_id} is not available")
-    return query
+# # GET request detail by request_id
+# @router.get('/{request_id}/{supply_id}', response_model=List[request_detailSchema.ShowRequestDetail])
+# def count_response(request_id:str, supply_id:str, db: Session = Depends(get_db)):
+#     query = db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_id == request_id, request_detailModel.Request_Details.supply_id == supply_id).all()
+#     if not query:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#                             detail=f"Request Detail with the request_id {request_id} is not available")
+#     return query
 
 # CREATE Request Detail
 @router.post('/')
@@ -97,22 +124,5 @@ def create_request_detail(request: request_detailSchema.CreateRequestDetail, db:
     db.commit()
     return {'message': 'Request Detail stored successfully.'}
 
-# UPDATE Request Detail
-@router.put('/{request_detail_id}')
-def update_request_detail(request_detail_id: str, rd: request_detailSchema.UpdateRequestDetail, db: Session = Depends(get_db)): 
-    if not db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_detail_id == request_detail_id).update({
-        'quantity': rd.quantity,
-        'status': rd.status,
-    }):
-        raise HTTPException(404, 'Request Detail to update is not found')
-    db.commit()
-    return {'message': 'Request Detail updated successfully.'}
 
-# DELETE Request Detail
-@router.delete('/{request_detail_id}')
-def delete_request_detail(request_detail_id: str, db: Session = Depends(get_db)):
-    if not db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_detail_id == request_detail_id).delete():
-        raise HTTPException(404, 'Request Detail to delete is not found')
-    db.commit()
-    return {'message': 'Request Detail removed successfully.'}
 

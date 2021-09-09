@@ -1,7 +1,7 @@
 $(function() 
 {
     loadTable();
-
+    $('#button_add').prop('disabled', false)
     // function to save/update record
     $("#form_id").on("submit", function (e)
     {
@@ -18,15 +18,22 @@ $(function()
         var employee_first_name = $("#employee_first_name").val();
         var employee_age = $("#employee_age").val();
 
-
-
         if (user_id == "" || user_id == null)
         {
             user_id = null;
         }
         else
         {
-            user_id = user_id
+            $.ajax(
+            {
+                url: apiURL + "users/" + user_id,
+                type: "GET",
+                success: function(data)
+                {
+                    user_id = user_id
+                    user_type = data.user_type
+                }
+            });
         }
 
         if (employee_id == "")
@@ -52,6 +59,7 @@ $(function()
                 cache: false,
                 success: function (data) 
                 {
+                    console.log(data)
                     $('#form_id').trigger("reset")
                     $('#button_add').prop('disabled', true)
                     notification("success", "Success!", data.message);
@@ -64,7 +72,6 @@ $(function()
                 },
             });
         }
-        $('#button_add').prop('disabled', false)
     });
 });
 
@@ -246,22 +253,25 @@ loadTable = () =>
                                 '<div>' +
                                     'Edit Employee' +
                                 '</div>'  +
-                            '</div>' +
+                            '</div>';
                         // Delete
-                            '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                            aData["employee_id"] + 
-                            '\')">'  +
-                                '<div style="width: 2rem">' +
-                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
-                                '</div>' +
-                                '<div>' +
-                                    'Delete Employee' +
+                        if(USER_TYPE == "Admin")
+                        {
+                            buttons +=
+                                '<div class="dropdown-divider"></div>' +
+                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                aData["employee_id"] + 
+                                '\')">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'Delete Employee' +
+                                    '</div>'  +
                                 '</div>'  +
                             '</div>'  +
-                        '</div>'  +
-                    '</div>';
-
+                        '</div>';
+                        }
             // var dateCreated = new Date(aData["user_created_date"]);
             // var createdDate = dateCreated.toLocaleString();
 
@@ -269,14 +279,18 @@ loadTable = () =>
 
             if(aData["user_id"] == null)
             {
-                user_id = "null"
+                user_id = "Not a System User"
             }
             else
             {
                 user_id = aData["user_id"]
             }
 
-            var full_name = 
+            var full_name = aData["employee_last_name"] + ", " + aData["employee_first_name"] + " " + aData["employee_middle_name"]
+            
+            full_name = (aData["employee_last_name"] + ", " + aData["employee_first_name"] + " " + aData["employee_middle_name"])
+            console.log(full_name)
+
 
             $("td:eq(0)", nRow).html(user_id);
             $("td:eq(1)", nRow).html(aData["user_type"]);
@@ -360,6 +374,7 @@ editData = (employee_id, type) =>
             
                 $("#e_form_id").on("submit", function (e)
                 {
+                    e.preventDefault()
                     var employee_id = $("#e_uuid").val();
                     var user_id = data["user_id"];
                     if (user_id == "" || user_id == null)

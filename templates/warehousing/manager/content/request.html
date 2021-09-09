@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'warehousing/admin/default/base.html'%} 
+{%extends 'warehousing/manager/default/base.html'%} 
 
 <!-- Enter content for block 'content' -->
 {%block content%}
@@ -9,7 +9,7 @@
             <div class="row mb-2">
                 <!-- Title -->
                 <div class="col-sm-6">
-                    <h1>Request Detail</h1>
+                    <h1>Request</h1>
                 </div>
 
                 <!-- Breadcrumb -->
@@ -18,16 +18,43 @@
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
                         <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="supplies_nav"><a href="/warehousing/admin/request">Request</a></li>                    
+                        <li class="breadcrumb-item" id ="request_nav">Request </li>
+                        <script>if(window.location.pathname == '/warehousing/admin/request/'){document.getElementById("request_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
+            </div>
+            <div class="row">     
+                <!-- Button -->
+                <div class="col-sm-6">
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Request</a>
+                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
+                </div>
+                <!-- / Button -->
             </div>
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content-header -->
 
-    <!-- Main Content -->
+    <!-- For TESTING -->
+    <!-- <div class="row align-items-center justify-content-center"> -->
+        <!-- Python conditional statement -->
+        <!-- {%for user in users%}
+            <div class="card card-outline card-primary w-75">
+                <div class="card-header">
+                    <div class="h3">ID: {{user.user_id}}</div>
+                    <div class="subtitle">Email: {{user.user_email}}</div>
+                </div>
+                <div class="card-body">
+                    <div>Date Created: {{user.created_at}}</div>
+                </div>
+            </div>
+        {%else%}
+            <h3>No users to show.</h3>
+        {%endfor%}
+    </div> -->
+
+    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -36,53 +63,7 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="h5" id="card_header_id">
-                                    </div>
-                                </div>
-                                <div class="col-md-3" id="send_request_id">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <form>
-                                <div class="row" id="rd_id">
-
-                                </div>
-                            </form>
-                            <hr>
-                            <div class="row" id="sp_id">
-                            
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <!-- <div class="card-body">
-                            <div>Date Created: </div>
-                        </div> -->
-                    </div>
-                    <!-- /.card -->
-                </div> <!-- /.col -->
-            </div> <!-- /.row -->
-
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- Card -->
-                    <div class="card card-primary card-outline">
-                        <!-- Card Header -->
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col">
-                                    <h3 class="card-title">Requested Supplies</h3>
-                                </div>
-                                <div class="col" id="add_supply_id">
-                                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Request</button>
-                                </div>
-                            </div>
+                            <h3 class="card-title">Request</h3>
                         </div>
                         <!-- /.card-header -->
 
@@ -91,9 +72,11 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th width="15%">Supply</th>
-                                        <th width="15%">Quantity</th>
-                                        <th width="15%">Status</th>
+                                        <th width="20%">Request ID</th>
+                                        <th width="15%">Request Date</th>
+                                        <th width="15%">Requestor</th>
+                                        <th width="15%">Request Type</th>
+                                        <th width="10%">Status</th>
                                         <th width="25%" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -110,14 +93,14 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->   
-    
-    <!-- Adding Supply Request Modal -->
+    <!-- /.content -->
+
+    <!-- Adding Supply to the Request Modal -->
     <div class="modal fade" id="adding_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Supply Form</h4>
+                    <h4 class="modal-title">Request Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -126,12 +109,23 @@
                     <!-- CONTENT -->
                     <form id="form_id" name="form_id" enctype="multipart/form_data">
                         <div class="card-body">
-                            <input type="hidden" id="uuid" name="uuid" value="">
+                            <div class="row">
+                                <input type="hidden" name="uuid" id="uuid" value="" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="request_date" id="request_dateLabel">Request Date</label>
+                                        <input type="date" class="form-control" id="request_date" placeholder="Enter email">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_id">Supply</label>
-                                        <select class="form-control" id="supply_id" name="supply_id">
+                                        <label for="requestor">Requestor</label>
+                                        <select class="form-control" id="requestor" name="requestor">
+                                            <option value="Warehouse">Warehouse</option>
+                                            <option value="Procurement">Procurement</option>
+                                            <option value="Hospital Department">Hospital Department</option>
                                         </select>
                                     </div>
                                 </div>
@@ -139,8 +133,22 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="quantity" id="quantityLabel">Quantity</label>
-                                        <input type="number" class="form-control" id="quantity" placeholder="Enter Quantity" required>
+                                        <label for="request_type">Request type</label>
+                                        <select class="form-control" id="request_type" name="request_type">
+                                            <option value="For Request">For Request</option>
+                                            <option value="To Request">To Request</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="request_status" id="request_statusLabel">Request Status</label>
+                                        <select class="form-control" id="request_status" name="request_status">
+                                            <option value="Pending">Pending</option>
+                                            <option value="For Delivery">For Delivery</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +164,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding Supply Request Modal -->
+    <!-- END Adding Supply to the Request Modal -->
 
     <!-- editing Request Modal -->
     <div class="modal fade" id="editing_modal">
@@ -203,7 +211,6 @@
                                         <select class="form-control" id="e_request_status" name="e_request_status">
                                             <option value="Pending">Pending</option>
                                             <option value="For Delivery">For Delivery</option>
-                                            <option value="Delivered">Delivered</option>
                                         </select>
                                     </div>
                                 </div>
@@ -222,70 +229,10 @@
     </div>
     <!-- END editing Request Modal -->
 
-    <!-- editing Supply Request Modal -->
-    <div class="modal fade" id="editing_supply_modal">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Supply Form</h4>
-                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- CONTENT -->
-                    <form id="e_supply_form_id" name="e_supply_form_id" enctype="multipart/form_data">
-                        <div class="card-body">
-                            <input type="hidden" id="e_uuid" name="e_uuid" value="">
-                            <input type="hidden" id="e_req_id" name="e_req_id" value="">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_supply_id">Supply</label>
-                                        <select class="form-control" id="e_supply_id" name="e_supply_id" disabled>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_quantity" id="e_quantityLabel">Quantity</label>
-                                        <input type="number" class="form-control" id="e_quantity" placeholder="Enter Quantity" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_status" id="e_statusLabel">Status</label>
-                                        <select class="form-control" id="e_status" name="e_status">
-                                            <option value="Approved">Approved</option>
-                                            <option value="Pending">Pending</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- BUTTONS -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="Submit" class="btn btn-primary" id="button_save">Save</button>
-                            </div>
-                            <!-- END BUTTONS -->
-                        </div>
-                    </form> <!-- END CONTENT -->
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div>
-    <!-- END editing Supply Request Modal -->
 {%endblock%}
 
 {%block scripts%}
-    <script> 
-        var request_id = _GET('request_id') 
-
-        console.log(request_id);
-    </script>
-    <script src="{{url_for('static', path='/dist/js/warehousing/admin/viewRequest.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/warehousing/admin/request.js')}}"></script>
 {%endblock%}
+
+

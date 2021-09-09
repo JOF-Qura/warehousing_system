@@ -26,6 +26,11 @@ from routes.Admin import (authRoutes
                     , returnRoutes
                     # , return_detailRoutes
                     )
+from routes.Admin.count import (countRequestDetail_Supply
+                                , countSupply
+                                , countRequest_Pending
+                                , countReturn_Pending
+                                )
 
 # importing all models
 from models.Admin import (userModel
@@ -89,6 +94,10 @@ app.include_router(request_detailRoutes.router)
 app.include_router(supplierRoutes.router)
 app.include_router(supply_categoriesRoutes.router)
 app.include_router(warehouseRoutes.router)
+app.include_router(countRequestDetail_Supply.router)
+app.include_router(countSupply.router)
+app.include_router(countRequest_Pending.router)
+app.include_router(countReturn_Pending.router)
 
 #Saling Pusa
 app.include_router(postRoutes.router)
@@ -364,4 +373,319 @@ def dashhboard(request: Request, db: Session = Depends(get_db), current_user: Us
         # 'users': users
     })
 
+@app.get('/warehousing/manager/dashboard', response_class=HTMLResponse)
+def dashhboard(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    return template.TemplateResponse('warehousing/manager/content/dashboard.html', 
+    {
+        'request': request
+    })
 
+@app.get('/warehousing/manager/supplies/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        supplies = db.query(Supplies).all()
+        return template.TemplateResponse('warehousing/manager/content/supplies.html', 
+        {
+            'request': request,
+            'supplies': supplies
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/supply_categories/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        supply_categories = db.query(Supply_Categories).all()
+        return template.TemplateResponse('warehousing/manager/content/supply_categories.html', 
+        {
+            'request': request,
+            'supply_categories': supply_categories
+        })
+    except Exception as e:
+        print(e)
+
+        
+@app.get('/warehousing/manager/inventories/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        inventories = db.query(Inventories).all()
+        return template.TemplateResponse('warehousing/manager/content/inventories.html', 
+        {
+            'request': request,
+            'inventories': inventories
+        })
+    except Exception as e:
+        print(e)
+            
+@app.get('/warehousing/manager/inventory_locations/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        inventory_locations = db.query(Inventory_Locations).all()
+        return template.TemplateResponse('warehousing/manager/content/inventory_locations.html', 
+        {
+            'request': request,
+            'inventory_locations': inventory_locations
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/request/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        request_model = db.query(RequestModel).all()
+        return template.TemplateResponse('warehousing/manager/content/request.html', 
+        {
+            'request': request,
+            'request_model': request_model
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/return/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        return_model = db.query(ReturnModel).all()
+        return template.TemplateResponse('warehousing/manager/content/return.html', 
+        {
+            'request': request,
+            'return_model': return_model
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/outbound_reports/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        o_reports = db.query(Outbound_Reports).all()
+        return template.TemplateResponse('warehousing/manager/content/outbound_reports.html', 
+        {
+            'request': request,
+            'o_reports': o_reports
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/inbound_reports/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        i_reports = db.query(Inbound_Reports).all()
+        return template.TemplateResponse('warehousing/manager/content/inbound_reports.html', 
+        {
+            'request': request,
+            'i_reports': i_reports
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/suppliers/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        suppliers = db.query(Suppliers).all()
+        return template.TemplateResponse('warehousing/manager/content/suppliers.html', 
+        {
+            'request': request,
+            'suppliers': suppliers
+        })
+    except Exception as e:
+        print(e)
+
+
+@app.get('/warehousing/manager/employees/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        employees = db.query(Employees).all()
+        return template.TemplateResponse('warehousing/manager/content/employees.html', 
+        {
+            'request': request,
+            'employees': employees
+        })
+    except Exception as e:
+        print(e)
+
+# ------------ Manager View --------------- #
+@app.get('/warehousing/manager/supplies/{supply_id}', response_class=HTMLResponse)
+def index(request: Request, supply_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        supplies = db.query(Supplies).filter(Supplies.supply_id == supply_id).first()
+        return template.TemplateResponse('warehousing/manager/content/viewSupplies.html', 
+        {
+            'request': request,
+            'supplies': supplies
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/inventories/{inventory_id}', response_class=HTMLResponse)
+def index(request: Request, inventory_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        inventories = db.query(Inventories).filter(Inventories.inventory_id == inventory_id).first()
+        return template.TemplateResponse('warehousing/manager/content/viewInventories.html', 
+        {
+            'request': request,
+            'inventories': inventories
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/request_details', response_class=HTMLResponse)
+def index(request: Request, request_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        req = db.query(Request_Details).filter(Request_Details.request_id == request_id).all()
+        return template.TemplateResponse('warehousing/manager/content/viewRequest.html', 
+        {
+            'request': request,
+            'req': req
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/outbound_report_details', response_class=HTMLResponse)
+def index(request: Request, outbound_report_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        out_report_d = db.query(Outbound_Report_Details).filter(Outbound_Report_Details.outbound_report_id == outbound_report_id).all()
+        return template.TemplateResponse('warehousing/manager/content/viewOutboundReport.html', 
+        {
+            'request': request,
+            'out_report_d': out_report_d
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/manager/inbound_report_details', response_class=HTMLResponse)
+def index(request: Request, inbound_report_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        in_report_d = db.query(Inbound_Reports).filter(Inbound_Reports.inbound_report_id == inbound_report_id).all()
+        return template.TemplateResponse('warehousing/manager/content/viewInboundReport.html', 
+        {
+            'request': request,
+            'in_report_d': in_report_d
+        })
+    except Exception as e:
+        print(e)
+
+# ---------------------------- Staff Template ------------------------------ #
+@app.get('/warehousing/staff/', response_class=HTMLResponse)
+def dashhboard(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    # users = db.query(Users).filter(Users.user_email == current_user).first()
+    return template.TemplateResponse('warehousing/staff/content/dashboard.html', 
+    {
+        'request': request,
+        # 'users': users
+    })
+
+@app.get('/warehousing/staff/dashboard', response_class=HTMLResponse)
+def dashhboard(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    return template.TemplateResponse('warehousing/staff/content/dashboard.html', 
+    {
+        'request': request
+    })
+
+@app.get('/warehousing/staff/supplies/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        supplies = db.query(Supplies).all()
+        return template.TemplateResponse('warehousing/staff/content/supplies.html', 
+        {
+            'request': request,
+            'supplies': supplies
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/staff/supply_categories/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        supply_categories = db.query(Supply_Categories).all()
+        return template.TemplateResponse('warehousing/staff/content/supply_categories.html', 
+        {
+            'request': request,
+            'supply_categories': supply_categories
+        })
+    except Exception as e:
+        print(e)
+
+        
+@app.get('/warehousing/staff/inventories/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        inventories = db.query(Inventories).all()
+        return template.TemplateResponse('warehousing/staff/content/inventories.html', 
+        {
+            'request': request,
+            'inventories': inventories
+        })
+    except Exception as e:
+        print(e)
+            
+@app.get('/warehousing/staff/inventory_locations/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        inventory_locations = db.query(Inventory_Locations).all()
+        return template.TemplateResponse('warehousing/staff/content/inventory_locations.html', 
+        {
+            'request': request,
+            'inventory_locations': inventory_locations
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/staff/request/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        request_model = db.query(RequestModel).all()
+        return template.TemplateResponse('warehousing/staff/content/request.html', 
+        {
+            'request': request,
+            'request_model': request_model
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/staff/return/', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        return_model = db.query(ReturnModel).all()
+        return template.TemplateResponse('warehousing/staff/content/return.html', 
+        {
+            'request': request,
+            'return_model': return_model
+        })
+    except Exception as e:
+        print(e)
+
+# ------------ Staff View --------------- #
+@app.get('/warehousing/staff/supplies/{supply_id}', response_class=HTMLResponse)
+def index(request: Request, supply_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        supplies = db.query(Supplies).filter(Supplies.supply_id == supply_id).first()
+        return template.TemplateResponse('warehousing/staff/content/viewSupplies.html', 
+        {
+            'request': request,
+            'supplies': supplies
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/staff/inventories/{inventory_id}', response_class=HTMLResponse)
+def index(request: Request, inventory_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        inventories = db.query(Inventories).filter(Inventories.inventory_id == inventory_id).first()
+        return template.TemplateResponse('warehousing/staff/content/viewInventories.html', 
+        {
+            'request': request,
+            'inventories': inventories
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/staff/request_details', response_class=HTMLResponse)
+def index(request: Request, request_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        req = db.query(Request_Details).filter(Request_Details.request_id == request_id).all()
+        return template.TemplateResponse('warehousing/staff/content/viewRequest.html', 
+        {
+            'request': request,
+            'req': req
+        })
+    except Exception as e:
+        print(e)

@@ -31,6 +31,7 @@ def datatable(request: Request, db: Session = Depends(get_db)):
                 or_
                 (
                     Employees.employee_id.like('%' + user_input + '%'),
+                    Employees.user_id.like('%' + user_input + '%'),
                     Users.user_email.like('%' + user_input + '%'),
                     Employees.user_type.like('%' + user_input + '%'),
                     Employees.employee_first_name.like('%' + user_input + '%'),
@@ -44,10 +45,12 @@ def datatable(request: Request, db: Session = Depends(get_db)):
                 )
             )
 
-        table = DataTable(dict(request.query_params), Employees, db.query(Employees), 
+        table = DataTable(dict(request.query_params), Employees, db.query(Employees)
+        , 
         [
             'employee_id',
-            ('user_id', 'employee_user.user_email'),
+            'user_id',
+            # ('user_id', 'employee_user.user_email'),
             'user_type',
             'employee_first_name',
             'employee_middle_name',

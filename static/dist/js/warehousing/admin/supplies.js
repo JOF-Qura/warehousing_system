@@ -166,51 +166,122 @@ loadTable = () =>
                 class: "text-center", 
                 render: function (aData, type, row) 
                 {
+                    console.log(USER_TYPE)
                     let buttons = "";
-                    buttons +=
-                    '<div class="text-center dropdown">' +
-                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                            '<i class="fas fa-ellipsis-v"></i>'  +
-                        '</div>' +
-                        '<div class="dropdown-menu dropdown-menu-right">'  +
-                        //Info
-                            '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                            aData["supply_id"] + 
-                            '\', 0)">'  +
-                                '<div style="width: 2rem">' +
-                                    '<i class="fas fa-eye mr-1"></i>'  +
-                                '</div>' +
-                                '<div>' +
-                                    'View Supply' +
-                                '</div>'  +
-                            '</div>'  +
-                        // Edit
-                            '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                            aData["supply_id"] +
-                            '\',1)">'  +
-                                '<div style="width: 2rem">' +
-                                    '<i class="fas fa-edit mr-1"></i>'  +
-                                '</div>' +
-                                '<div>' +
-                                    'Edit Supply' +
-                                '</div>'  +
+                    if(USER_TYPE == "Admin")
+                    {
+                        buttons +=
+                        '<div class="text-center dropdown">' +
+                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                '<i class="fas fa-ellipsis-v"></i>'  +
                             '</div>' +
-                        // Delete
-                            '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                            aData["supply_id"] + 
-                            '\')">'  +
-                                '<div style="width: 2rem">' +
-                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                            '<div class="dropdown-menu dropdown-menu-right">'  +
+                            //Info
+                                '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                aData["supply_id"] + 
+                                '\', 0)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-eye mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'View Supply' +
+                                    '</div>'  +
+                                '</div>'  +
+                            // Edit
+                                '<div class="dropdown-divider"></div>' +
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                aData["supply_id"] +
+                                '\',1)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-edit mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'Edit Supply' +
+                                    '</div>'  +
                                 '</div>' +
-                                '<div>' +
-                                    'Delete Supply' +
+                            // Delete
+                                '<div class="dropdown-divider"></div>' +
+                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                aData["supply_id"] + 
+                                '\')">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'Delete Supply' +
+                                    '</div>'  +
                                 '</div>'  +
                             '</div>'  +
-                        '</div>'  +
-                    '</div>';
-
+                        '</div>';
+                    }
+                    else if (USER_TYPE == "Manager")
+                    {
+                        buttons +=
+                        '<div class="text-center dropdown">' +
+                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                '<i class="fas fa-ellipsis-v"></i>'  +
+                            '</div>' +
+                            '<div class="dropdown-menu dropdown-menu-right">'  +
+                            //Info
+                                '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                aData["supply_id"] + 
+                                '\', 0)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-eye mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'View Supply' +
+                                    '</div>'  +
+                                '</div>'  +
+                            // Edit
+                                '<div class="dropdown-divider"></div>' +
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                aData["supply_id"] +
+                                '\',1)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-edit mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'Edit Supply' +
+                                    '</div>'  +
+                                '</div>' +
+                            // // Delete
+                            //     '<div class="dropdown-divider"></div>' +
+                            //     '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            //     aData["supply_id"] + 
+                            //     '\')">'  +
+                            //         '<div style="width: 2rem">' +
+                            //             '<i class="fas fa-trash-alt mr-1"></i>'  +
+                            //         '</div>' +
+                            //         '<div>' +
+                            //             'Delete Supply' +
+                            //         '</div>'  +
+                            //     '</div>'  +
+                            '</div>'  +
+                        '</div>';
+                    }
+                    else if (USER_TYPE == "Staff")
+                    {
+                        buttons +=
+                        '<div class="text-center dropdown">' +
+                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                '<i class="fas fa-ellipsis-v"></i>'  +
+                            '</div>' +
+                            '<div class="dropdown-menu dropdown-menu-right">'  +
+                            //Info
+                                '<div class="dropdown-item d-flex" role="button" onClick="return sendRequest(\'' + 
+                                aData["supply_id"] + 
+                                '\', 0)">'  +
+                                    '<div style="width: 2rem">' +
+                                        '<i class="fas fa-share-square mr-1"></i>'  +
+                                    '</div>' +
+                                    '<div>' +
+                                        'Send Request' +
+                                    '</div>'  +
+                                '</div>'  +
+                            '</div>'  +
+                        '</div>';
+                    }
                     return buttons; // same class in i element removed it from a element
                 },
             },
@@ -223,50 +294,122 @@ loadTable = () =>
         },
         fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
         {
+            console.log(USER_TYPE)
             let buttons = "";
-            buttons +=
-            '<div class="text-center dropdown">' +
-                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                    '<i class="fas fa-ellipsis-v"></i>'  +
-                '</div>' +
-                '<div class="dropdown-menu dropdown-menu-right">'  +
-                //Info
-                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                    aData["supply_id"] + 
-                    '\', 0)">'  +
-                        '<div style="width: 2rem">' +
-                            '<i class="fas fa-eye mr-1"></i>'  +
-                        '</div>' +
-                        '<div>' +
-                            'View Supply' +
-                        '</div>'  +
-                    '</div>'  +
-                // Edit
-                    '<div class="dropdown-divider"></div>' +
-                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                    aData["supply_id"] +
-                    '\',1)">'  +
-                        '<div style="width: 2rem">' +
-                            '<i class="fas fa-edit mr-1"></i>'  +
-                        '</div>' +
-                        '<div>' +
-                            'Edit Supply' +
-                        '</div>'  +
+            if(USER_TYPE == "Admin")
+            {
+                buttons +=
+                '<div class="text-center dropdown">' +
+                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                        '<i class="fas fa-ellipsis-v"></i>'  +
                     '</div>' +
-                // Delete
-                    '<div class="dropdown-divider"></div>' +
-                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                    aData["supply_id"] + 
-                    '\')">'  +
-                        '<div style="width: 2rem">' +
-                            '<i class="fas fa-trash-alt mr-1"></i>'  +
+                    '<div class="dropdown-menu dropdown-menu-right">'  +
+                    //Info
+                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                        aData["supply_id"] + 
+                        '\', 0)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-eye mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'View Supply' +
+                            '</div>'  +
+                        '</div>'  +
+                    // Edit
+                        '<div class="dropdown-divider"></div>' +
+                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                        aData["supply_id"] +
+                        '\',1)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-edit mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'Edit Supply' +
+                            '</div>'  +
                         '</div>' +
-                        '<div>' +
-                            'Delete Supply' +
+                    // Delete
+                        '<div class="dropdown-divider"></div>' +
+                        '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        aData["supply_id"] + 
+                        '\')">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-trash-alt mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'Delete Supply' +
+                            '</div>'  +
                         '</div>'  +
                     '</div>'  +
-                '</div>'  +
-            '</div>';
+                '</div>';
+            }
+            else if (USER_TYPE == "Manager")
+            {
+                buttons +=
+                '<div class="text-center dropdown">' +
+                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                        '<i class="fas fa-ellipsis-v"></i>'  +
+                    '</div>' +
+                    '<div class="dropdown-menu dropdown-menu-right">'  +
+                    //Info
+                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                        aData["supply_id"] + 
+                        '\', 0)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-eye mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'View Supply' +
+                            '</div>'  +
+                        '</div>'  +
+                    // Edit
+                        '<div class="dropdown-divider"></div>' +
+                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                        aData["supply_id"] +
+                        '\',1)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-edit mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'Edit Supply' +
+                            '</div>'  +
+                        '</div>' +
+                    // // Delete
+                    //     '<div class="dropdown-divider"></div>' +
+                    //     '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                    //     aData["supply_id"] + 
+                    //     '\')">'  +
+                    //         '<div style="width: 2rem">' +
+                    //             '<i class="fas fa-trash-alt mr-1"></i>'  +
+                    //         '</div>' +
+                    //         '<div>' +
+                    //             'Delete Supply' +
+                    //         '</div>'  +
+                    //     '</div>'  +
+                    '</div>'  +
+                '</div>';
+            }
+            else if (USER_TYPE == "Staff")
+            {
+                buttons +=
+                '<div class="text-center dropdown">' +
+                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                        '<i class="fas fa-ellipsis-v"></i>'  +
+                    '</div>' +
+                    '<div class="dropdown-menu dropdown-menu-right">'  +
+                    //Info
+                        '<div class="dropdown-item d-flex" role="button" onClick="return sendRequest(\'' + 
+                        aData["supply_id"] + 
+                        '\', 0)">'  +
+                            '<div style="width: 2rem">' +
+                                '<i class="fas fa-share-square mr-1"></i>'  +
+                            '</div>' +
+                            '<div>' +
+                                'Send Request' +
+                            '</div>'  +
+                        '</div>'  +
+                    '</div>'  +
+                '</div>';
+            }
             var supply_id = ""
 
             if(aData["supply_id"] == null)
@@ -284,7 +427,15 @@ loadTable = () =>
             $("td:eq(0)", nRow).html(aData["supply_name"]);
             $("td:eq(1)", nRow).html(aData["supply_category_id"]);
             $("td:eq(2)", nRow).html(aData["supplier_id"]);
-            $("td:eq(3)", nRow).html(aData["supply_quantity"]);
+            if (aData["supply_quantity"] < 100)
+            {
+                $("td:eq(3)", nRow).html('<b style="color:Red !important;">!! '+ aData["supply_quantity"] + '</b>');
+            }
+            else
+            {
+                $("td:eq(3)", nRow).html(aData["supply_quantity"]);
+            }
+            // $("td:eq(3)", nRow).html(aData["supply_quantity"]);
             $("td:eq(4)", nRow).html(aData["supply_unit_type"]);
             $("td:eq(5)", nRow).html("₱" + unit_cost);
             $("td:eq(6)", nRow).html(aData["supply_description"]);
@@ -426,6 +577,7 @@ editData = (supply_id, type) =>
                             $('#button_save').prop('disabled', true)
                             notification("success", "Success!", data.message);
                             loadTable();
+                            loadNotif();
                             $("#editing_modal").modal('hide')
                         },
                         error: function ({ responseJSON }) 
