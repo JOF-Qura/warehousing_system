@@ -477,8 +477,21 @@ loadInventoryLocation();
 
 viewData = (inventory_id) => 
 {
-    window.location.replace(baseURL + 'admin/inventories/'+inventory_id);
-    console.log(inventory_id);
+    if (USER_TYPE == "Admin")
+    {
+        window.location.replace(baseURL + 'admin/inventories/'+inventory_id);
+        console.log(inventory_id);
+    }
+    else if (USER_TYPE == "Manager")
+    {
+        window.location.replace(baseURL + 'manager/inventories/'+inventory_id);
+        console.log(inventory_id);
+    }
+    else if (USER_TYPE == "Staff")
+    {
+        window.location.replace(baseURL + 'staff/inventories/'+inventory_id);
+        console.log(inventory_id);
+    }
 }
 
 // function to edit data

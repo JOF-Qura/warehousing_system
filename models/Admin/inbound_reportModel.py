@@ -12,7 +12,7 @@ class Inbound_Reports(Base):
 #Columns
     inbound_report_id           = Column(String(36), primary_key=True, default=text('UUID()'))
     status                      = Column(String(255), nullable=False)
-    total_quantity              = Column(mysql.INTEGER(20), nullable=False)
+    # total_quantity              = Column(mysql.INTEGER(20), nullable=False)
 
     created_at                  = Column(DateTime, default=text('NOW()'))
     updated_at                  = Column(DateTime, onupdate=text('NOW()'))

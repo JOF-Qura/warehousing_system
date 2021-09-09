@@ -6,7 +6,7 @@ from schemas.Admin import employeeSchema
 
 #================================ Inbound Report Table =================================#
 class InboundReportBase(BaseModel):
-    total_quantity: str
+    # total_quantity: str
     status: str
 
     class Config():
@@ -19,7 +19,7 @@ class CreateInboundReport(InboundReportBase):
     pass
 
 class UpdateInboundReport(BaseModel):
-    total_quantity: Optional[str]
+    # total_quantity: Optional[str]
     status: Optional[str]
 
 #Schema for response body

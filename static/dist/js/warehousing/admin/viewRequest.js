@@ -2,6 +2,17 @@ $(function()
 {
     loadTable();
 
+    if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
+    {
+        $('#add_supply_id').empty()
+        details = "";
+    
+        details = 
+            '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Request</button>';
+        
+        $('#add_supply_id').append(details)
+    }
+    
     addSupply = () =>
     {
         console.log(request_id)
@@ -134,6 +145,8 @@ viewRequestDetails = () =>
             console.log(data)
             $("#send_request_id").empty();
 
+        if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
+        {
             if (data.request_type == "To Request")
             {
                 var details = "";                                      
@@ -157,6 +170,8 @@ viewRequestDetails = () =>
                 
                 $("#send_request_id").append(details);
             }
+        }
+           
 			
             console.log(data)
             var dateCreated = new Date(data.created_at);

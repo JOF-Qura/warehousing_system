@@ -24,6 +24,92 @@ var USER_EMAIL = sessionStorage.getItem('USER_EMAIL')
 // loadEmail()
 
 loadNotif = () => {
+
+    $.ajax(
+    {
+        url: apiURL + "notifications",
+        type: "GET",
+        dataType: "json",
+        success: function (notifData) 
+        { 
+            // var notifs_number_1 = notifData.length;
+            // countNotif(notifs_number_1)
+
+            // console.log(notifData.length)
+            // for (var i = 0; i < notifData.length; i++)
+            // {
+            //     console.log(notifData[i].notification_id)
+            // }
+            $.each(notifData, function (x, dataOptions) 
+            {
+                if(notifData[x].status == "Resolved")
+                {
+                    console.log(notifData[x].notification_id)
+                    $.ajax(
+                    {
+                        url: apiURL + "notifications/" + notifData[x].notification_id,
+                        type: "DELETE",
+                        dataType: "json",
+                        success: function (data) 
+                        { 
+                            console.log("Deleted")
+                        }
+                    });
+                }
+            });
+            if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
+            {
+                $.each(notifData, function (i, dataOptions) 
+                {
+                    $("#how_many_staff_notif").empty();
+                    $("#staff_notif").empty();
+
+                    // var notifs_number = "";
+                    // notifs_number = notifData.length;
+                    // $("#notif_number").append(notifs_number);
+
+                    var how_many_staff_notifs = "";
+                    how_many_staff_notifs = notifData.length + 
+                        ' Notification/s from Staff';
+                    $("#how_many_staff_notif").append(how_many_staff_notifs);
+
+                    var notifs = "";
+                    notifs +=
+                        '<div class="dropdown-divider"></div>' + 
+                        '<a href="javascript:notifResolved(\'' + 
+                        notifData[i]["notification_id"] + 
+                        '\')" class="dropdown-item">' +
+                            '<i class="fas fa-box mr-2"></i>' +
+                                notifData[i].supply_notif.supply_name + 
+                            '<span class="float-right text-info text-sm">' +
+                                'is requested by Employee, click to resolved'
+                            '</span>' +
+                        '</a>';
+                    $("#staff_notif").append(notifs);
+
+                    var all_notifs = "";
+                    
+                        if(USER_TYPE == "Manager")
+                        {
+                            all_notifs =
+                            '<a href="/warehousing/manager/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                        }
+                        else if(USER_TYPE == "Admin")
+                        {
+                            all_notifs =
+                            '<a href="/warehousing/admin/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                        };
+                    $("#see_all_notif").append(all_notifs);
+
+                    // console.log(responseData)
+                });
+            }
+        },
+        error: function(errData)
+        {
+            
+        }
+    });
     $.ajax(
     {
         url: apiURL + "supplies_count",
@@ -31,24 +117,27 @@ loadNotif = () => {
         dataType: "json",
         success: function (responseData) 
         { 
+            // $("#notif_number").empty();
+            // var notifs_number = "";
+            var notifs_number = responseData.length;
+            countNotif(notifs_number)
+            // $("#notif_number").append(notifs_number);
+            
+
+            $("#how_many_notif").empty();
+
+            var how_many_notifs = "";
+            how_many_notifs = responseData.length + 
+                ' Supply Notification/s';
+            $("#how_many_notif").append(how_many_notifs);
+
             $.each(responseData, function (i, dataOptions) 
             {
-                $("#notif_number").empty();
-                $("#how_many_notif").empty();
-
-                var notifs_number = "";
-                notifs_number = responseData.length;
-                $("#notif_number").append(notifs_number);
-
-                var how_many_notifs = "";
-                how_many_notifs = responseData.length + 
-                    ' Supply Notification/s';
-                $("#how_many_notif").append(how_many_notifs);
-
+                $("#notifications").empty();
                 var notifs = "";
                 notifs +=
                     '<div class="dropdown-divider"></div>' + 
-                    '<a href="/warehousing/admin/inventories" class="dropdown-item">' +
+                    '<a href="#" class="dropdown-item">' +
                         '<i class="fas fa-box mr-2"></i>' +
                             responseData[i].supply_name +
                         '<span class="float-right text-danger text-sm">' +
@@ -57,6 +146,8 @@ loadNotif = () => {
                     '</a>';
                 $("#notifications").append(notifs);
 
+
+                $("#see_all_notif").empty();
                 var all_notifs = "";
                 
                     if(USER_TYPE == "Manager")
@@ -79,223 +170,73 @@ loadNotif = () => {
 };
 loadNotif();
 
-
-countPendingRequest = () =>
+countNotif = (notifs_number, notifs_number_1) =>
 {
-    $.ajax(
-    {
-        url: apiURL + "request_count",
-        type: "GET",
-        dataType: "json",
-        success: function (responseData) 
-        { 
-            $("#pending_request").empty();
+    var count = 0;
 
-            var details = "";                                      
-            details +=
-                '<div class="inner">' +
-                    '<h3>' + responseData.length + '</h3>' +
-                    '<p>Pending Request</p>' +
-                '</div>' +
-                '<div class="icon">' +
-                    '<i class="fas fa-dolly"></i>' +
-                '</div>';
-            if(USER_TYPE == "Admin")
-            {
-                details +=
-                '<a href="/warehousing/admin/request" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Manager")
-            {
-                details +=
-                '<a href="/warehousing/manager/request" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Staff")
-            {
-                details +=
-                '<a href="/warehousing/staff/request" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            $("#pending_request").append(details);
-        }
-    });
+    $("#notif_number").empty();
+    // var number_notifs = "";
+    count = count + notifs_number
+    $("#notif_number").append(count);
+    console.log(count)
 }
-countPendingRequest();
+countNotif();
 
-countPendingReturn = () =>
+// function to delete data
+notifResolved = (notification_id) => 
 {
-    $.ajax(
-    {
-        url: apiURL + "returns_count",
-        type: "GET",
-        dataType: "json",
-        success: function (responseData) 
-        { 
-            console.log(responseData)
-            $("#pending_return").empty();
+    console.log(notification_id)
+	Swal.fire(
+	{
+		title: "Is this already resolved?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, it is!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+            $.ajax(
+            {
+                url: apiURL + "notifications/" + notification_id,
+                type: "PUT",
+                data: JSON.stringify(
+                {		
+                    "status": "Resolved",
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    loadNotif();
+                    notification("success", "Success!", "Notification Resolved")
+                    setTimeout(function() {
+                        // Do something after 5 seconds
+                        location.reload();//reload page
+                  }, 1500);
+                },
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};
 
-            var details = "";    
-                                     
-            details +=
-                '<div class="inner">' +
-                    '<h3>' + responseData.length + '</h3>' +
-                    '<p>Pending Return</p>' +
-                '</div>' + 
-                '<div class="icon">' + 
-                    '<i class="fas fa-box"></i>' + 
-                '</div>';
-            if(USER_TYPE == "Admin")
-            {
-                details +=
-                '<a href="/warehousing/admin/return" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Manager")
-            {
-                details +=
-                '<a href="/warehousing/manager/return" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Staff")
-            {
-                details +=
-                '<a href="/warehousing/staff/return" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            $("#pending_return").append(details);
-        },
-        error: function (errData)
-        {
-            $("#pending_return").empty();
-            var details = "";   
+// setInterval(function() 
+// { 
+//     countNotif(); 
+// }, 10000);
 
-            details +=
-                '<div class="inner">' +
-                    '<h3>0</h3>' +
-                    '<p>Pending Return</p>' +
-                '</div>' +
-                '<div class="icon">' +
-                    '<i class="fas fa-box"></i>' +
-                '</div>';
-            if(USER_TYPE == "Admin")
-            {
-                details +=
-                '<a href="/warehousing/admin/return" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Manager")
-            {
-                details +=
-                '<a href="/warehousing/manager/return" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Staff")
-            {
-                details +=
-                '<a href="/warehousing/staff/return" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            $("#pending_return").append(details);
-        }
-    });
-}
-countPendingReturn();
-
-countLowSupplies = () =>
-{
-    $.ajax(
-    {
-        url: apiURL + "supplies_count",
-        type: "GET",
-        dataType: "json",
-        success: function (responseData) 
-        { 
-            console.log(responseData)
-            $("#supply_low_stock").empty();
-
-            var details = "";    
-                                     
-            details +=
-                '<div class="inner">' +
-                    '<h3>' + responseData.length + '</h3>' +
-                    '<p>Supply Low on Stock</p>' +
-                '</div>' +
-                '<div class="icon">' +
-                    '<i class="fas fa-cubes"></i>' +
-                '</div>';
-            if(USER_TYPE == "Admin")
-            {
-                details +=
-                '<a href="/warehousing/admin/supplies" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Manager")
-            {
-                details +=
-                '<a href="/warehousing/manager/supplies" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Staff")
-            {
-                details +=
-                '<a href="/warehousing/staff/supplies" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            $("#supply_low_stock").append(details);
-        },
-        error: function (errData)
-        {
-            $("#supply_low_stock").empty();
-            var details = "";   
-            
-            details +=
-                '<div class="inner">' +
-                    '<h3>0</h3>' +
-                    '<p>Supply Low on Stock</p>' +
-                '</div>' +
-                '<div class="icon">' +
-                    '<i class="fas fa-cubes"></i>' +
-                '</div>';
-            if(USER_TYPE == "Admin")
-            {
-                details +=
-                '<a href="/warehousing/admin/supplies" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Manager")
-            {
-                details +=
-                '<a href="/warehousing/manager/supplies" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            else if(USER_TYPE == "Staff")
-            {
-                details +=
-                '<a href="/warehousing/staff/supplies" class="small-box-footer">' +
-                    ' More info <i class="fas fa-arrow-circle-right"></i>' +
-                '</a>';
-            }
-            $("#supply_low_stock").append(details);
-        }
-    });
-}
-countLowSupplies();
+// setInterval(function() 
+// { 
+//     loadNotif(); 
+// }, 10000);
 
 _GET = (param) =>
 {

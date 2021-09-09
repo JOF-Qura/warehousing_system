@@ -13,8 +13,10 @@ $(function()
         var user_email = $("#user_email").val();
         var user_password = $("#user_password").val();
 
+        console.log(user_email)
         if (user_id == "" && user_type != "" && user_email != "" && user_email != "" && user_password !="")
         {
+            document.getElementById("form_id").classList.add('was-validated');
             $.ajax(
             {
                 url: apiURL + "users/",
@@ -31,11 +33,13 @@ $(function()
                 cache: false,
                 success: function (data) 
                 {
-                    $('#form_id').trigger("reset")
                     // $('#button_add').prop('disabled', true)
                     notification("success", "Success!", data.message);
                     loadTable();
                     $("#adding_modal").modal('hide')
+                    // $('#form_id').trigger("reset")
+                    $("#form_id")[0].reset();
+                    setTimeout(() => {$document.getElementById("form_id").classList.remove("was-validated")}); //timeout allows for 'was-validated' to be added then removed.
                 },
                 error: function ({ responseJSON }) 
                 {

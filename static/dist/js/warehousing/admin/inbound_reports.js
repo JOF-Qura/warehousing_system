@@ -24,7 +24,7 @@ $(function()
                      "request_id": request_id,
                      "employee_id": employee_id,
                      "status": status,
-                     "total_quantity": total_quantity,
+                    //  "total_quantity": total_quantity,
                  }),
                  dataType: "JSON",
                  contentType: 'application/json',
@@ -352,7 +352,7 @@ editData = (inbound_report_id, type) =>
                         {		
                             "request_id": request_id,
                             "employee_id": employee_id,
-                            "total_quantity": total_quantity,
+                            // "total_quantity": total_quantity,
                             "status": status,
                         }),
                         dataType: "JSON",

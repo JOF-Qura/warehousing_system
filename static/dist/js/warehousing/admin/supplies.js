@@ -449,6 +449,60 @@ loadTable = () =>
     });
 };
 
+sendRequest = (supply_id) =>
+{
+    var sup_id = supply_id;
+    var description = "We need a restocking for this supply!";
+    var status = "Pending"
+
+    Swal.fire(
+        {
+            title: "Are you sure you want to send a notification for restocking to manager?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: !0,
+            confirmButtonColor: "#34c38f",
+            cancelButtonColor: "#f46a6a",
+            confirmButtonText: "Yes, It needs a restocking for this supply!",
+        })
+        .then(function (t) 
+        {
+            // if user clickes yes, it will change the active status to "Not Active".
+            if (t.value) 
+            {
+                console.log(sup_id)
+                console.log(description)
+                console.log(status)
+                $.ajax(
+                    {
+                    url: apiURL + "notifications/",
+                    type: "POST",
+                    data: JSON.stringify(
+                        {
+                            "supply_id": sup_id,
+                            "description": description,
+                            "status": status
+                          }
+                    ),
+                    dataType: "JSON",
+                    contentType: 'application/json',
+                    processData: false,
+                    cache: false,
+                    success: function (data) 
+                    {
+                        // console.log(data)
+                        // console.log(sup_id)
+                        // console.log(description)
+                        // console.log(status)
+                        notification("success", "Success!", "Successfully send a notification to the manager");
+                    },
+                    error: function ({ responseJSON }) {},
+                });
+            }
+        });
+    console.log(supply_id)
+}
+
 viewData = (supply_id) => 
 {
     window.location.replace(baseURL + 'admin/supplies/'+supply_id);

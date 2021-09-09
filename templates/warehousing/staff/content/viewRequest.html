@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'warehousing/manager/default/base.html'%} 
+{%extends 'warehousing/staff/default/base.html'%} 
 
 <!-- Enter content for block 'content' -->
 {%block content%}
@@ -15,10 +15,10 @@
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/staff/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
-                        <script>if(window.location.pathname == '/warehousing/manager/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="supplies_nav"><a href="/warehousing/manager/request">Request</a></li>                    
+                        <script>if(window.location.pathname == '/warehousing/staff/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="supplies_nav"><a href="/warehousing/staff/request">Request</a></li>                    
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
@@ -80,7 +80,7 @@
                                     <h3 class="card-title">Requested Supplies</h3>
                                 </div>
                                 <div class="col" id="add_supply_id">
-                                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Request</button>
+                                    <!-- <button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Request</button> -->
                                 </div>
                             </div>
                         </div>

@@ -15,11 +15,11 @@
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <script>if(window.location.pathname == '/warehousing/manager/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
                         <li class="breadcrumb-item" id ="inbound_reports_nav">Inbound Reports</li>
-                        <script>if(window.location.pathname == '/warehousing/admin/inbound_reports/'){document.getElementById("inbound_reports_nav").classList.add('active')}</script>
+                        <script>if(window.location.pathname == '/warehousing/manager/inbound_reports/'){document.getElementById("inbound_reports_nav").classList.add('active')}</script>
                     </ol>
                 </div>
                 <!-- / breadcrumb -->
@@ -76,7 +76,7 @@
                                         <th>Request ID</th>
                                         <th>Employee Name</th>
                                         <th>Status</th>
-                                        <th>Total Quantity</th>
+                                        <!-- <th>Total Quantity</th> -->
                                         <th>Date Created</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
@@ -139,14 +139,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="total_quantity" id="total_quantityLabel">Total Quantity</label>
                                         <input type="number" class="form-control" id="total_quantity" placeholder="Enter Total Quantity" required>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- BUTTONS -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -197,14 +197,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_total_quantity" id="e_total_quantityLabel">Total Quantity</label>
                                         <input type="number" class="form-control" id="e_total_quantity" placeholder="Enter Total Quantity" required>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- BUTTONS -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

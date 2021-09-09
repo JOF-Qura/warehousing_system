@@ -24,6 +24,7 @@ from routes.Admin import (authRoutes
                     , supply_categoriesRoutes
                     , warehouseRoutes
                     , returnRoutes
+                    , notifRoutes
                     # , return_detailRoutes
                     )
 from routes.Admin.count import (countRequestDetail_Supply
@@ -49,7 +50,8 @@ from models.Admin import (userModel
                     , supplyModel 
                     , postModel
                     , returnModel
-                    , return_detailModel)
+                    , return_detailModel
+                    , notifModel)
 
 # importing models one by one
 from models.Admin.userModel import Users
@@ -67,6 +69,7 @@ from models.Admin.supplierModel import Suppliers
 from models.Admin.warehouseModel import Warehouses
 from models.Admin.hospital_departmentModel import Hospital_Departments
 from models.Admin.employeeModel import Employees
+from models.Admin.notifModel import Notifications
 from models.Admin.postModel import Post
 
 
@@ -94,6 +97,9 @@ app.include_router(request_detailRoutes.router)
 app.include_router(supplierRoutes.router)
 app.include_router(supply_categoriesRoutes.router)
 app.include_router(warehouseRoutes.router)
+app.include_router(notifRoutes.router)
+
+
 app.include_router(countRequestDetail_Supply.router)
 app.include_router(countSupply.router)
 app.include_router(countRequest_Pending.router)

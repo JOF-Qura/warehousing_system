@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'warehousing/manager/default/base.html'%} 
+{%extends 'warehousing/staff/default/base.html'%} 
 
 <!-- Enter content for block 'content' -->
 {%block content%}
@@ -15,10 +15,10 @@
                 <!-- Breadcrumb -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
+                        <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/staff/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
-                        <script>if(window.location.pathname == '/warehousing/manager/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="inventories_nav"><a href="/warehousing/manager/inventories">Inventories</a></li>
+                        <script>if(window.location.pathname == '/warehousing/staff/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="inventories_nav"><a href="/warehousing/staff/inventories">Inventories</a></li>
                 </div>
                 <!-- / breadcrumb -->
             </div>

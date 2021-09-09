@@ -34,7 +34,7 @@ def datatable(request: Request, db: Session = Depends(get_db)):
                     Inbound_Reports.request_id.like('%' + user_input + '%'),
                     Employees.employee_last_name.like('%' + user_input + '%'),
                     Inbound_Reports.status.like('%' + user_input + '%'),
-                    Inbound_Reports.total_quantity.like('%' + user_input + '%'),
+                    # Inbound_Reports.total_quantity.like('%' + user_input + '%'),
                     Inbound_Reports.created_at.like('%' + user_input + '%'),
                     Inbound_Reports.updated_at.like('%' + user_input + '%'),
                 )
@@ -46,7 +46,7 @@ def datatable(request: Request, db: Session = Depends(get_db)):
             'request_id',
             ('employee_id', 'emp.employee_last_name'),
             'status',
-            'total_quantity',
+            # 'total_quantity',
             'created_at',
             'updated_at',
         ])
@@ -80,7 +80,7 @@ def create_inbound_report(request: inbound_reportSchema.CreateInboundReport, db:
         request_id = request.request_id,
         employee_id = request.employee_id,
         status = request.status,
-        total_quantity = request.total_quantity,
+        # total_quantity = request.total_quantity,
     )
     db.add(to_store)
     db.commit()
@@ -90,7 +90,7 @@ def create_inbound_report(request: inbound_reportSchema.CreateInboundReport, db:
 @router.put('/{inbound_report_id}')
 def update_inbound_report(inbound_report_id: str, Inbound_r: inbound_reportSchema.UpdateInboundReport, db: Session = Depends(get_db)): 
     if not db.query(inbound_reportModel.Inbound_Reports).filter(inbound_reportModel.Inbound_Reports.inbound_report_id == inbound_report_id).update({
-        'total_quantity': Inbound_r.total_quantity,
+        # 'total_quantity': Inbound_r.total_quantity,
         'status': Inbound_r.status,
     }):
         raise HTTPException(404, 'Inbound Report to update is not found')
