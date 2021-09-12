@@ -29,5 +29,5 @@ def count_response(request_id:str, supply_id:str, db: Session = Depends(get_db))
     query = db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_id == request_id, request_detailModel.Request_Details.supply_id == supply_id).all()
     if not query:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Request Detail with the request_id {request_id} is not available")
+                            detail=f"Request Detail with the request_id {request_id} and supply_id {supply_id} is not available")
     return query

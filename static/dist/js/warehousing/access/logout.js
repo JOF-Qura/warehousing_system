@@ -2,21 +2,22 @@ $(function()
 {
     logout = () =>
     {
-        Swal.fire(
-        {
-            title: "Logout",
-            text: "Are you sure you want to logout?",
-            icon: "warning",
-            showCancelButton: !0,
-            confirmButtonColor: "#34c38f",
-            cancelButtonColor: "#f46a6a",
-            confirmButtonText: "Yes, logout",
-        })
-        .then(function (t) 
-        {
-            // if user clickes yes, it will change the active status to "Not Active".
-            if (t.value) 
-            {
+        console.log('Logout')
+        // Swal.fire(
+        // {
+        //     title: "Logout",
+        //     text: "Are you sure you want to logout?",
+        //     icon: "warning",
+        //     showCancelButton: !0,
+        //     confirmButtonColor: "#34c38f",
+        //     cancelButtonColor: "#f46a6a",
+        //     confirmButtonText: "Yes, logout",
+        // })
+        // .then(function (t) 
+        // {
+        //     // if user clickes yes, it will change the active status to "Not Active".
+        //     if (t.value) 
+        //     {
                 $.ajax(
                 {
                     url: apiURL + "auth/logout",
@@ -31,9 +32,9 @@ $(function()
                         
                         window.location.replace(baseURL );
                     }
-                })
-            }
-        });
+                });
+    //         }
+    //     });
     }
 });
 

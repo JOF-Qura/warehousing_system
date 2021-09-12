@@ -133,7 +133,7 @@ loadNotif = () => {
 
             $.each(responseData, function (i, dataOptions) 
             {
-                $("#notifications").empty();
+                // $("#notifications").empty();
                 var notifs = "";
                 notifs +=
                     '<div class="dropdown-divider"></div>' + 
@@ -145,6 +145,8 @@ loadNotif = () => {
                         '</span>' +
                     '</a>';
                 $("#notifications").append(notifs);
+
+                console.log(responseData)
 
 
                 $("#see_all_notif").empty();

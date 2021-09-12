@@ -39,9 +39,11 @@ $(function()
                         count = countRequest.Request_Details.length
                         console.log(count)
                     }
+                    console.log(countRequest)
 
-                    if(count > 0 || count != null || count != undefined)
+                    if(count > 0)
                     {
+                        console.log(count)
                         $.ajax(
                         {
                             url: apiURL + "request_detail_count/" + req_id + "/" + supply_id,
@@ -60,9 +62,10 @@ $(function()
                                 {
                                     notification('error', 'Error', 'Supply is already on request list')
                                 }
-                                else
-                                {
-                                    $.ajax(
+                            },
+                            error: function (errData)
+                            {
+                                $.ajax(
                                     {
                                         url: apiURL + "request_detail/",
                                         type: "POST",
@@ -90,12 +93,12 @@ $(function()
                                             
                                         },
                                     });
-                                }
                             }
                         });
                     }
                     else
                     {
+                        console.log("else")
                         $.ajax(
                         {
                             url: apiURL + "request_detail/",

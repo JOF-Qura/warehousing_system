@@ -650,6 +650,7 @@ editData = (supply_id, type) =>
 // function to delete data
 deleteData = (supply_id) => 
 {
+    $('#largeModal').modal('show');
 	Swal.fire(
 	{
 		title: "Are you sure you want to delete this record?",
