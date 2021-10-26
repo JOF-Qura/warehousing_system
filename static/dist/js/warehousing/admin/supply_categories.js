@@ -132,7 +132,7 @@ loadTable = () =>
                                 '</div>' +
                             // Delete
                                 '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                                 aData["supply_category_id"] + 
                                 '\')">'  +
                                     '<div style="width: 2rem">' +
@@ -175,7 +175,7 @@ loadTable = () =>
                                 '</div>' +
                             // Delete
                                 '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                                 aData["supply_category_id"] + 
                                 '\')">'  +
                                     '<div style="width: 2rem">' +
@@ -274,7 +274,7 @@ loadTable = () =>
                         '</div>' +
                     // Delete
                         '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                         aData["supply_category_id"] + 
                         '\')">'  +
                             '<div style="width: 2rem">' +
@@ -317,7 +317,7 @@ loadTable = () =>
                         '</div>' +
                     // Delete
                         '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                         aData["supply_category_id"] + 
                         '\')">'  +
                             '<div style="width: 2rem">' +
@@ -350,7 +350,21 @@ loadTable = () =>
 
             $("td:eq(0)", nRow).html(aData["supply_category_name"]);
             $("td:eq(1)", nRow).html(aData["supply_category_description"]);
-            $("td:eq(2)", nRow).html(aData["created_at"]);
+
+            var date_created = aData["created_at"]
+            var moment_date_created = moment(aData["created_at"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_date_created_from_now = moment(aData["created_at"]).fromNow();
+            
+
+            if (date_created == "" || date_created == null)
+            {
+                date_created = "No date hehe"
+            }
+            else
+            {
+                date_created = moment_date_created
+            }
+            $("td:eq(2)", nRow).html(date_created);
             $("td:eq(3)", nRow).html(buttons);
         },
         drawCallback: function (settings) {
@@ -419,35 +433,60 @@ editData = (supply_category_id, type) =>
 };
 
 // function to delete data
+// deleteData = (supply_category_id) => 
+// {
+// 	Swal.fire(
+// 	{
+// 		title: "Are you sure you want to delete this record?",
+// 		text: "You won't be able to revert this!",
+// 		icon: "warning",
+// 		showCancelButton: !0,
+// 		confirmButtonColor: "#34c38f",
+// 		cancelButtonColor: "#f46a6a",
+// 		confirmButtonText: "Yes, delete it!",
+// 	})
+// 	.then(function (t) 
+// 	{
+// 		// if user clickes yes, it will change the active status to "Not Active".
+// 		if (t.value) 
+// 		{
+// 			$.ajax(
+// 				{
+// 				url: apiURL + "supply_categories/" + supply_category_id,
+// 				type: "DELETE",
+// 				dataType: "json",
+// 				success: function (data) 
+//                 {
+//                     notification("success", "Success!", data.message);
+//                     loadTable();
+// 				},
+// 				error: function ({ responseJSON }) {},
+// 			});
+// 		}
+// 	});
+// };
+
 deleteData = (supply_category_id) => 
 {
-	Swal.fire(
-	{
-		title: "Are you sure you want to delete this record?",
-		text: "You won't be able to revert this!",
-		icon: "warning",
-		showCancelButton: !0,
-		confirmButtonColor: "#34c38f",
-		cancelButtonColor: "#f46a6a",
-		confirmButtonText: "Yes, delete it!",
-	})
-	.then(function (t) 
-	{
-		// if user clickes yes, it will change the active status to "Not Active".
-		if (t.value) 
-		{
-			$.ajax(
-				{
-				url: apiURL + "supply_categories/" + supply_category_id,
-				type: "DELETE",
-				dataType: "json",
-				success: function (data) 
-                {
-                    notification("success", "Success!", data.message);
-                    loadTable();
-				},
-				error: function ({ responseJSON }) {},
-			});
-		}
-	});
+    $("#d_uuid").val(supply_category_id);
+
+    $("#d_form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        $.ajax(
+            {
+            url: apiURL + "supply_categories/" + supply_category_id,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) 
+            {
+                notification("success", "Success!", data.message);
+                loadTable();
+                loadNotif();
+                $("#delete_modal").modal('hide')
+            },
+            error: function ({ responseJSON }) {},
+        });
+    });
 };

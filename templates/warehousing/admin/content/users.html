@@ -10,10 +10,11 @@
                 <!-- Title -->
                 <div class="col-sm-6">
                     <h1>Users</h1>
+                    <p class="text-muted">This is subheading</p>
                 </div>
 
                 <!-- Breadcrumb -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
@@ -21,17 +22,16 @@
                         <li class="breadcrumb-item" id ="users_nav">Users</li>
                         <script>if(window.location.pathname == '/warehousing/admin/users/'){document.getElementById("users_nav").classList.add('active')}</script>
                     </ol>
-                </div>
+                </div> -->
                 <!-- / breadcrumb -->
             </div>
             <div class="row">     
                 <!-- Button -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">
                         Add New User
                       </button>
-                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
-                </div>
+                </div> -->
                 <!-- / Button -->
             </div>
         </div><!-- /.container-fluid -->
@@ -65,7 +65,17 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Users</h3>
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    <h3 class="card-title">Users</h3>
+                                </div>
+                                <!-- Button -->
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal">Add New User <i class="fas fa-plus"></i></button>
+                                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
+                                </div>
+                                <!-- / Button -->
+                            </div>
                         </div>
                         <!-- /.card-header -->
 
@@ -143,7 +153,7 @@
                                     <div class="form-group">
                                         <label for="user_type">User type</label>
                                         <span class="required-field"> </span>
-                                        <select class="form-control" id="user_type" name="user_type" required>
+                                        <select class="form-control js-example-basic-single" id="user_type" name="user_type" required>
                                             <option value="Admin">Admin</option>
                                             <option value="Manager">Manager</option>
                                             <option value="Staff">Staff</option>
@@ -211,7 +221,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_user_type">User type</label>
-                                        <select class="form-control" id="e_user_type" name="e_user_type">
+                                        <select class="form-control js-example-basic-single" id="e_user_type" name="e_user_type">
                                             <option value="Admin">Admin</option>
                                             <option value="Manager">Manager</option>
                                             <option value="Staff">Staff</option>
@@ -223,7 +233,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_active_status" id="e_statusLabel">User Status</label>
-                                        <select class="form-control" id="e_active_status" name="e_active_status">
+                                        <select class="form-control js-example-basic-single" id="e_active_status" name="e_active_status">
                                             <option value="Active">Active</option>
                                             <option value="Yes">Yes</option>
                                             <option value="Not Active">Not Active</option>
@@ -244,6 +254,38 @@
         </div><!-- /.modal -->
     </div>
     <!-- END Viewing User Modal -->
+       <!-- Delete Modal -->
+       <div class="modal fade" id="delete_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <i class= "fas fa-exclamation-triangle mr-1"></i>
+                        Confirmation</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal_viewing">
+                        <!-- CONTENT -->
+                        <form id="d_form_id" name="d_form_id" enctype="multipart/form_data">
+                            <div class="card-body">
+                                Are you sure you want to Delete?
+                                <input type="hidden" name="d_uuid" id="d_uuid" value="" />
+                            </div>
+                        <!-- END CONTENT  -->
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger" id="button_delete">Yes, Delete it!<i class= "fas fa-trash-alt ml-1"></i></button>
+                            </div>
+                        <!-- END BUTTONS -->
+                        </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Delete Modal -->
 
 {%endblock%}
 

@@ -181,7 +181,7 @@ loadTable = () =>
                             '</div>' +
                         // Delete
                             '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                             aData["outbound_report_id"] + 
                             '\')">'  +
                                 '<div style="width: 2rem">' +
@@ -238,7 +238,7 @@ loadTable = () =>
                     '</div>' +
                 // Delete
                     '<div class="dropdown-divider"></div>' +
-                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                     aData["outbound_report_id"] + 
                     '\')">'  +
                         '<div style="width: 2rem">' +
@@ -263,14 +263,67 @@ loadTable = () =>
                 outbound_report_id = aData["outbound_report_id"]
             }
 
+            var stats =  aData["status"]
+
+            if (stats == "Delivered")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["status"] + '</span></div>'
+            }
+           else if (stats == "Pending")
+            {
+                stats = '<div class="badge badge-warning p-2 w-100"> <i class="fas fa-exclamation mr-1"></i> <span>' + aData["status"] + '</span></div>'
+            } 
+
             $("td:eq(0)", nRow).html(outbound_report_id);
             $("td:eq(1)", nRow).html(aData["hospital_department_id"]);
             $("td:eq(2)", nRow).html(aData["employee_id"]);
-            $("td:eq(3)", nRow).html(aData["status"]);
+            $("td:eq(3)", nRow).html(stats);
             $("td:eq(4)", nRow).html(aData["total_quantity"]);
-            $("td:eq(5)", nRow).html(aData["expected_shipment_date"]);
-            $("td:eq(6)", nRow).html(aData["complete_shipment_date"]);
-            $("td:eq(7)", nRow).html(aData["created_at"]);
+
+            var expected_shipment_date = aData["expected_shipment_date"]
+            var moment_expected_shipment_date = moment(aData["expected_shipment_date"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_expected_shipment_date_from_now = moment(aData["expected_shipment_date"]).fromNow();
+            
+
+            if (expected_shipment_date == "" || expected_shipment_date == null)
+            {
+                expected_shipment_date = "No date hehe"
+            }
+            else
+            {
+                expected_shipment_date = moment_expected_shipment_date
+            }
+            $("td:eq(5)", nRow).html(expected_shipment_date);
+
+            var complete_shipment_date = aData["complete_shipment_date"]
+            var moment_complete_shipment_date = moment(aData["complete_shipment_date"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_complete_shipment_date_from_now = moment(aData["complete_shipment_date"]).fromNow();
+            
+
+            if (complete_shipment_date == "" || complete_shipment_date == null)
+            {
+                complete_shipment_date = "No date hehe"
+            }
+            else
+            {
+                complete_shipment_date = moment_complete_shipment_date
+            }
+            $("td:eq(6)", nRow).html(complete_shipment_date);
+
+            var created_at = aData["created_at"]
+            var moment_created_at = moment(aData["created_at"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_created_at_from_now = moment(aData["created_at"]).fromNow();
+            
+
+            if (created_at == "" || created_at == null)
+            {
+                created_at = "No date hehe"
+            }
+            else
+            {
+                created_at = moment_created_at
+            }
+            $("td:eq(7)", nRow).html(created_at);
             $("td:eq(8)", nRow).html(buttons);
 
         },
@@ -408,37 +461,62 @@ editData = (outbound_report_id, type) =>
 };
 
 // function to delete data
+// deleteData = (outbound_report_id) => 
+// {
+// 	Swal.fire(
+// 	{
+// 		title: "Are you sure you want to delete this record?",
+// 		text: "You won't be able to revert this!",
+// 		icon: "warning",
+// 		showCancelButton: !0,
+// 		confirmButtonColor: "#34c38f",
+// 		cancelButtonColor: "#f46a6a",
+// 		confirmButtonText: "Yes, delete it!",
+// 	})
+// 	.then(function (t) 
+// 	{
+// 		// if user clickes yes, it will change the active status to "Not Active".
+// 		if (t.value) 
+// 		{
+// 			$.ajax(
+// 				{
+// 				url: apiURL + "outbound_reports/" + outbound_report_id,
+// 				type: "DELETE",
+// 				dataType: "json",
+// 				success: function (data) 
+//                 {
+//                     notification("success", "Success!", data.message);
+//                     loadTable();
+// 				},
+// 				error: function ({ responseJSON }) {},
+// 			});
+// 		}
+// 	});
+// };
+
 deleteData = (outbound_report_id) => 
 {
-	Swal.fire(
-	{
-		title: "Are you sure you want to delete this record?",
-		text: "You won't be able to revert this!",
-		icon: "warning",
-		showCancelButton: !0,
-		confirmButtonColor: "#34c38f",
-		cancelButtonColor: "#f46a6a",
-		confirmButtonText: "Yes, delete it!",
-	})
-	.then(function (t) 
-	{
-		// if user clickes yes, it will change the active status to "Not Active".
-		if (t.value) 
-		{
-			$.ajax(
-				{
-				url: apiURL + "outbound_reports/" + outbound_report_id,
-				type: "DELETE",
-				dataType: "json",
-				success: function (data) 
-                {
-                    notification("success", "Success!", data.message);
-                    loadTable();
-				},
-				error: function ({ responseJSON }) {},
-			});
-		}
-	});
+    $("#d_uuid").val(outbound_report_id);
+
+    $("#d_form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        $.ajax(
+            {
+            url: apiURL + "outbound_reports/" + outbound_report_id,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) 
+            {
+                notification("success", "Success!", data.message);
+                loadTable();
+                loadNotif();
+                $("#delete_modal").modal('hide')
+            },
+            error: function ({ responseJSON }) {},
+        });
+    });
 };
 
 

@@ -201,7 +201,7 @@ loadTable = () =>
                                 '</div>' +
                             // Delete
                                 '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                                 aData["supply_id"] + 
                                 '\')">'  +
                                     '<div style="width: 2rem">' +
@@ -329,7 +329,7 @@ loadTable = () =>
                         '</div>' +
                     // Delete
                         '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                         aData["supply_id"] + 
                         '\')">'  +
                             '<div style="width: 2rem">' +
@@ -440,7 +440,22 @@ loadTable = () =>
             $("td:eq(5)", nRow).html("₱" + unit_cost);
             $("td:eq(6)", nRow).html(aData["supply_description"]);
             $("td:eq(7)", nRow).html(aData["supply_reorder_interval"]);
-            $("td:eq(8)", nRow).html(aData["supply_expiration"]);
+
+
+            var exp_date = aData["supply_expiration"]
+            var moment_exp_date = moment(aData["supply_expiration"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_exp_date_from_now = moment(aData["supply_expiration"]).fromNow();
+            
+
+            if (exp_date == "" || exp_date == null)
+            {
+                exp_date = "No expiration date"
+            }
+            else
+            {
+                exp_date = moment_exp_date
+            }
+            $("td:eq(8)", nRow).html(exp_date);
             $("td:eq(9)", nRow).html(buttons);
         },
         drawCallback: function (settings) {
@@ -648,37 +663,64 @@ editData = (supply_id, type) =>
 };
 
 // function to delete data
+// deleteData = (supply_id) => 
+// {
+//     $('#largeModal').modal('show');
+// 	Swal.fire(
+// 	{
+// 		title: "Are you sure you want to delete this record?",
+// 		text: "You won't be able to revert this!",
+// 		icon: "warning",
+// 		showCancelButton: !0,
+// 		confirmButtonColor: "#34c38f",
+// 		cancelButtonColor: "#f46a6a",
+// 		confirmButtonText: "Yes, delete it!",
+// 	})
+// 	.then(function (t) 
+// 	{
+// 		// if user clickes yes, it will change the active status to "Not Active".
+// 		if (t.value) 
+// 		{
+// 			$.ajax(
+// 				{
+// 				url: apiURL + "supplies/" + supply_id,
+// 				type: "DELETE",
+// 				dataType: "json",
+// 				success: function (data) 
+//                 {
+//                     notification("success", "Success!", data.message);
+//                     loadTable();
+// 				},
+// 				error: function ({ responseJSON }) {},
+// 			});
+// 		}
+// 	});
+// };
+
+
+
 deleteData = (supply_id) => 
 {
-    $('#largeModal').modal('show');
-	Swal.fire(
-	{
-		title: "Are you sure you want to delete this record?",
-		text: "You won't be able to revert this!",
-		icon: "warning",
-		showCancelButton: !0,
-		confirmButtonColor: "#34c38f",
-		cancelButtonColor: "#f46a6a",
-		confirmButtonText: "Yes, delete it!",
-	})
-	.then(function (t) 
-	{
-		// if user clickes yes, it will change the active status to "Not Active".
-		if (t.value) 
-		{
-			$.ajax(
-				{
-				url: apiURL + "supplies/" + supply_id,
-				type: "DELETE",
-				dataType: "json",
-				success: function (data) 
-                {
-                    notification("success", "Success!", data.message);
-                    loadTable();
-				},
-				error: function ({ responseJSON }) {},
-			});
-		}
-	});
+    $("#d_uuid").val(supply_id);
+
+    $("#d_form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        $.ajax(
+            {
+            url: apiURL + "supplies/" + supply_id,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) 
+            {
+                notification("success", "Success!", data.message);
+                loadTable();
+                loadNotif();
+                $("#delete_modal").modal('hide')
+            },
+            error: function ({ responseJSON }) {},
+        });
+    });
 };
 	

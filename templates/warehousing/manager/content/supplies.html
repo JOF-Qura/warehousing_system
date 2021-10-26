@@ -11,10 +11,11 @@
                 <!-- Title -->
                 <div class="col-sm-6">
                     <h1>Supplies</h1>
+                    <p class="text-muted">This is subheading</p>
                 </div>
 
                 <!-- Breadcrumb -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
@@ -22,18 +23,10 @@
                         <li class="breadcrumb-item" id ="supplies_nav">Supplies</li>
                         <script>if(window.location.pathname == '/warehousing/manager/supplies/'){document.getElementById("supplies_nav").classList.add('active')}</script>
                     </ol>
-                </div>
+                </div> -->
                 <!-- / breadcrumb -->
             </div>
             <br>
-            <div class="row">     
-                <!-- Button -->
-                <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Supply</a>
-                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
-                </div>
-                <!-- / Button -->
-            </div>
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content-header -->
@@ -65,7 +58,17 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Supplies</h3>
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    <h3 class="card-title">Supplies</h3>
+                                </div>
+                                <!-- Button -->
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal">Add New Supply <i class="fas fa-plus"></i></button>
+                                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
+                                </div>
+                                <!-- / Button -->
+                            </div>
                         </div>
                         <!-- /.card-header -->
 
@@ -121,7 +124,7 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_name" id="supply_nameLabel">Supply Name</label>
+                                        <label for="supply_name" id="supply_nameLabel">Supply Name</label> <span class="required-field"> </span>
                                         <input type="input" class="form-control" id="supply_name" placeholder="Enter Supply Name" required>
                                     </div>
                                 </div>
@@ -129,8 +132,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supplier_id">Supplier</label>
-                                        <select class="form-control" id="supplier_id" name="supplier_id" required>
+                                        <label for="supplier_id">Supplier</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="supplier_id" name="supplier_id" required>
                                             
                                         </select>
                                     </div>
@@ -139,8 +142,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_category_id">Supply Category</label>
-                                        <select class="form-control" id="supply_category_id" name="supply_category_id" required>
+                                        <label for="supply_category_id">Supply Category</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="supply_category_id" name="supply_category_id" required>
                                             
                                         </select>
                                     </div>
@@ -149,7 +152,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_quantity" id="supply_quantityLabel">Supply Quantity</label>
+                                        <label for="supply_quantity" id="supply_quantityLabel">Supply Quantity</label> <span class="required-field"> </span>
                                         <input type="number" class="form-control" id="supply_quantity" placeholder="Enter Quantity" required>
                                     </div>
                                 </div>
@@ -157,8 +160,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_unit_type">Supply Unit Type</label>
-                                        <select class="form-control" id="supply_unit_type" name="supply_unit_type" required>
+                                        <label for="supply_unit_type">Supply Unit Type</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="supply_unit_type" name="supply_unit_type" required>
                                             <option value="pcs">pcs</option>
                                             <option value="box">box</option>
                                         </select>
@@ -168,7 +171,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_unit_cost" id="supply_unit_costLabel">Supply Unit Cost</label>
+                                        <label for="supply_unit_cost" id="supply_unit_costLabel">Supply Unit Cost</label> <span class="required-field"> </span>
                                         <input type="number" class="form-control" id="supply_unit_cost" placeholder="Enter Cost per Unit" required>
                                     </div>
                                 </div>
@@ -176,7 +179,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_description" id="supply_descriptionLabel">Supply Descrription</label>
+                                        <label for="supply_description" id="supply_descriptionLabel">Supply Descrription</label> <span class="required-field"> </span>
                                         <input type="input" class="form-control" id="supply_description" placeholder="Enter Description">
                                     </div>
                                 </div>
@@ -184,8 +187,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_reorder_interval" id="supply_reorder_intervalLabel">Supply Reorder Interval</label>
-                                        <select class="form-control" id="supply_reorder_interval" name="supply_reorder_interval" required>
+                                        <label for="supply_reorder_interval" id="supply_reorder_intervalLabel">Supply Reorder Interval</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="supply_reorder_interval" name="supply_reorder_interval" required>
                                             <option value="Daily">Daily</option>
                                             <option value="Weekly">Weekly</option>
                                             <option value="Monthly">Monthly</option>
@@ -196,7 +199,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_expiration" id="supply_expirationLabel">Supply Expiration</label>
+                                        <label for="supply_expiration" id="supply_expirationLabel">Supply Expiration</label> <span class="required-field"> </span>
                                         <input type="date" class="form-control" id="supply_expiration" placeholder="Enter Reorder Interval" required>
                                     </div>
                                 </div>
@@ -204,8 +207,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_status" id="supply_statusLabel">Supply Status</label>
-                                        <select class="form-control" id="supply_status" name="supply_status" required>
+                                        <label for="supply_status" id="supply_statusLabel">Supply Status</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="supply_status" name="supply_status" required>
                                             <option value="Good">Good</option>
                                             <option value="Expired">Expired</option>
                                             <option value="Lost">Lost</option>
@@ -247,7 +250,7 @@
                                 <input type="hidden" name="e_uuid" id="e_uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_name" id="e_supply_nameLabel">Supply Name</label>
+                                        <label for="e_supply_name" id="e_supply_nameLabel">Supply Name</label> <span class="required-field"> </span>
                                         <input type="input" class="form-control" id="e_supply_name" placeholder="Enter Supply Name" required>
                                     </div>
                                 </div>
@@ -255,8 +258,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supplier_id">Supplier</label>
-                                        <select class="form-control" id="e_supplier_id" name="e_supplier_id" required>
+                                        <label for="e_supplier_id">Supplier</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_supplier_id" name="e_supplier_id" required>
                                             
                                         </select>
                                     </div>
@@ -265,8 +268,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_category_id">Supply Category</label>
-                                        <select class="form-control" id="e_supply_category_id" name="e_supply_category_id" required>
+                                        <label for="e_supply_category_id">Supply Category</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_supply_category_id" name="e_supply_category_id" required>
                                             
                                         </select>
                                     </div>
@@ -275,7 +278,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_quantity" id="e_supply_quantityLabel">Supply Quantity</label>
+                                        <label for="e_supply_quantity" id="e_supply_quantityLabel">Supply Quantity</label> <span class="required-field"> </span>
                                         <input type="number" class="form-control" id="e_supply_quantity" placeholder="Enter Quantity" required>
                                     </div>
                                 </div>
@@ -283,8 +286,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_unit_type">Supply Unit Type</label>
-                                        <select class="form-control" id="e_supply_unit_type" name="e_supply_unit_type" required>
+                                        <label for="e_supply_unit_type">Supply Unit Type</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_supply_unit_type" name="e_supply_unit_type" required>
                                             <option value="pcs">pcs</option>
                                             <option value="box">box</option>
                                         </select>
@@ -294,7 +297,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_unit_cost" id="e_supply_unit_costLabel">Supply Unit Cost</label>
+                                        <label for="e_supply_unit_cost" id="e_supply_unit_costLabel">Supply Unit Cost</label> <span class="required-field"> </span>
                                         <input type="number" class="form-control" id="e_supply_unit_cost" placeholder="Enter Cost per Unit" required>
                                     </div>
                                 </div>
@@ -302,7 +305,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_description" id="e_supply_descriptionLabel">Supply Descrription</label>
+                                        <label for="e_supply_description" id="e_supply_descriptionLabel">Supply Descrription</label> <span class="required-field"> </span>
                                         <input type="input" class="form-control" id="e_supply_description" placeholder="Enter Description">
                                     </div>
                                 </div>
@@ -310,8 +313,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_reorder_interval" id="e_supply_reorder_intervalLabel">Supply Reorder Interval</label>
-                                        <select class="form-control" id="e_supply_reorder_interval" name="e_supply_reorder_interval" required>
+                                        <label for="e_supply_reorder_interval" id="e_supply_reorder_intervalLabel">Supply Reorder Interval</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_supply_reorder_interval" name="e_supply_reorder_interval" required>
                                             <option value="Daily">Daily</option>
                                             <option value="Weekly">Weekly</option>
                                             <option value="Monthly">Monthly</option>
@@ -322,7 +325,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_expiration" id="e_supply_expirationLabel">Supply Expiration</label>
+                                        <label for="e_supply_expiration" id="e_supply_expirationLabel">Supply Expiration</label> <span class="required-field"> </span>
                                         <input type="date" class="form-control" id="e_supply_expiration" placeholder="Enter Reorder Interval" required>
                                     </div>
                                 </div>
@@ -330,8 +333,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_status" id="e_supply_statusLabel">Supply Status</label>
-                                        <select class="form-control" id="e_supply_status" name="e_supply_status" required>
+                                        <label for="e_supply_status" id="e_supply_statusLabel">Supply Status</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_supply_status" name="e_supply_status" required>
                                             <option value="Good">Good</option>
                                             <option value="Expired">Expired</option>
                                             <option value="Lost">Lost</option>

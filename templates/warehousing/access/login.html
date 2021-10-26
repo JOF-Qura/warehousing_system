@@ -17,12 +17,16 @@
     <!-- Additional CSS -->
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.css')}}">
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.css')}}">
+<style>
+    
+   
+</style>
 
 </head>
 <body class="hold-transition login-page bg-white">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#">Hospital System<br><b>Warehousing</b></a>
+            <a href="#">HoMIES<br><b>Warehousing</b></a>
         </div>
         <!-- /.login-logo -->
         <div class="card shadow-none">
@@ -30,6 +34,7 @@
                 <p class="login-box-msg">Sign in to start your session</p>
 
                 <form id="form_id" name="form_id" enctype="multipart/form_data" class="needs-validation" novalidate>
+                    <label>Email</label>
                     <div class="input-group mb-3">
                         <input type="email" id="user_email" class="form-control" placeholder="Email" required>
                         <div class="input-group-append">
@@ -40,6 +45,15 @@
                         <div class="invalid-feedback">
                             Email is required.
                           </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Password</label>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#" class="text-primary">I forgot my password</a>
+                        </div>
+
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" id="user_password" class="form-control" placeholder="Password" required>

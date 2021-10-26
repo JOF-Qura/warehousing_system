@@ -1,5 +1,6 @@
 $(function() 
 {
+
     loadTable();
     $('#button_add').prop('disabled', false)
     // function to save/update record
@@ -202,7 +203,7 @@ loadTable = () =>
                             '</div>' +
                         // Delete
                             '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                             aData["employee_id"] + 
                             '\')">'  +
                                 '<div style="width: 2rem">' +
@@ -259,7 +260,7 @@ loadTable = () =>
                         {
                             buttons +=
                                 '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                                 aData["employee_id"] + 
                                 '\')">'  +
                                     '<div style="width: 2rem">' +
@@ -434,36 +435,61 @@ editData = (employee_id, type) =>
 	});
 };
 
-// function to delete data
+// // function to delete data
+// deleteData = (employee_id) => 
+// {
+// 	Swal.fire(
+// 	{
+// 		title: "Are you sure you want to delete this record?",
+// 		text: "You won't be able to revert this!",
+// 		icon: "warning",
+// 		showCancelButton: !0,
+// 		confirmButtonColor: "#34c38f",
+// 		cancelButtonColor: "#f46a6a",
+// 		confirmButtonText: "Yes, delete it!",
+// 	})
+// 	.then(function (t) 
+// 	{
+// 		// if user clickes yes, it will change the active status to "Not Active".
+// 		if (t.value) 
+// 		{
+// 			$.ajax(
+// 				{
+// 				url: apiURL + "employees/" + employee_id,
+// 				type: "DELETE",
+// 				dataType: "json",
+// 				success: function (data) 
+//                 {
+//                     notification("success", "Success!", data.message);
+//                     loadTable();
+// 				},
+// 				error: function ({ responseJSON }) {},
+// 			});
+// 		}
+// 	});
+// };
+
 deleteData = (employee_id) => 
 {
-	Swal.fire(
-	{
-		title: "Are you sure you want to delete this record?",
-		text: "You won't be able to revert this!",
-		icon: "warning",
-		showCancelButton: !0,
-		confirmButtonColor: "#34c38f",
-		cancelButtonColor: "#f46a6a",
-		confirmButtonText: "Yes, delete it!",
-	})
-	.then(function (t) 
-	{
-		// if user clickes yes, it will change the active status to "Not Active".
-		if (t.value) 
-		{
-			$.ajax(
-				{
-				url: apiURL + "users/" + employee_id,
-				type: "DELETE",
-				dataType: "json",
-				success: function (data) 
-                {
-                    notification("success", "Success!", data.message);
-                    loadTable();
-				},
-				error: function ({ responseJSON }) {},
-			});
-		}
-	});
+    $("#d_uuid").val(employee_id);
+
+    $("#d_form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        $.ajax(
+            {
+            url: apiURL + "employees/" + employee_id,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) 
+            {
+                notification("success", "Success!", data.message);
+                loadTable();
+                loadNotif();
+                $("#delete_modal").modal('hide')
+            },
+            error: function ({ responseJSON }) {},
+        });
+    });
 };

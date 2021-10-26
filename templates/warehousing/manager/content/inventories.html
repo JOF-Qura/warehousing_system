@@ -10,10 +10,11 @@
                 <!-- Title -->
                 <div class="col-sm-6">
                     <h1>Inventories</h1>
+                    <p class="text-muted">This is subheading</p>
                 </div>
 
                 <!-- Breadcrumb -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
@@ -21,16 +22,16 @@
                         <li class="breadcrumb-item" id ="inventories_nav">Inventories</li>
                         <script>if(window.location.pathname == '/warehousing/manager/inventories/'){document.getElementById("inventories_nav").classList.add('active')}</script>
                     </ol>
-                </div>
+                </div> -->
                 <!-- / breadcrumb -->
             </div>
             <br>
             <div class="row">     
                 <!-- Button -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Inventory</a>
-                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
-                </div>
+                    
+                </div> -->
                 <!-- / Button -->
             </div>
         </div><!-- /.container-fluid -->
@@ -64,7 +65,17 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Inventories</h3>
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    <h3 class="card-title">Inventories</h3>
+                                </div>
+                                <!-- Button -->
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal">Add New Inventory<i class="fas fa-plus"></i></button>
+                                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
+                                </div>
+                                <!-- / Button -->
+                            </div>
                         </div>
                         <!-- /.card-header -->
 
@@ -114,8 +125,8 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="inventory_location_id" id="inventory_location_idLabel">Location</label>
-                                        <select class="form-control" id="inventory_location_id" name="inventory_location_id">
+                                        <label for="inventory_location_id" id="inventory_location_idLabel">Location</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="inventory_location_id" name="inventory_location_id">
                                         </select>
                                         
                                     </div>
@@ -124,8 +135,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_id" id="supply_idLabel">Supply</label>
-                                        <select class="form-control" id="supply_id" name="supply_id">
+                                        <label for="supply_id" id="supply_idLabel">Supply</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="supply_id" name="supply_id">
                                         </select>
                                     </div>
                                 </div>
@@ -165,8 +176,8 @@
                                 <input type="hidden" name="e_uuid" id="e_uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_inventory_location_id" id="e_inventory_location_idLabel">Location</label>
-                                        <select class="form-control" id="e_inventory_location_id" name="e_inventory_location_id">
+                                        <label for="e_inventory_location_id" id="e_inventory_location_idLabel">Location</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_inventory_location_id" name="e_inventory_location_id">
 
                                         </select>
                                         
@@ -176,8 +187,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_id" id="e_supply_idLabel">Supply</label>
-                                        <select class="form-control" id="e_supply_id" name="e_supply_id">
+                                        <label for="e_supply_id" id="e_supply_idLabel">Supply</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_supply_id" name="e_supply_id">
                                             
                                         </select>
                                     </div>

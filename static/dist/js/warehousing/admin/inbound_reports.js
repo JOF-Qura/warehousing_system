@@ -110,13 +110,13 @@ loadTable = () =>
                 // width: "6.66%",
                 className: "dtr-control",
             },
-            {
-                data: "total_quantity",
-                name: "total_quantity",
-                searchable: true,
-                // width: "6.66%",
-                className: "dtr-control",
-            },
+            // {
+            //     data: "total_quantity",
+            //     name: "total_quantity",
+            //     searchable: true,
+            //     // width: "6.66%",
+            //     className: "dtr-control",
+            // },
             {
                 data: "created_at",
                 name: "created_at",
@@ -162,7 +162,7 @@ loadTable = () =>
                             '</div>' +
                         // Delete
                             '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                             aData["inbound_report_id"] + 
                             '\')">'  +
                                 '<div style="width: 2rem">' +
@@ -219,7 +219,7 @@ loadTable = () =>
                     '</div>' +
                 // Delete
                     '<div class="dropdown-divider"></div>' +
-                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                     aData["inbound_report_id"] + 
                     '\')">'  +
                         '<div style="width: 2rem">' +
@@ -242,13 +242,39 @@ loadTable = () =>
                 inbound_report_id = aData["inbound_report_id"]
             }
 
+            var stats =  aData["status"]
+
+            if (stats == "Delivered")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["status"] + '</span></div>'
+            }
+           else if (stats == "Pending")
+            {
+                stats = '<div class="badge badge-warning p-2 w-100"> <i class="fas fa-exclamation mr-1"></i> <span>' + aData["status"] + '</span></div>'
+            } 
+
             $("td:eq(0)", nRow).html(inbound_report_id);
             $("td:eq(1)", nRow).html(aData["request_id"]);
             $("td:eq(2)", nRow).html(aData["employee_id"]);
-            $("td:eq(3)", nRow).html(aData["status"]);
-            $("td:eq(4)", nRow).html(aData["total_quantity"]);
-            $("td:eq(5)", nRow).html(aData["created_at"]);
-            $("td:eq(6)", nRow).html(buttons);
+            $("td:eq(3)", nRow).html(stats);
+            // $("td:eq(4)", nRow).html(aData["total_quantity"]);
+
+            
+            var date_created = aData["created_at"]
+            var moment_date_created = moment(aData["created_at"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_date_created_from_now = moment(aData["created_at"]).fromNow();
+            
+
+            if (date_created == "" || date_created == null)
+            {
+                date_created = "No date hehe"
+            }
+            else
+            {
+                date_created = moment_date_created
+            }
+            $("td:eq(4)", nRow).html(date_created);
+            $("td:eq(5)", nRow).html(buttons);
 
         },
         drawCallback: function (settings) {
@@ -379,37 +405,62 @@ editData = (inbound_report_id, type) =>
 };
 
 // function to delete data
+// deleteData = (inbound_report_id) => 
+// {
+// 	Swal.fire(
+// 	{
+// 		title: "Are you sure you want to delete this record?",
+// 		text: "You won't be able to revert this!",
+// 		icon: "warning",
+// 		showCancelButton: !0,
+// 		confirmButtonColor: "#34c38f",
+// 		cancelButtonColor: "#f46a6a",
+// 		confirmButtonText: "Yes, delete it!",
+// 	})
+// 	.then(function (t) 
+// 	{
+// 		// if user clickes yes, it will change the active status to "Not Active".
+// 		if (t.value) 
+// 		{
+// 			$.ajax(
+// 				{
+// 				url: apiURL + "inbound_reports/" + inbound_report_id,
+// 				type: "DELETE",
+// 				dataType: "json",
+// 				success: function (data) 
+//                 {
+//                     notification("success", "Success!", data.message);
+//                     loadTable();
+// 				},
+// 				error: function ({ responseJSON }) {},
+// 			});
+// 		}
+// 	});
+// };
+
 deleteData = (inbound_report_id) => 
 {
-	Swal.fire(
-	{
-		title: "Are you sure you want to delete this record?",
-		text: "You won't be able to revert this!",
-		icon: "warning",
-		showCancelButton: !0,
-		confirmButtonColor: "#34c38f",
-		cancelButtonColor: "#f46a6a",
-		confirmButtonText: "Yes, delete it!",
-	})
-	.then(function (t) 
-	{
-		// if user clickes yes, it will change the active status to "Not Active".
-		if (t.value) 
-		{
-			$.ajax(
-				{
-				url: apiURL + "inbound_reports/" + inbound_report_id,
-				type: "DELETE",
-				dataType: "json",
-				success: function (data) 
-                {
-                    notification("success", "Success!", data.message);
-                    loadTable();
-				},
-				error: function ({ responseJSON }) {},
-			});
-		}
-	});
+    $("#d_uuid").val(inbound_report_id);
+
+    $("#d_form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        $.ajax(
+            {
+            url: apiURL + "inbound_reports/" + inbound_report_id,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) 
+            {
+                notification("success", "Success!", data.message);
+                loadTable();
+                loadNotif();
+                $("#delete_modal").modal('hide')
+            },
+            error: function ({ responseJSON }) {},
+        });
+    });
 };
 
 

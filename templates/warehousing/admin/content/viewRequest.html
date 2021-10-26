@@ -10,17 +10,18 @@
                 <!-- Title -->
                 <div class="col-sm-6">
                     <h1>Request Detail</h1>
+                    <p class="text-muted">This is subheading</p>
                 </div>
 
                 <!-- Breadcrumb -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/admin/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
                         <script>if(window.location.pathname == '/warehousing/admin/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
                         <li class="breadcrumb-item" id ="supplies_nav"><a href="/warehousing/admin/request">Request</a></li>                    
                     </ol>
-                </div>
+                </div> -->
                 <!-- / breadcrumb -->
             </div>
         </div><!-- /.container-fluid -->
@@ -131,7 +132,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="supply_id">Supply</label>
-                                        <select class="form-control" id="supply_id" name="supply_id">
+                                        <select class="form-control js-example-basic-single" id="supply_id" name="supply_id">
                                         </select>
                                     </div>
                                 </div>
@@ -177,7 +178,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_requestor">Requestor</label>
-                                        <select class="form-control" id="e_requestor" name="e_requestor">
+                                        <select class="form-control js-example-basic-single" id="e_requestor" name="e_requestor">
                                             <option value="Warehouse">Warehouse</option>
                                             <option value="Procurement">Procurement</option>
                                             <option value="Hospital Department">Hospital Department</option>
@@ -189,7 +190,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_request_type">Request type</label>
-                                        <select class="form-control" id="e_request_type" name="e_request_type">
+                                        <select class="form-control js-example-basic-single" id="e_request_type" name="e_request_type">
                                             <option value="For Request">For Request</option>
                                             <option value="To Request">To Request</option>
                                         </select>
@@ -200,7 +201,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_request_status" id="e_request_statusLabel">Request Status</label>
-                                        <select class="form-control" id="e_request_status" name="e_request_status">
+                                        <select class="form-control js-example-basic-single" id="e_request_status" name="e_request_status">
                                             <option value="Pending">Pending</option>
                                             <option value="For Delivery">For Delivery</option>
                                             <option value="Delivered">Delivered</option>
@@ -242,7 +243,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_supply_id">Supply</label>
-                                        <select class="form-control" id="e_supply_id" name="e_supply_id" disabled>
+                                        <select class="form-control js-example-basic-single" id="e_supply_id" name="e_supply_id" disabled>
                                         </select>
                                     </div>
                                 </div>
@@ -259,7 +260,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="e_status" id="e_statusLabel">Status</label>
-                                        <select class="form-control" id="e_status" name="e_status">
+                                        <select class="form-control js-example-basic-single" id="e_status" name="e_status">
                                             <option value="Approved">Approved</option>
                                             <option value="Pending">Pending</option>
                                         </select>

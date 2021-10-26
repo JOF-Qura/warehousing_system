@@ -158,7 +158,7 @@ loadTable = () =>
                             '</div>' +
                         // Delete
                             '<div class="dropdown-divider"></div>' +
-                            '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                             aData["return_id"] + 
                             '\')">'  +
                                 '<div style="width: 2rem">' +
@@ -215,7 +215,7 @@ loadTable = () =>
                     '</div>' +
                 // Delete
                     '<div class="dropdown-divider"></div>' +
-                    '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                     aData["return_id"] + 
                     '\')">'  +
                         '<div style="width: 2rem">' +
@@ -230,6 +230,17 @@ loadTable = () =>
 
             var return_id = ""
 
+            var stats =  aData["return_status"]
+
+            if (stats == "Delivered")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["return_status"] + '</span></div>'
+            }
+            else if (stats == "Pending")
+            {
+                stats = '<div class="badge badge-warning p-2 w-100"> <i class="fas fa-exclamation mr-1"></i> <span>' + aData["return_status"] + '</span></div>'
+            }
+
             if(aData["return_id"] == null)
             {
                 return_id = "null"
@@ -240,10 +251,26 @@ loadTable = () =>
             }
 
             $("td:eq(0)", nRow).html(return_id);
-            $("td:eq(1)", nRow).html(aData["return_date"]);
+
+            var date_return = aData["return_date"]
+            var moment_date_return = moment(aData["return_date"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_date_return_from_now = moment(aData["return_date"]).fromNow();
+            
+
+            if (date_return == "" || date_return == null)
+            {
+                date_return = "No date hehe"
+            }
+            else
+            {
+                date_return = moment_date_return
+            }
+
+
+            $("td:eq(1)", nRow).html(date_return);
             $("td:eq(2)", nRow).html(aData["returner"]);
             $("td:eq(3)", nRow).html(aData["return_type"]);
-            $("td:eq(4)", nRow).html(aData["return_status"]);
+            $("td:eq(4)", nRow).html(stats);
             $("td:eq(5)", nRow).html(buttons);
 
         },

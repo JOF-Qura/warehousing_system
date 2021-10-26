@@ -23,6 +23,15 @@ var USER_EMAIL = sessionStorage.getItem('USER_EMAIL')
 // }
 // loadEmail()
 
+// select2Function = () =>
+// {
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+// }
+// select2Function();
+
 loadNotif = () => {
 
     $.ajax(
@@ -137,7 +146,7 @@ loadNotif = () => {
                 var notifs = "";
                 notifs +=
                     '<div class="dropdown-divider"></div>' + 
-                    '<a href="#" class="dropdown-item">' +
+                    '<a href="/warehousing/admin/supplies" class="dropdown-item">' +
                         '<i class="fas fa-box mr-2"></i>' +
                             responseData[i].supply_name +
                         '<span class="float-right text-danger text-sm">' +

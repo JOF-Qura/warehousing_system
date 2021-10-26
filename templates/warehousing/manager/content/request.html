@@ -10,10 +10,11 @@
                 <!-- Title -->
                 <div class="col-sm-6">
                     <h1>Request</h1>
+                    <p class="text-muted">This is subheading</p>
                 </div>
 
                 <!-- Breadcrumb -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
@@ -21,15 +22,14 @@
                         <li class="breadcrumb-item" id ="request_nav">Request </li>
                         <script>if(window.location.pathname == '/warehousing/manager/request/'){document.getElementById("request_nav").classList.add('active')}</script>
                     </ol>
-                </div>
+                </div> -->
                 <!-- / breadcrumb -->
             </div>
             <div class="row">     
                 <!-- Button -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Request</a>
-                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
-                </div>
+                </div> -->
                 <!-- / Button -->
             </div>
         </div><!-- /.container-fluid -->
@@ -63,7 +63,17 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Request</h3>
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    <h3 class="card-title">Requests</h3>
+                                </div>
+                                <!-- Button -->
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Request <i class="fas fa-plus"></i></button>
+                                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
+                                </div>
+                                <!-- / Button -->
+                            </div>
                         </div>
                         <!-- /.card-header -->
 
@@ -113,7 +123,7 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="request_date" id="request_dateLabel">Request Date</label>
+                                        <label for="request_date" id="request_dateLabel">Request Date</label> <span class="required-field"> </span>
                                         <input type="date" class="form-control" id="request_date" placeholder="Enter email">
                                     </div>
                                 </div>
@@ -121,8 +131,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="requestor">Requestor</label>
-                                        <select class="form-control" id="requestor" name="requestor">
+                                        <label for="requestor">Requestor</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="requestor" name="requestor">
                                             <option value="Warehouse">Warehouse</option>
                                             <option value="Procurement">Procurement</option>
                                             <option value="Hospital Department">Hospital Department</option>
@@ -133,8 +143,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="request_type">Request type</label>
-                                        <select class="form-control" id="request_type" name="request_type">
+                                        <label for="request_type">Request type</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="request_type" name="request_type">
                                             <option value="For Request">For Request</option>
                                             <option value="To Request">To Request</option>
                                         </select>
@@ -144,8 +154,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="request_status" id="request_statusLabel">Request Status</label>
-                                        <select class="form-control" id="request_status" name="request_status">
+                                        <label for="request_status" id="request_statusLabel">Request Status</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="request_status" name="request_status">
                                             <option value="Pending">Pending</option>
                                             <option value="For Delivery">For Delivery</option>
                                         </select>
@@ -184,8 +194,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_requestor">Requestor</label>
-                                        <select class="form-control" id="e_requestor" name="e_requestor">
+                                        <label for="e_requestor">Requestor</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_requestor" name="e_requestor">
                                             <option value="Warehouse">Warehouse</option>
                                             <option value="Procurement">Procurement</option>
                                             <option value="Hospital Department">Hospital Department</option>
@@ -196,8 +206,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_request_type">Request type</label>
-                                        <select class="form-control" id="e_request_type" name="e_request_type">
+                                        <label for="e_request_type">Request type</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_request_type" name="e_request_type">
                                             <option value="For Request">For Request</option>
                                             <option value="To Request">To Request</option>
                                         </select>
@@ -207,8 +217,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_request_status" id="e_request_statusLabel">Request Status</label>
-                                        <select class="form-control" id="e_request_status" name="e_request_status">
+                                        <label for="e_request_status" id="e_request_statusLabel">Request Status</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_request_status" name="e_request_status">
                                             <option value="Pending">Pending</option>
                                             <option value="For Delivery">For Delivery</option>
                                         </select>

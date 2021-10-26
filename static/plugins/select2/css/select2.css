@@ -1,3 +1,13 @@
+/* Make Select2 boxes match Bootstrap3 as well as Bootstrap4 heights: */
+.select2-selection__rendered {
+  line-height: 36px !important;
+  margin-bottom: 10px;
+  }
+  
+  .select2-selection {
+  height: 38px !important;
+  }
+
 .select2-container {
   box-sizing: border-box;
   display: inline-block;

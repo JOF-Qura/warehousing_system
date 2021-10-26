@@ -10,10 +10,11 @@
                 <!-- Title -->
                 <div class="col-sm-6">
                     <h1>Supply Categories</h1>
+                    <p class="text-muted">This is subheading</p>
                 </div>
 
                 <!-- Breadcrumb -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
@@ -21,16 +22,15 @@
                         <li class="breadcrumb-item" id ="supply_categories_nav">Supply Categories</li>
                         <script>if(window.location.pathname == '/warehousing/manager/supply_categories/'){document.getElementById("supply_categories_nav").classList.add('active')}</script>
                     </ol>
-                </div>
+                </div> -->
                 <!-- / breadcrumb -->
             </div>
             <br>
             <div class="row">     
                 <!-- Button -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Supply Category</a>
-                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
-                </div>
+                </div> -->
                 <!-- / Button -->
             </div>
         </div><!-- /.container-fluid -->
@@ -64,7 +64,17 @@
                     <div class="card card-primary card-outline">
                         <!-- Card Header -->
                         <div class="card-header">
-                            <h3 class="card-title">Supply Category</h3>
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    <h3 class="card-title">Supply Categories</h3>
+                                </div>
+                                <!-- Button -->
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal">Add New Supply Category <i class="fas fa-plus"></i></button>
+                                    <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
+                                </div>
+                                <!-- / Button -->
+                            </div>
                         </div>
                         <!-- /.card-header -->
 
@@ -109,7 +119,7 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_category_name" id="supply_category_nameLabel">Supply Category Name</label>
+                                        <label for="supply_category_name" id="supply_category_nameLabel">Supply Category Name</label> <span class="required-field"> </span>
                                         <input type="input" class="form-control" id="supply_category_name" placeholder="Enter Supply Category Name" required>
                                     </div>
                                 </div>
@@ -117,7 +127,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="supply_category_description" id="supply_category_descriptionLabel">Supply Category Descrription</label>
+                                        <label for="supply_category_description" id="supply_category_descriptionLabel">Supply Category Descrription</label> <span class="required-field"> </span>
                                         <textarea class="form-control" id="supply_category_description" placeholder="Enter Supply Category Description"></textarea>
                                     </div>
                                 </div>
@@ -156,7 +166,7 @@
                                 <input type="hidden" name="e_uuid" id="e_uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_category_name" id="e_supply_category_nameLabel">Supply Category Name</label>
+                                        <label for="e_supply_category_name" id="e_supply_category_nameLabel">Supply Category Name</label> <span class="required-field"> </span>
                                         <input type="input" class="form-control" id="e_supply_category_name" placeholder="Enter Supply Category Name" required>
                                     </div>
                                 </div>
@@ -164,7 +174,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_supply_category_description" id="e_supply_category_descriptionLabel">Supply Category Descrription</label>
+                                        <label for="e_supply_category_description" id="e_supply_category_descriptionLabel">Supply Category Descrription</label> <span class="required-field"> </span>
                                         <textarea class="form-control" id="e_supply_category_description" placeholder="Enter Supply Category Description"></textarea>
                                     </div>
                                 </div>
@@ -182,6 +192,38 @@
         </div><!-- /.modal -->
     </div>
     <!-- END Viewing supply category Modal -->
+       <!-- Delete Modal -->
+       <div class="modal fade" id="delete_modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <i class= "fas fa-exclamation-triangle mr-1"></i>
+                        Confirmation</h4>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal_viewing">
+                        <!-- CONTENT -->
+                        <form id="d_form_id" name="d_form_id" enctype="multipart/form_data">
+                            <div class="card-body">
+                                Are you sure you want to Delete?
+                                <input type="hidden" name="d_uuid" id="d_uuid" value="" />
+                            </div>
+                        <!-- END CONTENT  -->
+                            <!-- BUTTONS -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger" id="button_delete">Yes, Delete it!<i class= "fas fa-trash-alt ml-1"></i></button>
+                            </div>
+                        <!-- END BUTTONS -->
+                        </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- END Delete Modal -->
 {%endblock%}
 
 {%block scripts%}

@@ -159,7 +159,7 @@ loadTable = () =>
                                 '</div>' +
                             // Delete
                                 '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                                 aData["request_id"] + 
                                 '\')">'  +
                                     '<div style="width: 2rem">' +
@@ -312,7 +312,7 @@ loadTable = () =>
                         '</div>' +
                     // Delete
                         '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
+                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
                         aData["request_id"] + 
                         '\')">'  +
                             '<div style="width: 2rem">' +
@@ -423,6 +423,20 @@ loadTable = () =>
             var requestedDate = DateRequest.toLocaleString();
 
             var request_id = ""
+            var stats = aData["request_status"];
+
+            console.log(stats)
+
+            if (stats == "Delivered")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "Pending")
+            {
+                stats = '<div class="badge badge-warning p-2 w-100"> <i class="fas fa-exclamation mr-1"></i> <span>' + aData["request_status"] + '</span></div>'
+            }
+
+            console.log(stats)
 
             if(aData["request_id"] == null)
             {
@@ -434,10 +448,30 @@ loadTable = () =>
             }
 
             $("td:eq(0)", nRow).html(request_id);
-            $("td:eq(1)", nRow).html(requestedDate);
+
+            
+            var date_request = aData["request_date"]
+            var moment_date_request = moment(aData["request_date"]).format("MMMM D, YYYY <br> hh:mm:ss");
+            var moment_date_request_from_now = moment(aData["request_date"]).fromNow();
+            
+
+            if (date_request == "" || date_request == null)
+            {
+                date_request = "No date hehe"
+            }
+            else
+            {
+                date_request = moment_date_request
+            }
+
+            $("td:eq(1)", nRow).html(date_request);
             $("td:eq(2)", nRow).html(aData["requestor"]);
             $("td:eq(3)", nRow).html(aData["request_type"]);
-            $("td:eq(4)", nRow).html(aData["request_status"]);
+
+
+            $("td:eq(4)", nRow).html(stats);
+
+            
             $("td:eq(5)", nRow).html(buttons);
 
         },
@@ -526,35 +560,60 @@ editData = (request_id, type) =>
 };
 
 // function to delete data
+// deleteData = (request_id) => 
+// {
+// 	Swal.fire(
+// 	{
+// 		title: "Are you sure you want to delete this record?",
+// 		text: "You won't be able to revert this!",
+// 		icon: "warning",
+// 		showCancelButton: !0,
+// 		confirmButtonColor: "#34c38f",
+// 		cancelButtonColor: "#f46a6a",
+// 		confirmButtonText: "Yes, delete it!",
+// 	})
+// 	.then(function (t) 
+// 	{
+// 		// if user clickes yes, it will change the active status to "Not Active".
+// 		if (t.value) 
+// 		{
+// 			$.ajax(
+// 				{
+// 				url: apiURL + "request/" + request_id,
+// 				type: "DELETE",
+// 				dataType: "json",
+// 				success: function (data) 
+//                 {
+//                     notification("success", "Success!", data.message);
+//                     loadTable();
+// 				},
+// 				error: function ({ responseJSON }) {},
+// 			});
+// 		}
+// 	});
+// };
+
 deleteData = (request_id) => 
 {
-	Swal.fire(
-	{
-		title: "Are you sure you want to delete this record?",
-		text: "You won't be able to revert this!",
-		icon: "warning",
-		showCancelButton: !0,
-		confirmButtonColor: "#34c38f",
-		cancelButtonColor: "#f46a6a",
-		confirmButtonText: "Yes, delete it!",
-	})
-	.then(function (t) 
-	{
-		// if user clickes yes, it will change the active status to "Not Active".
-		if (t.value) 
-		{
-			$.ajax(
-				{
-				url: apiURL + "request/" + request_id,
-				type: "DELETE",
-				dataType: "json",
-				success: function (data) 
-                {
-                    notification("success", "Success!", data.message);
-                    loadTable();
-				},
-				error: function ({ responseJSON }) {},
-			});
-		}
-	});
+    $("#d_uuid").val(request_id);
+
+    $("#d_form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        $.ajax(
+            {
+            url: apiURL + "requests/" + request_id,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) 
+            {
+                notification("success", "Success!", data.message);
+                loadTable();
+                loadNotif();
+                $("#delete_modal").modal('hide')
+            },
+            error: function ({ responseJSON }) {},
+        });
+    });
 };

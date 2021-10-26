@@ -29,12 +29,14 @@ $(function()
                         if(data == 404)
                         {
                             console.log(data);
-                            notification('error', 'Error!', "Invalid Email")
+                            toastr.options.positionClass = 'toast-top-center';
+                            notification('warning', 'Error!', "Invalid Email")
                         }
                         else if (data == 4041)
                         {
                             console.log(data);
-                            notification('error', 'Error!', "Invalid Password")
+                            toastr.options.positionClass = 'toast-top-center';
+                            notification('warning', 'Error!', "Invalid Password")
                         }
                         else
                         {
