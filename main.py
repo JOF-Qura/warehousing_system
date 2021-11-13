@@ -137,18 +137,26 @@ template = Jinja2Templates('templates')
 #         print(e)
 
 # ---------------------------- HomePage Template ------------------------------ #
-@app.get('/homies/', response_class=HTMLResponse)
-def login(request: Request):
-    return template.TemplateResponse('warehousing/index.html', 
+@app.get('/homies', response_class=HTMLResponse)
+def landing(request: Request):
+    return template.TemplateResponse('index.html', 
+    {
+        'request': request
+    })
+
+# ---------------------------- Access Template ------------------------------ #
+@app.get('/homies/main', response_class=HTMLResponse)
+def dashMain(request: Request):
+    return template.TemplateResponse('mainDashboard.html', 
     {
         'request': request
     })
 
 
 # ---------------------------- Access Template ------------------------------ #
-@app.get('/warehousing/', response_class=HTMLResponse)
+@app.get('/homies/login', response_class=HTMLResponse)
 def login(request: Request):
-    return template.TemplateResponse('warehousing/access/login.html', 
+    return template.TemplateResponse('access/login.html', 
     {
         'request': request
     })

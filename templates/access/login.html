@@ -33,12 +33,12 @@
         <!-- /.login-logo -->
         <div class="card shadow-none">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Log in to start your session</p>
 
                 <form id="form_id" name="form_id" enctype="multipart/form_data" class="needs-validation" novalidate>
                     <label>Email</label>
                     <div class="input-group mb-3">
-                        <input type="email" id="user_email" class="form-control" placeholder="Email" required>
+                        <input type="email" id="user_email" class="form-control" placeholder="Type your Email here" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -58,7 +58,7 @@
 
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" id="user_password" class="form-control" placeholder="Password" required>
+                        <input type="password" id="user_password" class="form-control" placeholder="Type your Password here" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -69,13 +69,33 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember">
+                                <label for="remember">Remember Me</label>
+                            </div>
+                        </div>
                         <!-- /.col -->
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Login <i class= "fas fa-sign-in-alt"></i></button>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Log in <i class= "fas fa-sign-in-alt"></i></button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
+
+                <div class="dropdown-divider mt-5 mb-1"></div>
+
+                <!-- Quick Links -->
+                <div class="d-flex justify-content-between text-sm">
+                    <div>
+                        <a href="./home.html">Home</a>
+                    </div>
+                    <div>
+                        <a href="#">About Us</a>
+                        <span class="text-secondary">&middot;</span>
+                        <a href="#">Terms and Policies</a>
+                    </div>
+                </div>
 
                 <!-- <div class="social-auth-links text-center mb-3">
                     <p>- OR -</p>

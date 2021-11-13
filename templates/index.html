@@ -37,7 +37,7 @@
                 <!-- Brand -->
                 <a href="#" class="navbar-brand order-0">
                     <img 
-                        src="../../dist/img/AdminLTELogo.png" 
+                        src="{{url_for('static', path='/dist/img/AdminLTELogo.png')}}" 
                         alt="HoMIES" 
                         class="brand-image img-circle" 
                         style="opacity: .8"
@@ -142,8 +142,8 @@
         
                 <!-- Right Navbar Links -->
                 <div class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <a href="/warehousing/access/login.html" class="btn btn-primary text-nowrap">
-                        <span>Login</span>
+                    <a href="/homies/login" class="btn btn-primary text-nowrap">
+                        <span>Log in</span>
                         <i class="fas fa-sign-in-alt ml-1"></i>
                     </a>
                 </div>

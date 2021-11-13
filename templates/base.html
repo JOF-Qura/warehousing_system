@@ -1,13 +1,3 @@
-<script>
-    var TOKEN = sessionStorage.getItem('TOKEN')
-    
-    if(TOKEN == null || TOKEN == "")
-    {
-        window.location.replace("http://localhost:8000/homies/login/");
-    }
-</script>
-
-
 <!DOCTYPE html>
 <html lang="en">
     
@@ -105,7 +95,7 @@
 
                  <!-- Home -->
                  <li class="nav-item">
-                    <a class="nav-link" href="./index.html" role="button">
+                    <a class="nav-link text-primary" href="./index.html" role="button">
                         <i class="fas fa-home"></i>
                         <span class="d-inline-block d-md-none ml-1 ml-md-0">Home</span>
                     </a>
@@ -165,12 +155,12 @@
                     <a 
                         href="#" 
                         data-toggle="dropdown" 
-                        class="nav-link dropdown-toggle text-primary"
+                        class="nav-link dropdown-toggle"
                     >Logistics</a>
                     
                     <ul class="dropdown-menu dropdown-menu-left">
                         <li><a href="#" class="dropdown-item">Procurement Management</a></li>
-                        <li><a href="#" class="dropdown-item active">Warehousing Management</a></li>
+                        <li><a href="../warehousing/admin" class="dropdown-item">Warehousing Management</a></li>
                         <li><a href="#" class="dropdown-item">Asset Management</a></li>
                         <li><a href="#" class="dropdown-item">Project Management</a></li>
                     </ul>
@@ -178,7 +168,7 @@
 
                 <!-- System Administration -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#l" role="button">
+                    <a class="nav-link" href="#" role="button">
                         <span>SysAdmin</span>
                     </a>
                 </li>
@@ -188,42 +178,6 @@
         <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
 
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge" id="notif_number"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header" id="how_many_notif">0 Supply Notification</span>
-                    <div id="notifications">
-                        
-                    </div>
-                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
-                    <span class="dropdown-item dropdown-header" id="how_many_staff_notif">0 Notification from Staff</span>
-                    <div id="staff_notif">
-                        
-                    </div>
-
-                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
-                    <span class="dropdown-item dropdown-header" id="how_many_hospital_notif">0 Notification from Hospital</span>
-                    <div id="hospital_notif">
-                        
-                    </div>
-
-                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
-                    <span class="dropdown-item dropdown-header" id="how_many_procurement_notif">0 Notification from Procurement</span>
-                    <div id="procurement_notif">
-                        
-                    </div>
-                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
-
-                    <div id="see_all_notif">
-
-                    </div>
-                </div>
-            </li>
-        
             <!-- User Menu -->
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link" data-toggle="dropdown" role="button">
@@ -321,126 +275,17 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Sidebar Menu -->       
-
+                    
                     <!-- Module Name -->
-                    <li class="nav-header font-weight-bold text-wrap">WAREHOUSING SYSTEM</li>
+                    <li class="nav-header font-weight-bold text-wrap">HOME</li>
 
-
-
-                    <li class="nav-header"><b>Dashboard</b></li>
+                    <li class="nav-header">CORE</li>
                     <li class="nav-item">
-                        <a href="/warehousing/admin/dashboard" class="nav-link" id="dashboard_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/dashboard' || window.location.pathname == '/warehousing/admin/'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-chart-line"></i>
-                        <p>Dashboard</p>
+                        <a href="#" class="nav-link active">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>Main Dashboard</p>
                         </a>
                     </li>
-                    <!-- Inventory -->
-                    <li class="nav-header"><b>Inventory</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/supplies" class="nav-link" id="supply_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/supplies/'){document.getElementById("supply_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-boxes"> </i>
-                            <p> Supplies </p>
-                        </a>
-                    </li>
-                    <li class="nav-item"> 
-                        <a href="/warehousing/admin/supply_categories" class="nav-link" id="supply_categoy_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/supply_categories/'){document.getElementById("supply_categoy_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-clipboard-list"></i>
-                            <p> Supply Categories </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/inventories" class="nav-link" id="inventory_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/inventories/'){document.getElementById("inventory_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-dolly-flatbed"></i>
-                            <p> Inventories </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/inventory_locations" class="nav-link" id="inventory_location_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/inventory_locations/'){document.getElementById("inventory_location_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-pallet"></i>
-                            <p> Inventory Location </p>
-                        </a>
-                    </li>
-                    <!-- Reports -->
-                    <li class="nav-header"><b>Request and Return</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/request" class="nav-link" id="request_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/request/'){document.getElementById("request_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-envelope-open-text"></i>
-                            <p> Request </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/return" class="nav-link" id="return_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/return/'){document.getElementById("return_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-envelope-open-text"></i>
-                            <p> Return </p>
-                        </a>
-                    </li>
-                    <li class="nav-header"><b>Reports In/Out</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/outbound_reports"  class="nav-link" id="outbound_report_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/outbound_reports/'){document.getElementById("outbound_report_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-poll"></i>
-                            <p> Outbound Reports </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/inbound_reports" class="nav-link" id="inbound_report_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/inbound_reports/'){document.getElementById("inbound_report_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-poll-h"></i>
-                            <p> Inbound Reports </p>
-                        </a>
-                    </li>
-                    <!-- Supplier -->
-                    <li class="nav-header"><b>Supplier</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/suppliers" class="nav-link" id="supplier_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/suppliers/'){document.getElementById("supplier_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-truck"></i>
-                            <p> Suppliers </p>
-                        </a>
-                    </li>
-                    <!-- Warehouse -->
-                    <li class="nav-header"><b>Warehouse</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/warehouses" class="nav-link" id="warehouse_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/warehouses/'){document.getElementById("warehouse_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-warehouse"></i>
-                            <p> Warehouses</p>
-                        </a>
-                    </li>
-                    <!-- Hospital Department -->
-                    <li class="nav-header"><b>Hospital Derpartment</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/hospital_departments" class="nav-link" id="hospital_department_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/hospital_departments/'){document.getElementById("hospital_department_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-hospital"></i>
-                            <p> Hospital Departments</p>
-                        </a>
-                    </li>
-                    <!-- Others -->
-                    <li class="nav-header"><b>Others</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/users" class="nav-link" id="user_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/users/'){document.getElementById("user_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-users"></i>
-                            <p> Users</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/admin/employees" class="nav-link" id="employee_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/admin/employees/'){document.getElementById("employee_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-people-carry"></i>
-                            <p> Employees</p>
-                        </a>
-                    </li>
-                    <!-- End Sidebar Menu -->
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

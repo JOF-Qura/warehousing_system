@@ -30,7 +30,7 @@ $(function()
                         sessionStorage.clear();
                         localStorage.clear();
                         
-                        window.location.replace(baseURL );
+                        window.location.replace(apiURL + 'homies');
                     }
                 });
     //         }

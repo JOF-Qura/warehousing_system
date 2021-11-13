@@ -56,10 +56,10 @@ $(function()
                                 session_data += '&user_type=' + data.data.user_type;
                             
                             console.log(session_data);
-            
+
                             if (data.data.user_type == "Admin")
                             {
-                                window.location.replace(baseURL + 'admin');
+                                window.location.replace(apiURL + 'homies/main');
                             }
                             else if (data.data.user_type == "Manager")
                             {

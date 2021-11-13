@@ -1,0 +1,54 @@
+<!-- Apply layout from base.html -->
+{%extends '/base.html'%} 
+
+
+<!-- Enter content for block 'content' -->
+{%block content%}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <!-- Title -->
+                <div class="col-sm-6">
+                    <h1>Dashboard</h1> 
+                    <p class="text-muted">Main Dashboard</p>
+                </div>
+    
+                <!-- Breadcrumb -->
+                <!-- <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Home</li>            
+                    </ol>
+                </div> -->
+                <!-- / breadcrumb -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+  
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid"> 
+            
+            <!-- Under Maintenance -->
+            <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="py-5 d-flex justify-content-center">
+                    <img 
+                        draggable="false"
+                        src="{{url_for('static', path='/dist/img/under_construction.svg')}}"  
+                        alt="Under Maintenance" 
+                        width="50%"
+                    >
+                </div>
+                <h4>Oops! This page is under maintenance.</h4>
+                <p class="text-secondary">You can go back in others days. Sorry for the incovenience.</p>
+            </div>
+
+        </div>
+    </section>
+    <!-- /.content -->
+{%endblock%}
+
+{%block scripts%}
+    <script src="{{url_for('static', path='/dist/js/warehousing/admin/dashboardAdmin.js')}}"></script>
+{%endblock%}
