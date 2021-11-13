@@ -5,7 +5,9 @@ from schemas.Admin import supplySchema
 
 #================================ Inventories Table =================================#
 class NoticationBase(BaseModel):
-    supply_id: str
+    supply_id: Optional[str]
+    request_id: Optional[str]
+    return_id: Optional[str]
     description: str
     status: str
     

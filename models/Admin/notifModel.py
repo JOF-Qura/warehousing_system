@@ -19,10 +19,18 @@ class Notifications(Base):
 
     #Foreignkey
     supply_id                       = Column(String(36), ForeignKey('supplies.supply_id'), nullable=True, unique=True)
+    request_id                      = Column(String(36), ForeignKey('request.request_id'), nullable=True, unique=True)
+    return_id                       = Column(String(36), ForeignKey('return.return_id'), nullable=True, unique=True)
+
+
+
     
 #Relationship/s
     #Relationship/s of this Table
     supply_notif = relationship("Supplies", back_populates="notif_supplesFK")
+    request_notif = relationship("Request", back_populates="notif_requestFK")
+    return_notif = relationship("Return", back_populates="notif_returnFK")
+
     
 
 

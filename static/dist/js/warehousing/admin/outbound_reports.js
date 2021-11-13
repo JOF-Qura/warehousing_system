@@ -269,7 +269,7 @@ loadTable = () =>
             {
                 stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["status"] + '</span></div>'
             }
-           else if (stats == "Pending")
+           else if (stats == "On Going")
             {
                 stats = '<div class="badge badge-warning p-2 w-100"> <i class="fas fa-exclamation mr-1"></i> <span>' + aData["status"] + '</span></div>'
             } 
@@ -509,7 +509,7 @@ deleteData = (outbound_report_id) =>
             dataType: "json",
             success: function (data) 
             {
-                notification("success", "Success!", data.message);
+                notification("info", "Success!", data.message);
                 loadTable();
                 loadNotif();
                 $("#delete_modal").modal('hide')

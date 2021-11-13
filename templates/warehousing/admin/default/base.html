@@ -102,6 +102,14 @@
                         <i class="fas fa-bars"></i>
                     </a>
                 </li>
+
+                 <!-- Home -->
+                 <li class="nav-item">
+                    <a class="nav-link text-primary" href="./index.html" role="button">
+                        <i class="fas fa-home"></i>
+                        <span class="d-inline-block d-md-none ml-1 ml-md-0">Home</span>
+                    </a>
+                </li>
         
                 <!-- Hospital Core -->
                 <li class="nav-item dropdown">
@@ -157,7 +165,7 @@
                     <a 
                         href="#" 
                         data-toggle="dropdown" 
-                        class="nav-link dropdown-toggle text-primary"
+                        class="nav-link dropdown-toggle"
                     >Logistics</a>
                     
                     <ul class="dropdown-menu dropdown-menu-left">
@@ -166,6 +174,13 @@
                         <li><a href="#" class="dropdown-item">Asset Management</a></li>
                         <li><a href="#" class="dropdown-item">Project Management</a></li>
                     </ul>
+                </li>
+
+                <!-- System Administration -->
+                <li class="nav-item">
+                    <a class="nav-link text-primary" href="#l" role="button">
+                        <span>SysAdmin</span>
+                    </a>
                 </li>
             </ul>
         </div>  
@@ -184,12 +199,25 @@
                     <div id="notifications">
                         
                     </div>
-                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
                     <span class="dropdown-item dropdown-header" id="how_many_staff_notif">0 Notification from Staff</span>
                     <div id="staff_notif">
                         
                     </div>
-                    <div class="dropdown-divider"></div>
+
+                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
+                    <span class="dropdown-item dropdown-header" id="how_many_hospital_notif">0 Notification from Hospital</span>
+                    <div id="hospital_notif">
+                        
+                    </div>
+
+                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
+                    <span class="dropdown-item dropdown-header" id="how_many_procurement_notif">0 Notification from Procurement</span>
+                    <div id="procurement_notif">
+                        
+                    </div>
+                    <div class="dropdown-divider" style="background-color: gray; height: 2px; width:100%;"></div>
+
                     <div id="see_all_notif">
 
                     </div>
@@ -421,8 +449,8 @@
 
         <!-- Sidebar Custom -->
         <div class="sidebar-custom">
-            <!-- <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
-            <button class="btn btn-danger hide-on-collapse pos-right" onClick="return logout()">Logout</button> -->
+            <!-- <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a> -->
+            <button class="btn btn-danger hide-on-collapse pos-right" onClick="return logout()">Logout <i class= "fas fa-sign-out-alt ml-1"></i></button>
         </div>
         <!-- /.sidebar-custom -->
     </aside>

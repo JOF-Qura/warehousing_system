@@ -6,6 +6,8 @@ from models.Admin import notifModel
 # importing models one by one
 from models.Admin.notifModel import Notifications
 from models.Admin.supplyModel import Supplies
+from models.Admin.requestModel import Request as Req
+from models.Admin.returnModel import Return as Ret
 
 from models.Admin import notifModel
 from schemas.Admin import notifSchema
@@ -35,6 +37,8 @@ def datatable(request: Request, db: Session = Depends(get_db)):
                     Notifications.description.like('%' + user_input + '%'),
                     Notifications.status.like('%' + user_input + '%'),
                     Supplies.supply_name.like('%' + user_input + '%'),
+                    Notifications.request_id('%' + user_input + '%'),
+                    Notifications.return_id('%' + user_input + '%'),
                     Notifications.created_at.like('%' + user_input + '%'),
                     Notifications.updated_at.like('%' + user_input + '%'),
                 )
@@ -44,6 +48,8 @@ def datatable(request: Request, db: Session = Depends(get_db)):
         [
             'notification_id',
             ('supply_id', 'supply_notif.supply_name'),
+            'request_id',
+            'return_id',
             'description',
             'status',
             'created_at',
@@ -78,6 +84,8 @@ def create_notification(request: notifSchema.CreateNotification, db: Session = D
         description = request.description,
         status = request.status,
         supply_id = request.supply_id,
+        request_id = request.request_id,
+        return_id = request.return_id,
     )
     db.add(to_store)
     db.commit()

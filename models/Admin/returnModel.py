@@ -21,6 +21,7 @@ class Return(Base):
 #Relationship/s
     #Relationship/s of this Table to other Table/s
     retd_returnFK = relationship('Return_Details', back_populates='returns')
+    notif_returnFK = relationship("Notifications", back_populates="return_notif")
 
 
 

@@ -22,6 +22,7 @@ class Request(Base):
     #Relationship/s of this Table to other Table/s
     rd_requestFK = relationship('Request_Details', back_populates='request')
     ir_requestFK = relationship('Inbound_Reports', back_populates='requested')
+    notif_requestFK = relationship("Notifications", back_populates="request_notif")
 
 
 

@@ -23,14 +23,19 @@ from routes.Admin import (authRoutes
                     , supplierRoutes
                     , supply_categoriesRoutes
                     , warehouseRoutes
+                    , return_detailRoutes
                     , returnRoutes
                     , notifRoutes
-                    # , return_detailRoutes
                     )
 from routes.Admin.count import (countRequestDetail_Supply
                                 , countSupply
                                 , countRequest_Pending
                                 , countReturn_Pending
+                                , countFromHospital
+                                , countFromProcurement
+                                )
+
+from routes.Admin.filter import (requestFilter
                                 )
 
 # importing all models
@@ -62,6 +67,7 @@ from models.Admin.inventory_locationModel import Inventory_Locations
 from models.Admin.requestModel import Request as RequestModel
 from models.Admin.returnModel import Return as ReturnModel
 from models.Admin.request_detailModel import Request_Details
+from models.Admin.return_detailModel import Return_Details
 from models.Admin.outbound_reportModel import Outbound_Reports
 from models.Admin.outbound_report_detailModel import Outbound_Report_Details
 from models.Admin.inbound_reportModel import Inbound_Reports
@@ -94,6 +100,7 @@ app.include_router(outbound_reportRoutes.router)
 app.include_router(requestRoutes.router)
 app.include_router(returnRoutes.router)
 app.include_router(request_detailRoutes.router)
+app.include_router(return_detailRoutes.router)
 app.include_router(supplierRoutes.router)
 app.include_router(supply_categoriesRoutes.router)
 app.include_router(warehouseRoutes.router)
@@ -104,6 +111,10 @@ app.include_router(countRequestDetail_Supply.router)
 app.include_router(countSupply.router)
 app.include_router(countRequest_Pending.router)
 app.include_router(countReturn_Pending.router)
+app.include_router(countFromHospital.router)
+app.include_router(countFromProcurement.router)
+
+app.include_router(requestFilter.router)
 
 #Saling Pusa
 app.include_router(postRoutes.router)
@@ -124,6 +135,14 @@ template = Jinja2Templates('templates')
 #         })
 #     except Exception as e:
 #         print(e)
+
+# ---------------------------- HomePage Template ------------------------------ #
+@app.get('/homies/', response_class=HTMLResponse)
+def login(request: Request):
+    return template.TemplateResponse('warehousing/index.html', 
+    {
+        'request': request
+    })
 
 
 # ---------------------------- Access Template ------------------------------ #
@@ -339,6 +358,18 @@ def index(request: Request, request_id: str, db: Session = Depends(get_db), curr
         {
             'request': request,
             'req': req
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/admin/return_details', response_class=HTMLResponse)
+def index(request: Request, return_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        ret = db.query(Return_Details).filter(Return_Details.return_id == return_id).all()
+        return template.TemplateResponse('warehousing/admin/content/viewReturn.html', 
+        {
+            'request': request,
+            'ret': ret
         })
     except Exception as e:
         print(e)

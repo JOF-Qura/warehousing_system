@@ -1,6 +1,8 @@
 $(function() 
 {
+    
     loadTable();
+    console.log(return_id)
 
     if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
     {
@@ -8,45 +10,51 @@ $(function()
         details = "";
     
         details = 
-            '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Request</button>';
+            '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Return</button>';
         
         $('#add_supply_id').append(details)
     }
     
     addSupply = () =>
     {
-        console.log(request_id)
+        console.log(return_id)
         // function to save/update record
         $("#form_id").on("submit", function (e)
         {
             e.preventDefault();
             trimInputFields();
-            var req_id = request_id
+            var ret_id = return_id
             var supply_id = $("#supply_id").val()
             var quantity = $("#quantity").val();
 
+            console.log(ret_id)
+            console.log(supply_id)
+            console.log(quantity)
+
             $.ajax(
             {
-                url: apiURL + "request_detail/",
+                url: apiURL + "return_detail/",
                 type: "GET",
                 dataType: "json",
-                success: function (countRequest) 
+                success: function (countReturn) 
                 {
+                    console.log(countReturn)
                     count = 0
 
-                    if (countRequest.Request_Details.length != 0)
+                    if (countReturn.Return_Details.length != 0)
                     {
-                        count = countRequest.Request_Details.length
+                        count = countReturn.Return_Details.length
                         console.log(count)
                     }
-                    console.log(countRequest)
+                    console.log(count)
+                    
 
                     if(count > 0)
                     {
                         console.log(count)
                         $.ajax(
                         {
-                            url: apiURL + "request_detail_count/" + req_id + "/" + supply_id,
+                            url: apiURL + "return_detail_count/" + ret_id + "/" + supply_id,
                             type: "GET",
                             dataType: "json",
                             success: function (countData) 
@@ -60,18 +68,18 @@ $(function()
             
                                 if (count > 0)
                                 {
-                                    notification('error', 'Error', 'Supply is already on request list')
+                                    notification('error', 'Error', 'Supply is already on return list')
                                 }
                             },
                             error: function (errData)
                             {
                                 $.ajax(
                                     {
-                                        url: apiURL + "request_detail/",
+                                        url: apiURL + "return_detail/",
                                         type: "POST",
                                         data: JSON.stringify(
                                         {		
-                                            "request_id": req_id,
+                                            "return_id": ret_id,
                                             "supply_id": supply_id,
                                             "quantity": quantity,
                                         }),
@@ -85,7 +93,7 @@ $(function()
                                             $('#button_add').prop('disabled', false)
                                             notification("success", "Success!", data.message);
                                             loadTable();
-                                            viewRequestDetails();
+                                            viewReturnDetails();
                                             $("#adding_modal").modal('hide')
                                         },
                                         error: function ({ responseJSON }) 
@@ -98,14 +106,13 @@ $(function()
                     }
                     else
                     {
-                        console.log("else")
                         $.ajax(
                         {
-                            url: apiURL + "request_detail/",
+                            url: apiURL + "return_detail/",
                             type: "POST",
                             data: JSON.stringify(
                             {		
-                                "request_id": req_id,
+                                "return_id": ret_id,
                                 "supply_id": supply_id,
                                 "quantity": quantity,
                             }),
@@ -119,7 +126,7 @@ $(function()
                                 $('#button_add').prop('disabled', false)
                                 notification("success", "Success!", data.message);
                                 loadTable();
-                                viewRequestDetails();
+                                viewReturnDetails();
                                 $("#adding_modal").modal('hide')
                             },
                             error: function ({ responseJSON }) 
@@ -135,32 +142,34 @@ $(function()
     }    
 });
 
+
 // function to view data
-viewRequestDetails = () =>
+viewReturnDetails = () =>
 {
     $.ajax(
 	{
-		url: apiURL + "request/" + request_id,
+		url: apiURL + "returns/" + return_id,
 		type: "GET",
 		dataType: "json",
 		success: function (data) 
 		{
+            console.log(return_id)
             console.log(data)
-            $("#send_request_id").empty();
+            $("#send_return_id").empty();
 
         if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
         {
-            if (data.request_type == "To Request")
+            if (data.return_type == "To Return")
             {
                 var details = "";                                      
                 details =
-                    '<button class="btn btn-primary float-right">Send Request</button>'
-                $("#send_request_id").append(details);
+                    '<button class="btn btn-primary float-right">Send Return</button>'
+                $("#send_return_id").append(details);
             }
-            else if (data.request_type == "For Request")
+            else if (data.return_type == "For Return")
             {
                 var details = "";  
-                if(data.request_status == "Delivered")
+                if(data.return_status == "Delivered")
                 {
                     details = "";
                 }         
@@ -168,26 +177,26 @@ viewRequestDetails = () =>
                 {
                     details =
                     '<button class="btn btn-primary float-right" style="margin-left: 1em" onClick="return delivered()">Done / Delivered</button>' + 
-                    '<button class="btn btn-info float-right"  data-toggle="modal" data-target="#editing_modal" onClick="return editRequest()">Edit Request</button>';
+                    '<button class="btn btn-info float-right"  data-toggle="modal" data-target="#editing_modal" onClick="return editReturn()">Edit Return</button>';
                 }                           
                 
-                $("#send_request_id").append(details);
+                $("#send_return_id").append(details);
             }
         }
         else if (USER_TYPE == "Staff")
         {
-            if (data.request_type == "To Request")
+            if (data.return_type == "To Return")
             {
                 var details = "";                                      
                 details = 
                     '<button class="btn btn-primary float-right ml-1" onClick="ItemDelivered()">This is Complete and No Damage</button>' + 
                     '<button class="btn btn-warning float-right">Item has damage / Incomplete</button>';
-                $("#send_request_id").append(details);
+                $("#send_return_id").append(details);
             }
-            if (data.request_type == "For Request")
+            if (data.return_type == "For Return")
             {
                 var details = "";  
-                if(data.request_status == "Delivered")
+                if(data.return_status == "Delivered")
                 {
                     details = "";
                 }         
@@ -197,7 +206,7 @@ viewRequestDetails = () =>
                     '<button class="btn btn-primary float-right" style="margin-left: 1em" onClick="return delivered()">Send Report / Packing is Done</button>';
                 }                           
                 
-                $("#send_request_id").append(details);
+                $("#send_return_id").append(details);
             }
         }
            
@@ -212,7 +221,7 @@ viewRequestDetails = () =>
 
 			var details = "";                                      
             details =
-                'Reuqest ID: ' + request_id;
+                'Return ID: ' + return_id;
             $("#card_header_id").append(details);
 
 
@@ -220,17 +229,17 @@ viewRequestDetails = () =>
 
             status = ""
 
-            if (data.request_status == "Pending")
+            if (data.return_status == "Pending")
             {
-                status =  '<div class="col-md-9"><span class="badge badge-warning">' + data.request_status + '</span></div>'
+                status =  '<div class="col-md-9"><span class="badge badge-warning">' + data.return_status + '</span></div>'
             }
-            else if (data.request_status == "For Delivery")
+            else if (data.return_status == "For Delivery")
             {
-                status =  '<div class="col-md-9"><span class="badge badge-info">' + data.request_status + '</span></div>'
+                status =  '<div class="col-md-9"><span class="badge badge-info">' + data.return_status + '</span></div>'
             }
-            else if (data.request_status == "Delivered")
+            else if (data.return_status == "Delivered")
             {
-                status =  '<div class="col-md-9"><span class="badge badge-success">' + data.request_status + '</span></div>'
+                status =  '<div class="col-md-9"><span class="badge badge-success">' + data.return_status + '</span></div>'
             }
 			var details = "";                                      
             details =                          
@@ -239,29 +248,29 @@ viewRequestDetails = () =>
                 '</div>' +
                 status +                    
                 '<div class="col-md-3">' +
-                    '<b>Request Date:</b>' +
+                    '<b>Return Date:</b>' +
                 '</div>' +
                 '<div class="col-md-9">' +
                     createdDate +
                 '</div>' +
 
                 '<div class="col-md-3">' +
-                    '<b>Requestor:</b>' +
+                    '<b>Returner:</b>' +
                 '</div>' +
                 '<div class="col-md-9">' +
-                    data.requestor +
+                    data.returner +
                 '</div>' +    
                     
                 '<div class="col-md-3">' +
-                    '<b>Request Type:</b>' +
+                    '<b>Return Type:</b>' +
                 '</div>' +
                 '<div class="col-md-9">' +
-                    data.request_type;                      
+                    data.return_type;                      
             $("#rd_id").append(details);
 
             $.ajax(
                 {
-                url: apiURL + "request_detail/" + request_id,
+                url: apiURL + "return_detail/" + return_id,
                 type: "GET",
                 dataType: "json",
                 success: function (RDdata) 
@@ -274,11 +283,13 @@ viewRequestDetails = () =>
                     }
 
                     console.log(RDdata.length)
+                    console.log(RDdata)
                     $("#sp_id").empty();
         
                     var details = "";
                     var supplies = "";
                     var div = "";
+                    console.log(RDdata)
 
                     if (length == 0)
                     {
@@ -286,12 +297,12 @@ viewRequestDetails = () =>
                         '<div class="col-md-12">' +
                             '<div class="row">' +
                                 '<div class="col-md-3">' +
-                                    '<b>Requested Supplies:</b>' +
+                                    '<b>Returned Supplies:</b>' +
                                 '</div>' +
                             '</div>' +
                             '<div class="row">' +
                                 '<div class="col-md-3"> &nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    'Please add Supply to Request'
+                                    'Please add Supply to Return'
                                 '</div>' +
                             '</div>';
                         '</div>';
@@ -303,7 +314,7 @@ viewRequestDetails = () =>
                         '<div class="col-md-12">' +
                             '<div class="row">' +
                                 '<div class="col-md-3">' +
-                                    '<b>Requested Supplies:</b>' +
+                                    '<b>Returned Supplies:</b>' +
                                 '</div>' +
                                 '<div class="col-md-9">' +
                                     '<b>Quantity</b>' +
@@ -314,7 +325,7 @@ viewRequestDetails = () =>
                                 supplies +=	
                                     '<div class="row">' +
                                         '<div class="col-md-3"> &nbsp;&nbsp;&nbsp;&nbsp;' +
-                                            RDdata[i].supply.supply_name +
+                                            RDdata[i].return_supply.supply_name +
                                         '</div>' +
                                         '<div class="col-md-9"> &nbsp;&nbsp;' +
                                             'x' + RDdata[i].quantity +
@@ -330,161 +341,12 @@ viewRequestDetails = () =>
         }
     });
 }
-viewRequestDetails();
 
-loadSupply = () => {
-    $.ajax({
-        url: apiURL + "supplies",
-        type: "GET",
-        dataType: "json",
-        success: function (responseData) 
-        { 
-            $.each(responseData.Supplies, function (i, dataOptions) 
-            {
-                var options = "";
-
-                options =
-                    "<option value='" +
-                    dataOptions.supply_id +
-                    "'>" +
-                    dataOptions.supply_name +
-                    "</option>";
-
-                $("#supply_id").append(options);
-                $("#e_supply_id").append(options);
-            });
-            
-        },
-        error: function ({ responseJSON }) {},
-    });
-};
-loadSupply();
-
-delivered = () =>
-{
-    Swal.fire(
-    {
-        title: "Are you sure you?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: !0,
-        confirmButtonColor: "#34c38f",
-        cancelButtonColor: "#f46a6a",
-        confirmButtonText: "Yes, it's delivered!",
-    })
-    .then(function (t) 
-    {
-        // if user clickes yes, it will change the active status to "Not Active".
-        if (t.value) 
-        {
-            $.ajax(
-            {
-                url: apiURL + "request/" + request_id,
-                type: "GET",
-                dataType: "json",
-                success: function (data) 
-                {
-                    
-                    var req_id = request_id
-                    var requestor = data["requestor"]
-                    var request_type = data["request_type"]
-                    var request_status = "Delivered"
-        
-                    $.ajax(
-                    {
-                        url: apiURL + "request/" + req_id,
-                        type: "PUT",
-                        data: JSON.stringify(
-                        {		
-                            "requestor": requestor,
-                            "request_type": request_type,
-                            "request_status": request_status,
-                        }),
-                        dataType: "JSON",
-                        contentType: 'application/json',
-                        processData: false,
-                        cache: false,
-                        success: function (data) 
-                        {
-                            notification("success", "Success!", "Delivered");
-                            viewRequestDetails();
-                            
-                        },
-                        error: function ({ responseJSON }) 
-                        {
-                            
-                        },
-                    }); 
-                },
-                error: function (data) {},
-            });
-        }
-    });
-}
-
-
-editRequest = () => 
-{
-    // $("#e_request_statusLabel").hide();
-    // $("#e_request_status").hide();
-    $.ajax(
-		{
-		url: apiURL + "request/" + request_id,
-		type: "GET",
-		dataType: "json",
-		success: function (data) 
-		{
-           
-            $("#e_uuid").val(request_id);
-            $("#e_requestor").val(data["requestor"]).trigger('change');
-            $("#e_request_type").val(data["request_type"]).trigger('change');
-            $("#e_request_status").val(data["request_status"]).trigger('change');
-            
-            $("#e_form_id").on("submit", function (e)
-            {
-                e.preventDefault();
-                trimInputFields();
-                var request_id = $("#e_uuid").val();
-                var requestor = $("#e_requestor").val()
-                var request_type = $("#e_request_type").val()
-                var request_status = $("#e_request_status").val()
-                
-
-                $.ajax(
-                {
-                    url: apiURL + "request/" + request_id,
-                    type: "PUT",
-                    data: JSON.stringify(
-                    {		
-                        "requestor": requestor,
-                        "request_type": request_type,
-                        "request_status": request_status,
-                    }),
-                    dataType: "JSON",
-                    contentType: 'application/json',
-                    processData: false,
-                    cache: false,
-                    success: function (data) 
-                    {
-                        notification("success", "Success!", data.message);
-                        loadTable();
-                        viewRequestDetails();
-                        $("#editing_modal").modal('hide')
-                    },
-                    error: function ({ responseJSON }) 
-                    {
-                        
-                    },
-                });
-            });
-            
-		},
-		error: function (data) {},
-	});
-}
+viewReturnDetails();
 
 loadTable = () => 
 {
+    console.log(return_id)
     $("#data-table").dataTable().fnClearTable();
     $("#data-table").dataTable().fnDraw();
     $("#data-table").dataTable().fnDestroy();
@@ -537,17 +399,17 @@ loadTable = () =>
                         // info
                         // buttons +=
                         //     '<button type="button" onClick="return viewData(\'' +
-                        //     aData["request_details_id"] +
+                        //     aData["return_details_id"] +
                         //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                         // edit
                         buttons +=
                             '<button type="button" data-toggle="modal" data-target="#editing_supply_modal" onClick="return editSupply(\'' +
-                            aData["request_details_id"] +
+                            aData["return_details_id"] +
                             '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
                         // delete
                         buttons +=
                             '<button type="button" onClick="return deleteSupply(\'' +
-                            aData["request_details_id"] +
+                            aData["return_details_id"] +
                             '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
                     }
                     else if (USER_TYPE == "Staff")
@@ -561,7 +423,7 @@ loadTable = () =>
         ],
         ajax: 
         {
-            url: '/request_detail/datatable/' + request_id,
+            url: '/return_detail/datatable/' + return_id,
             type: "GET",
             ContentType: "application/x-www-form-urlencoded",
         },
@@ -573,17 +435,17 @@ loadTable = () =>
                         // info
                         // buttons +=
                         //     '<button type="button" onClick="return viewData(\'' +
-                        //     aData["request_details_id"] +
+                        //     aData["return_detail_id"] +
                         //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
                         // edit
                         buttons +=
                             '<button type="button" data-toggle="modal" data-target="#editing_supply_modal" onClick="return editSupply(\'' +
-                            aData["request_details_id"] +
+                            aData["return_detail_id"] +
                             '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
                         // delete
                         buttons +=
                             '<button type="button" onClick="return deleteSupply(\'' +
-                            aData["request_details_id"] +
+                            aData["return_detail_id"] +
                             '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
                     }
                     else if (USER_TYPE == "Staff")
@@ -592,46 +454,200 @@ loadTable = () =>
                             'N/A';
                     }
 
-            var DateRequest = new Date(aData["request_date"]);
-            var requestedDate = DateRequest.toLocaleString();
+
+            console.log(aData["supply_id"])
+            var DateReturn = new Date(aData["return_date"]);
+            var returnedDate = DateReturn.toLocaleString();
 
             $("td:eq(0)", nRow).html(aData["supply_id"]);
             $("td:eq(1)", nRow).html(aData["quantity"]);
-            $("td:eq(2)", nRow).html(aData["status"]);
+            $("td:eq(2)", nRow).html(aData["statuss"]);
             $("td:eq(3)", nRow).html(buttons);
 
         },
         drawCallback: function (settings) {
             // $("#data-table").removeClass("dataTable");
+            console.log(settings    )
         },
     });
 };
 
-// viewData = (request_id) => 
+loadSupply = () => {
+    $.ajax({
+        url: apiURL + "supplies",
+        type: "GET",
+        dataType: "json",
+        success: function (responseData) 
+        { 
+            $.each(responseData.Supplies, function (i, dataOptions) 
+            {
+                var options = "";
+
+                options =
+                    "<option value='" +
+                    dataOptions.supply_id +
+                    "'>" +
+                    dataOptions.supply_name +
+                    "</option>";
+
+                $("#supply_id").append(options);
+                $("#e_supply_id").append(options);
+            });
+            
+        },
+        error: function ({ responseJSON }) {},
+    });
+};
+loadSupply();
+
+// delivered = () =>
 // {
-//     window.location.replace(baseURL + 'admin/request_details?request_id='+request_id);
-//     console.log(request_id);
+//     Swal.fire(
+//     {
+//         title: "Are you sure you?",
+//         text: "You won't be able to revert this!",
+//         icon: "warning",
+//         showCancelButton: !0,
+//         confirmButtonColor: "#34c38f",
+//         cancelButtonColor: "#f46a6a",
+//         confirmButtonText: "Yes, it's delivered!",
+//     })
+//     .then(function (t) 
+//     {
+//         // if user clickes yes, it will change the active status to "Not Active".
+//         if (t.value) 
+//         {
+//             $.ajax(
+//             {
+//                 url: apiURL + "return/" + return_id,
+//                 type: "GET",
+//                 dataType: "json",
+//                 success: function (data) 
+//                 {
+                    
+//                     var req_id = return_id
+//                     var returnor = data["returnor"]
+//                     var return_type = data["return_type"]
+//                     var return_status = "Delivered"
+        
+//                     $.ajax(
+//                     {
+//                         url: apiURL + "return/" + req_id,
+//                         type: "PUT",
+//                         data: JSON.stringify(
+//                         {		
+//                             "returnor": returnor,
+//                             "return_type": return_type,
+//                             "return_status": return_status,
+//                         }),
+//                         dataType: "JSON",
+//                         contentType: 'application/json',
+//                         processData: false,
+//                         cache: false,
+//                         success: function (data) 
+//                         {
+//                             notification("success", "Success!", "Delivered");
+//                             viewReturnDetails();
+                            
+//                         },
+//                         error: function ({ responseJSON }) 
+//                         {
+                            
+//                         },
+//                     }); 
+//                 },
+//                 error: function (data) {},
+//             });
+//         }
+//     });
+// }
+
+
+editReturn = () => 
+{
+    // $("#e_return_statusLabel").hide();
+    // $("#e_return_status").hide();
+    $.ajax(
+		{
+		url: apiURL + "return/" + return_id,
+		type: "GET",
+		dataType: "json",
+		success: function (data) 
+		{
+           
+            $("#e_uuid").val(return_id);
+            $("#e_returnor").val(data["returnor"]).trigger('change');
+            $("#e_return_type").val(data["return_type"]).trigger('change');
+            $("#e_return_status").val(data["return_status"]).trigger('change');
+            
+            $("#e_form_id").on("submit", function (e)
+            {
+                e.preventDefault();
+                trimInputFields();
+                var return_id = $("#e_uuid").val();
+                var returnor = $("#e_returnor").val()
+                var return_type = $("#e_return_type").val()
+                var return_status = $("#e_return_status").val()
+                
+
+                $.ajax(
+                {
+                    url: apiURL + "return/" + return_id,
+                    type: "PUT",
+                    data: JSON.stringify(
+                    {		
+                        "returnor": returnor,
+                        "return_type": return_type,
+                        "return_status": return_status,
+                    }),
+                    dataType: "JSON",
+                    contentType: 'application/json',
+                    processData: false,
+                    cache: false,
+                    success: function (data) 
+                    {
+                        notification("success", "Success!", data.message);
+                        loadTable();
+                        viewReturnDetails();
+                        $("#editing_modal").modal('hide')
+                    },
+                    error: function ({ responseJSON }) 
+                    {
+                        
+                    },
+                });
+            });
+            
+		},
+		error: function (data) {},
+	});
+}
+
+// viewData = (return_id) => 
+// {
+//     window.location.replace(baseURL + 'admin/return_details?return_id='+return_id);
+//     console.log(return_id);
 // }
 
 // function to edit data
-editSupply = (request_details_id, request_id, type) => 
+editSupply = (return_details_id, return_id, type) => 
 {
 	$.ajax(
 		{
-		url: apiURL + "request_detail/" + request_details_id + "/" + request_id,
+		url: apiURL + "return_detail/" + return_details_id + "/" + return_id,
 		type: "GET",
 		dataType: "json",
 		success: function (data) 
 		{
             console.log(data[0]);
-            // var req_id = data[0].request_id
+            // var req_id = data[0].return_id
             // var sup_id = data[0].supply_id
             // var qty = data[0].quantity
             // var stat = data[0].status
             if (type == 1) 
             {
-                $("#e_uuid").val(data[0]["request_details_id"]);
-                $("#e_req_id").val(data[0]["request_id"]);
+                $("#e_uuid").val(data[0]["return_details_id"]);
+                $("#e_req_id").val(data[0]["return_id"]);
                 $("#e_supply_id").val(data[0]["supply_id"]).trigger('change');
                 $("#e_quantity").val(data[0]["quantity"]);
                 $("#e_status").val(data[0]["status"]).trigger('change')
@@ -640,7 +656,7 @@ editSupply = (request_details_id, request_id, type) =>
                 {
                     e.preventDefault();
                     trimInputFields();
-                    var request_details_id = $("#e_uuid").val();
+                    var return_details_id = $("#e_uuid").val();
                     var req_id = $("#e_req_id").val();
                     var supply_id = $("#e_supply_id").val()
                     var quantity = $("#e_quantity").val()
@@ -648,11 +664,11 @@ editSupply = (request_details_id, request_id, type) =>
 
                     $.ajax(
                     {
-                        url: apiURL + "request_detail/" + request_details_id,
+                        url: apiURL + "return_detail/" + return_details_id,
                         type: "PUT",
                         data: JSON.stringify(
                         {		
-                            // "request_id": req_id,
+                            // "return_id": req_id,
                             // "supply_id": supply_id,
                             "quantity": quantity,
                             "status": status,
@@ -680,7 +696,7 @@ editSupply = (request_details_id, request_id, type) =>
 };
 
 // function to delete data
-deleteSupply = (request_details_id) => 
+deleteSupply = (return_details_id) => 
 {
 	Swal.fire(
 	{
@@ -699,7 +715,7 @@ deleteSupply = (request_details_id) =>
 		{
 			$.ajax(
 				{
-				url: apiURL + "request_detail/" + request_details_id,
+				url: apiURL + "return_detail/" + return_details_id,
 				type: "DELETE",
 				dataType: "json",
 				success: function (data) 

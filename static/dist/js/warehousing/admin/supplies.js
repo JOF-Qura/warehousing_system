@@ -496,7 +496,9 @@ sendRequest = (supply_id) =>
                         {
                             "supply_id": sup_id,
                             "description": description,
-                            "status": status
+                            "status": status,
+                            "request_id": null,
+                            "return_id": null
                           }
                     ),
                     dataType: "JSON",
@@ -714,7 +716,7 @@ deleteData = (supply_id) =>
             dataType: "json",
             success: function (data) 
             {
-                notification("success", "Success!", data.message);
+                notification("info", "Success!", data.message);
                 loadTable();
                 loadNotif();
                 $("#delete_modal").modal('hide')

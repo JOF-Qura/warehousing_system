@@ -36,6 +36,7 @@
     </section>
     <!-- /.content-header -->
 
+
     <!-- For TESTING -->
     <!-- <div class="row align-items-center justify-content-center"> -->
         <!-- Python conditional statement -->
@@ -57,6 +58,13 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <div class="row">
+                <button class="btn btn-success mr-2 ml-2" onclick="loadTable()">All Requestor</button>
+                <button class="btn btn-warning mr-2" onclick="loadTableFilterToProcurement()">Procurement</button>
+                <button class="btn btn-info mr-2" onclick="loadTableFilterToHD()">Hospital Department</button>
+                <button class="btn btn-secondary mr-2" onclick="loadTableFilterToWarehouse()">Warehouse</button>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <!-- Card -->
@@ -165,7 +173,7 @@
                             <!-- BUTTONS -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="Submit" class="btn btn-primary" id="button_add">Add</button>
+                                <button type="Submit" class="btn btn-primary" id="button_add">Submit</button>
                             </div>
                             <!-- END BUTTONS -->
                         </div>

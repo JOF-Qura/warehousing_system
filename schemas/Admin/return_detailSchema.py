@@ -1,38 +1,38 @@
 from datetime import datetime as dt
 from pydantic import BaseModel
 from typing import List, Optional
-from schemas.Admin import requestSchema
+from schemas.Admin import returnSchema
 from schemas.Admin import supplySchema
 
-#================================ Request Details Table =================================#
-class RequestDetailBase(BaseModel):
+#================================ Return Details Table =================================#
+class ReturnDetailBase(BaseModel):
     quantity: Optional[int] = None
     status: Optional[str] = None
 
     class Config():
         orm_mode = True
 
-# Schema for request body
-class CreateRequestDetail(RequestDetailBase):
+# Schema for return body
+class CreateReturnDetail(ReturnDetailBase):
     supply_id: str
-    request_id: str
+    return_id: str
     pass
 
-class UpdateRequestDetail(BaseModel):
+class UpdateReturnDetail(BaseModel):
     quantity: Optional[int]
     status: Optional[str]
 
 #Schema for response body
-class ShowRequestDetail(RequestDetailBase):
-    request_details_id: Optional[str]
-    reuqest_id: Optional[str]
+class ShowReturnDetail(ReturnDetailBase):
+    return_details_id: Optional[str]
+    return_id: Optional[str]
     supply_id: Optional[str]
 
     created_at: Optional[dt] = None
     updated_at: Optional[dt] = None
     
-    request: Optional[requestSchema.ShowRequest]
-    supply: Optional[supplySchema.ShowSupply]
+    returns: Optional[returnSchema.ShowReturn]
+    return_supply: Optional[supplySchema.ShowSupply]
     
     class Config():
         orm_mode = True

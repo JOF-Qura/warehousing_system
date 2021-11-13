@@ -34,6 +34,7 @@ var USER_EMAIL = sessionStorage.getItem('USER_EMAIL')
 
 loadNotif = () => {
 
+    // NOTIF FROM STAFFS
     $.ajax(
     {
         url: apiURL + "notifications",
@@ -78,8 +79,8 @@ loadNotif = () => {
                     // $("#notif_number").append(notifs_number);
 
                     var how_many_staff_notifs = "";
-                    how_many_staff_notifs = notifData.length + 
-                        ' Notification/s from Staff';
+                    how_many_staff_notifs = '<b>' +  notifData.length + 
+                        ' Notification/s from Staff </b>';
                     $("#how_many_staff_notif").append(how_many_staff_notifs);
 
                     var notifs = "";
@@ -96,19 +97,23 @@ loadNotif = () => {
                         '</a>';
                     $("#staff_notif").append(notifs);
 
-                    var all_notifs = "";
+
+                    // SEE ALL NOTIF BUTTON ON Notification
+                    // var all_notifs = "";
                     
-                        if(USER_TYPE == "Manager")
-                        {
-                            all_notifs =
-                            '<a href="/warehousing/manager/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
-                        }
-                        else if(USER_TYPE == "Admin")
-                        {
-                            all_notifs =
-                            '<a href="/warehousing/admin/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
-                        };
-                    $("#see_all_notif").append(all_notifs);
+                    //     if(USER_TYPE == "Manager")
+                    //     {
+                    //         all_notifs =
+                    //         '<a href="/warehousing/manager/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                    //     }
+                    //     else if(USER_TYPE == "Admin")
+                    //     {
+                    //         all_notifs =
+                    //         '<a href="/warehousing/admin/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                    //     };
+                    // $("#see_all_notif").append(all_notifs);
+
+                    //
 
                     // console.log(responseData)
                 });
@@ -119,6 +124,8 @@ loadNotif = () => {
             
         }
     });
+
+    // SUPPLY NOTIF
     $.ajax(
     {
         url: apiURL + "supplies_count",
@@ -136,8 +143,8 @@ loadNotif = () => {
             $("#how_many_notif").empty();
 
             var how_many_notifs = "";
-            how_many_notifs = responseData.length + 
-                ' Supply Notification/s';
+            how_many_notifs = '<b>' + responseData.length + 
+                ' Supply Notification/s </b>';
             $("#how_many_notif").append(how_many_notifs);
 
             $.each(responseData, function (i, dataOptions) 
@@ -157,27 +164,178 @@ loadNotif = () => {
 
                 console.log(responseData)
 
-
-                $("#see_all_notif").empty();
-                var all_notifs = "";
+                // SEE ALL NOTIF BUTTON ON Notification
+                // $("#see_all_notif").empty();
+                // var all_notifs = "";
                 
-                    if(USER_TYPE == "Manager")
-                    {
-                        all_notifs =
-                        '<a href="/warehousing/manager/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
-                    }
-                    else if(USER_TYPE == "Admin")
-                    {
-                        all_notifs =
-                        '<a href="/warehousing/admin/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
-                    };
-                $("#see_all_notif").append(all_notifs);
+                //     if(USER_TYPE == "Manager")
+                //     {
+                //         all_notifs =
+                //         '<a href="/warehousing/manager/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                //     }
+                //     else if(USER_TYPE == "Admin")
+                //     {
+                //         all_notifs =
+                //         '<a href="/warehousing/admin/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                //     };
+                // $("#see_all_notif").append(all_notifs);
 
                 console.log(responseData)
             });
         },
         error: function ({ responseJSON }) {},
     });
+
+    // NOTIF FROM PROCUREMENT
+    $.ajax(
+        {
+            url: apiURL + "request_count/from_procurement",
+            type: "GET",
+            dataType: "json",
+            success: function (responseData) 
+            { 
+                // $("#notif_number").empty();
+                // var notifs_number = "";
+                var procurement_nofits_number = responseData.length;
+                countNotif(procurement_nofits_number)
+                // $("#notif_number").append(notifs_number);
+                
+    
+                $("#how_many_procurement_notif").empty();
+    
+                var how_many_procurement_notifs = "";
+                how_many_procurement_notifs = '<b>' + responseData.length + 
+                    ' Procurement Notification/s </b>';
+                $("#how_many_procurement_notif").append(how_many_procurement_notifs);
+    
+                $.each(responseData, function (i, dataOptions) 
+                {
+                    // $("#notifications").empty();
+                    var notifs = "";
+                    notifs +=
+                        '<div class="dropdown-divider"></div>' + 
+                        '<a href="javascript:procurementNotifResolved(\'' + 
+                            responseData[i]["request_id"] + 
+                            '\')" class="dropdown-item">' +
+                            //<!-- Message Start -->
+                            '<div class="media">' +
+                                '<i class="fas fa-box mr-2"></i>' +
+                                '<div class="media-body">' +
+                                    '<p class="text-sm"><b>Request ID:<br>' + responseData[i].request_id +'</b></p>' +
+                                    '<p class="text-sm">has been delivered, click to resolved</p>' +
+                                    '<p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>' +
+                                '</div>' +
+                            '</div>' +
+                            //<!-- Message End -->
+                        '</a>' ;
+                    $("#procurement_notif").append(notifs);
+    
+                    console.log(responseData)
+    
+                    // SEE ALL NOTIF BUTTON ON Notification
+                    // $("#see_all_notif").empty();
+                    // var all_notifs = "";
+                    
+                    //     if(USER_TYPE == "Manager")
+                    //     {
+                    //         all_notifs =
+                    //         '<a href="/warehousing/manager/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                    //     }
+                    //     else if(USER_TYPE == "Admin")
+                    //     {
+                    //         all_notifs =
+                    //         '<a href="/warehousing/admin/supplies" class="dropdown-item dropdown-footer">Go to Supply Page</a>'
+                    //     };
+                    // $("#see_all_notif").append(all_notifs);
+    
+                    console.log(responseData)
+                });
+            },
+            error: function ({ responseJSON }) {},
+        });
+
+    // NOTIF FROM HOSPITAL
+    $.ajax(
+        {
+            url: apiURL + "request_count/from_hospital",
+            type: "GET",
+            dataType: "json",
+            success: function (responseData) 
+            { 
+                // $("#notif_number").empty();
+                // var notifs_number = "";
+                var hospital_nofits_number = responseData.length;
+                countNotif(hospital_nofits_number)
+                // $("#notif_number").append(notifs_number);
+                
+    
+                $("#how_many_hospital_notif").empty();
+    
+                var how_many_hospital_notifs = "";
+                how_many_hospital_notifs = '<b>' + responseData.length + 
+                    ' Hospital Notification/s </b>';
+                $("#how_many_hospital_notif").append(how_many_hospital_notifs);
+    
+                $.each(responseData, function (i, dataOptions) 
+                {
+                    // $("#notifications").empty();
+                    var notifs = "";
+                    notifs +=
+                        '<div class="dropdown-divider"></div>' + 
+                        '<a href="javascript:hospitalNotifResolved(\'' + 
+                            responseData[i]["request_id"] + 
+                            '\')" class="dropdown-item">' +
+                            //<!-- Message Start -->
+                            '<div class="media">' +
+                                '<i class="fas fa-box mr-2"></i>' +
+                                '<div class="media-body">' +
+                                    '<p class="text-sm"><b>Request ID:<br>' + responseData[i].request_id +'</b></p>' +
+                                    '<p class="text-sm">has been delivered, click to resolved</p>' +
+                                    '<p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>' +
+                                '</div>' +
+                            '</div>' +
+                            //<!-- Message End -->
+                        '</a>' ;
+                        // '<div>' +
+                        //     '<a href="javascript:hospitalNotifResolved(\'' + 
+                        //     responseData[i]["request_id"] + 
+                        //     '\')" class="dropdown-item">' +
+                        //     // '<div class="dropdown-item-body">' +
+                        //         '<i class="fas fa-box mr-2"></i>' +
+                        //         '<p class="text-sm"><b>Request ID:<br>' + responseData[i].request_id +'</b></p>' +
+                        //         '<span class="float-right text-info text-sm">' +
+                        //             'has been delivered, click to resolved'
+                        //         '</span>' +
+                        //     // '</div>' +
+                        //     '</a>'+
+                        // '</div>' ;
+                       
+                    $("#hospital_notif").append(notifs);
+    
+                    console.log(responseData)
+    
+                    // SEE ALL NOTIF BUTTON ON Notification
+                    $("#see_all_notif").empty();
+                    var all_notifs = "";
+                    
+                        if(USER_TYPE == "Manager")
+                        {
+                            all_notifs =
+                            '<a href="/warehousing/manager/supplies" class="dropdown-item dropdown-footer">See all Notif</a>'
+                        }
+                        else if(USER_TYPE == "Admin")
+                        {
+                            all_notifs =
+                            '<a href="/warehousing/admin/supplies" class="dropdown-item dropdown-footer">See all Notif</a>'
+                        };
+                    $("#see_all_notif").append(all_notifs);
+    
+                    console.log(responseData)
+                });
+            },
+            error: function ({ responseJSON }) {},
+        });
+
 };
 loadNotif();
 
@@ -219,6 +377,98 @@ notifResolved = (notification_id) =>
                 data: JSON.stringify(
                 {		
                     "status": "Resolved",
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    loadNotif();
+                    notification("success", "Success!", "Notification Resolved")
+                    setTimeout(function() {
+                        // Do something after 5 seconds
+                        location.reload();//reload page
+                  }, 1500);
+                },
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};
+
+// function to delete data
+hospitalNotifResolved = (request_id) => 
+{
+    console.log(request_id)
+	Swal.fire(
+	{
+		title: "Is this already resolved?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, it is!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+            $.ajax(
+            {
+                url: apiURL + "request/" + request_id,
+                type: "PUT",
+                data: JSON.stringify(
+                {		
+                    "request_status": "OK",
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    loadNotif();
+                    notification("success", "Success!", "Notification Resolved")
+                    setTimeout(function() {
+                        // Do something after 5 seconds
+                        location.reload();//reload page
+                  }, 1500);
+                },
+				error: function ({ responseJSON }) {},
+			});
+		}
+	});
+};
+
+// function to delete data
+procurementNotifResolved = (request_id) => 
+{
+    console.log(request_id)
+	Swal.fire(
+	{
+		title: "Is this already resolved?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: !0,
+		confirmButtonColor: "#34c38f",
+		cancelButtonColor: "#f46a6a",
+		confirmButtonText: "Yes, it is!",
+	})
+	.then(function (t) 
+	{
+		// if user clickes yes, it will change the active status to "Not Active".
+		if (t.value) 
+		{
+            $.ajax(
+            {
+                url: apiURL + "request/" + request_id,
+                type: "PUT",
+                data: JSON.stringify(
+                {		
+                    "request_status": "OK",
                 }),
                 dataType: "JSON",
                 contentType: 'application/json',

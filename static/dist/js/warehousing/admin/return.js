@@ -279,3 +279,87 @@ loadTable = () =>
         },
     });
 };
+
+viewData = (return_id) => 
+{
+    if(USER_TYPE == "Admin")
+    {
+        window.location.replace(baseURL + 'admin/return_details?return_id='+return_id);
+        console.log(return_id);
+    }
+    else if(USER_TYPE == "Manager")
+    {
+        window.location.replace(baseURL + 'manager/return_details?return_id='+return_id);
+        console.log(return_id);
+    }
+    else if(USER_TYPE == "Staff")
+    {
+        window.location.replace(baseURL + 'staff/return_details?return_id='+return_id);
+        console.log(return_id);
+    }
+}
+
+// function to edit data
+editData = (return_id, type) => 
+{
+	
+};
+
+// function to delete data
+// deleteData = (request_id) => 
+// {
+// 	Swal.fire(
+// 	{
+// 		title: "Are you sure you want to delete this record?",
+// 		text: "You won't be able to revert this!",
+// 		icon: "warning",
+// 		showCancelButton: !0,
+// 		confirmButtonColor: "#34c38f",
+// 		cancelButtonColor: "#f46a6a",
+// 		confirmButtonText: "Yes, delete it!",
+// 	})
+// 	.then(function (t) 
+// 	{
+// 		// if user clickes yes, it will change the active status to "Not Active".
+// 		if (t.value) 
+// 		{
+// 			$.ajax(
+// 				{
+// 				url: apiURL + "request/" + request_id,
+// 				type: "DELETE",
+// 				dataType: "json",
+// 				success: function (data) 
+//                 {
+//                     notification("success", "Success!", data.message);
+//                     loadTable();
+// 				},
+// 				error: function ({ responseJSON }) {},
+// 			});
+// 		}
+// 	});
+// };
+
+deleteData = (request_id) => 
+{
+    $("#d_uuid").val(request_id);
+
+    $("#d_form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        $.ajax(
+            {
+            url: apiURL + "requests/" + request_id,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) 
+            {
+                notification("info", "Success!", data.message);
+                loadTable();
+                loadNotif();
+                $("#delete_modal").modal('hide')
+            },
+            error: function ({ responseJSON }) {},
+        });
+    });
+};

@@ -351,7 +351,7 @@ deleteData = (supplier_id) =>
             dataType: "json",
             success: function (data) 
             {
-                notification("success", "Success!", data.message);
+                notification("info", "Success!", data.message);
                 loadTable();
                 loadNotif();
                 $("#delete_modal").modal('hide')

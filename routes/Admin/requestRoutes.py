@@ -39,7 +39,7 @@ def datatable(request: Request, db: Session = Depends(get_db)):
                 )
             )
 
-        table = DataTable(dict(request.query_params), Request_M, db.query(Request_M), 
+        table = DataTable(dict(request.query_params), Request_M, db.query(Request_M).filter(Request_M.request_status != "OK"), 
         [
             'request_id',
             'request_date',
