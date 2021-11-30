@@ -12,8 +12,13 @@ $(function()
          var employee_id = $("#employee_id").val();
          var status = $("#status").val();
          var total_quantity = $("#total_quantity").val();
-         var complete_shipment_date = "2021-08-28T04:29:33.292Z"
-         var expected_shipment_date = "2021-08-28T04:29:33.292Z"
+         var complete_shipment_date = $("#expected_shipment_date").val();
+         var expected_shipment_date = $("#complete_shipment_date").val();
+
+         var date_complete = complete_shipment_date + "T00:00:00.000Z"
+         var date_expected = expected_shipment_date + "T00:00:00.000Z"
+
+
 
  
  
@@ -29,8 +34,8 @@ $(function()
                      "employee_id": employee_id,
                      "status": status,
                      "total_quantity": total_quantity,
-                     "expected_shipment_date": expected_shipment_date,
-                     "complete_shipment_date": complete_shipment_date,
+                     "expected_shipment_date": date_expected,
+                     "complete_shipment_date": date_complete,
                  }),
                  dataType: "JSON",
                  contentType: 'application/json',
@@ -523,6 +528,20 @@ deleteData = (outbound_report_id) =>
 
 viewData = (outbound_report_id) => 
 {
-    window.location.replace(baseURL + 'admin/outbound_report_details?outbound_report_id='+outbound_report_id);
+    if(USER_TYPE == "Admin")
+    {
+        window.location.replace(baseURL + 'admin/outbound_report_details?outbound_report_id='+outbound_report_id);
     console.log(outbound_report_id);
+    }
+    else if(USER_TYPE == "Manager")
+    {
+        window.location.replace(baseURL + 'manager/outbound_report_details?outbound_report_id='+outbound_report_id);
+    console.log(outbound_report_id);
+    }
+    else if(USER_TYPE == "Staff")
+    {
+        window.location.replace(baseURL + 'staff/outbound_report_details?outbound_report_id='+outbound_report_id);
+    console.log(outbound_report_id);
+    }
+    
 }

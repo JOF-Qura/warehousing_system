@@ -2,55 +2,59 @@ $(function()
 {
     loadTable();
     
-    addData = () =>
-    {
-        $("#return_statusLabel").hide();
-        $("#return_status").hide();
-        // function to save/update record
-        $("#form_id").on("submit", function (e)
-        {
-            e.preventDefault();
-            trimInputFields();
-            var return_id = $("#uuid").val();
-            var returner = $("#returner").val()
-            var return_date = "2021-08-28T04:29:33.292Z"
-            var return_type = $("#return_type").val();
-            var return_status = $("#return_status").val();
 
-            if (return_id == "")
+    // $("#return_statusLabel").hide();
+    $("#status_return").hide();
+    // function to save/update record
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var return_id = $("#uuid").val();
+        var returner = $("#returner").val()
+        var return_date = $("#return_date").val();
+        var return_type = $("#return_type").val();
+        var return_status = $("#return_status").val();
+
+        var date = return_date + "T00:00:00.000Z"
+
+        console.log(date_return)
+
+        console.log()
+
+        if (return_id == "")
+        {
+            $.ajax(
             {
-                $.ajax(
+                url: apiURL + "returns/",
+                type: "POST",
+                data: JSON.stringify(
+                {		
+                    "returner": returner,
+                    "return_date": date,
+                    "return_type": return_type,
+                    "return_status": return_status
+                    
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
                 {
-                    url: apiURL + "returns/",
-                    type: "POST",
-                    data: JSON.stringify(
-                    {		
-                        "returner": returner,
-                        "return_date": return_date,
-                        "return_type": return_type,
-                        "return_status": return_status
-                        
-                    }),
-                    dataType: "JSON",
-                    contentType: 'application/json',
-                    processData: false,
-                    cache: false,
-                    success: function (data) 
-                    {
-                        $('#form_id').trigger("reset")
-                        $('#button_add').prop('disabled', false)
-                        notification("success", "Success!", data.message);
-                        loadTable();
-                        $("#adding_modal").modal('hide')
-                    },
-                    error: function ({ responseJSON }) 
-                    {
-                        
-                    },
-                });
-            }
-        });
-    }
+                    $('#form_id').trigger("reset")
+                    // $('#button_add').prop('disabled', false)
+                    notification("success", "Success!", data.message);
+                    loadTable();
+                    $("#adding_modal").modal('hide')
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+        }
+    });
 });
 
 //    $.ajaxSetup(

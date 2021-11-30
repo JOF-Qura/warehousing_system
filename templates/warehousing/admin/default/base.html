@@ -170,7 +170,7 @@
                     
                     <ul class="dropdown-menu dropdown-menu-left">
                         <li><a href="#" class="dropdown-item">Procurement Management</a></li>
-                        <li><a href="#" class="dropdown-item active">Warehousing Management</a></li>
+                        <li><a href="/warehousing/admin" class="dropdown-item active">Warehousing Management</a></li>
                         <li><a href="#" class="dropdown-item">Asset Management</a></li>
                         <li><a href="#" class="dropdown-item">Project Management</a></li>
                     </ul>
@@ -178,7 +178,7 @@
 
                 <!-- System Administration -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#l" role="button">
+                    <a class="nav-link" href="/homies/systemAdmin" role="button">
                         <span>SysAdmin</span>
                     </a>
                 </li>
@@ -382,14 +382,14 @@
                             <p> Return </p>
                         </a>
                     </li>
-                    <li class="nav-header"><b>Reports In/Out</b></li>
-                    <li class="nav-item">
+                    <li class="nav-header"><b>Reports</b></li>
+                    <!-- <li class="nav-item">
                         <a href="/warehousing/admin/outbound_reports"  class="nav-link" id="outbound_report_sidebar">
                             <script>if(window.location.pathname == '/warehousing/admin/outbound_reports/'){document.getElementById("outbound_report_sidebar").classList.add('active')}</script>
                             <i class="nav-icon fas fa-poll"></i>
                             <p> Outbound Reports </p>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a href="/warehousing/admin/inbound_reports" class="nav-link" id="inbound_report_sidebar">
                             <script>if(window.location.pathname == '/warehousing/admin/inbound_reports/'){document.getElementById("inbound_report_sidebar").classList.add('active')}</script>
@@ -450,7 +450,7 @@
         <!-- Sidebar Custom -->
         <div class="sidebar-custom">
             <!-- <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a> -->
-            <button class="btn btn-danger hide-on-collapse pos-right" onClick="return logout()">Logout <i class= "fas fa-sign-out-alt ml-1"></i></button>
+            <button class="btn btn-danger hide-on-collapse pos-right" onClick="return logout()">Log out <i class= "fas fa-sign-out-alt ml-1"></i></button>
         </div>
         <!-- /.sidebar-custom -->
     </aside>

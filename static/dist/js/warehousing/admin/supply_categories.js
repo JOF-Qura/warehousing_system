@@ -29,7 +29,7 @@ $(function()
                 success: function (data) 
                 {
                     $('#form_id').trigger("reset")
-                    $('#button_add').prop('disabled', true)
+                    // $('#button_add').prop('disabled', true)
                     notification("success", "Success!", data.message);
                     loadTable();
                     $("#adding_modal").modal('hide')
@@ -41,7 +41,7 @@ $(function()
             });
         }
     });
-    $('#button_add').prop('disabled', false)
+    // $('#button_add').prop('disabled', false)
 });
 
 //    $.ajaxSetup(

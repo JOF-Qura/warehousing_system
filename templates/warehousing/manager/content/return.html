@@ -70,7 +70,7 @@
                                 </div>
                                 <!-- Button -->
                                 <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Return <i class="fas fa-plus"></i></button>
+                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal">Add New Return <i class="fas fa-plus"></i></button>
                                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                                 </div>
                                 <!-- / Button -->
@@ -153,14 +153,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="return_status" id="return_statusLabel">Return Status</label> <span class="required-field"> </span>
-                                        <select class="form-control js-example-basic-single" id="return_status" name="return_status">
-                                            <option value="Pending">Pending</option>
-                                            <option value="For Delivery">For Delivery</option>
-                                        </select>
+                            <div id="status_return">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="return_status" id="return_statusLabel">Return Status</label> <span class="required-field"> </span>
+                                            <select class="form-control js-example-basic-single" id="return_status" name="return_status">
+                                                <option value="Pending">Pending</option>
+                                                <option value="For Delivery">For Delivery</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

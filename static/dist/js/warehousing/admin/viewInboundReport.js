@@ -36,7 +36,7 @@ viewInboundReportDetails = () =>
             {
                 status =  '<div class="col-md-9"><span class="badge badge-warning">'+data.status+'</span></div>'
             }
-            else if (data.status == "Approved")
+            else if (data.status == "Delivered")
             {
                 status =  '<div class="col-md-9"><span class="badge badge-success">'+data.status+'</span></div>'
             }

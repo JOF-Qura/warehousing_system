@@ -22,9 +22,11 @@ addData = () =>
         trimInputFields();
         var request_id = $("#uuid").val();
         var requestor = $("#requestor").val()
-        var request_date = "2021-08-28T04:29:33.292Z"
+        var request_date = $("#request_date").val();
         var request_type = $("#request_type").val();
         var request_status = $("#request_status").val();
+
+        var date_request = request_date + "T00:00:00.000Z"
 
         if (request_id == "")
         {
@@ -35,7 +37,7 @@ addData = () =>
                 data: JSON.stringify(
                 {		
                     "requestor": requestor,
-                    "request_date": request_date,
+                    "request_date": date_request,
                     "request_type": request_type,
                     "request_status": request_status
                 }),
@@ -82,8 +84,8 @@ loadTable = () =>
         buttons:[
             {extend: 'excel', text: 'Save to Excel File'}
         ],
-        order: [[0, "desc"]],
-        aLengthMenu: [5, 10, 20, 30, 50, 100],
+        order: [[1, "desc"]],
+        aLengthMenu: [10, 20, 30, 40, 50, 100],
         aaColumns: [
             { sClass: "text-left" },
             { sClass: "text-left" },
@@ -134,98 +136,198 @@ loadTable = () =>
                 class: "text-center", 
                 render: function (aData, type, row) 
                 {
+                    console.log(aData)
                     let buttons = "";
                     if (USER_TYPE == "Admin")
                     {
-                        buttons +=
-                        '<div class="text-center dropdown">' +
-                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                                '<i class="fas fa-ellipsis-v"></i>'  +
-                            '</div>' +
-                            '<div class="dropdown-menu dropdown-menu-right">'  +
-                            //Info
-                                '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                                aData["request_id"] + 
-                                '\', 0)">'  +
-                                    '<div style="width: 2rem">' +
-                                        '<i class="fas fa-eye mr-1"></i>'  +
-                                    '</div>' +
-                                    '<div>' +
-                                        'View Request' +
-                                    '</div>'  +
-                                '</div>'  +
-                            // Edit
-                                '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                                aData["request_id"] +
-                                '\',1)">'  +
-                                    '<div style="width: 2rem">' +
-                                        '<i class="fas fa-edit mr-1"></i>'  +
-                                    '</div>' +
-                                    '<div>' +
-                                        'Edit Request' +
-                                    '</div>'  +
+                        if(aData["request_status"] == "Delivered")
+                        {
+                            buttons +=
+                            '<div class="text-center dropdown">' +
+                                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                    '<i class="fas fa-ellipsis-v"></i>'  +
                                 '</div>' +
-                            // Delete
-                                '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
-                                aData["request_id"] + 
-                                '\')">'  +
-                                    '<div style="width: 2rem">' +
-                                        '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '<div class="dropdown-menu dropdown-menu-right">'  +
+                                //Info
+                                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                    aData["request_id"] + 
+                                    '\', 0)">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-eye mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'View Request' +
+                                        '</div>'  +
+                                    '</div>'  +
+                                // // Edit
+                                //     '<div class="dropdown-divider"></div>' +
+                                //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                //     aData["request_id"] +
+                                //     '\',1)">'  +
+                                //         '<div style="width: 2rem">' +
+                                //             '<i class="fas fa-edit mr-1"></i>'  +
+                                //         '</div>' +
+                                //         '<div>' +
+                                //             'Edit Request' +
+                                //         '</div>'  +
+                                //     '</div>' +
+                                // // // Delete
+                                //     '<div class="dropdown-divider"></div>' +
+                                //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                                //     aData["request_id"] + 
+                                //     '\')">'  +
+                                //         '<div style="width: 2rem">' +
+                                //             '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                //         '</div>' +
+                                //         '<div>' +
+                                //             'Delete Request' +
+                                //         '</div>'  +
+                                //     '</div>'  +
+                                '</div>'  +
+                            '</div>';
+                        }
+                        else
+                        {
+                            buttons +=
+                            '<div class="text-center dropdown">' +
+                                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                    '<i class="fas fa-ellipsis-v"></i>'  +
+                                '</div>' +
+                                '<div class="dropdown-menu dropdown-menu-right">'  +
+                                //Info
+                                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                    aData["request_id"] + 
+                                    '\', 0)">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-eye mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'View Request' +
+                                        '</div>'  +
+                                    '</div>'  +
+                                // Edit
+                                    '<div class="dropdown-divider"></div>' +
+                                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                    aData["request_id"] +
+                                    '\',1)">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-edit mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'Edit Request' +
+                                        '</div>'  +
                                     '</div>' +
-                                    '<div>' +
-                                        'Delete Request' +
+                                // Delete
+                                    '<div class="dropdown-divider"></div>' +
+                                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                                    aData["request_id"] + 
+                                    '\')">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'Delete Request' +
+                                        '</div>'  +
                                     '</div>'  +
                                 '</div>'  +
-                            '</div>'  +
-                        '</div>';
+                            '</div>';
+                        }
                     }
                     else if (USER_TYPE == "Manager")
                     {
-                        buttons +=
-                        '<div class="text-center dropdown">' +
-                            '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                                '<i class="fas fa-ellipsis-v"></i>'  +
-                            '</div>' +
-                            '<div class="dropdown-menu dropdown-menu-right">'  +
-                            //Info
-                                '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                                aData["request_id"] + 
-                                '\', 0)">'  +
-                                    '<div style="width: 2rem">' +
-                                        '<i class="fas fa-eye mr-1"></i>'  +
+                        
+                        if(aData["request_status"] == "Delivered")
+                        {
+                            buttons +=
+                            '<div class="text-center dropdown">' +
+                                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                    '<i class="fas fa-ellipsis-v"></i>'  +
+                                '</div>' +
+                                '<div class="dropdown-menu dropdown-menu-right">'  +
+                                //Info
+                                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                    aData["request_id"] + 
+                                    '\', 0)">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-eye mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'View Request' +
+                                        '</div>'  +
+                                    '</div>'  +
+                                // // Edit
+                                //     '<div class="dropdown-divider"></div>' +
+                                //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                //     aData["request_id"] +
+                                //     '\',1)">'  +
+                                //         '<div style="width: 2rem">' +
+                                //             '<i class="fas fa-edit mr-1"></i>'  +
+                                //         '</div>' +
+                                //         '<div>' +
+                                //             'Edit Request' +
+                                //         '</div>'  +
+                                //     '</div>' +
+                                // // // Delete
+                                //     '<div class="dropdown-divider"></div>' +
+                                //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                                //     aData["request_id"] + 
+                                //     '\')">'  +
+                                //         '<div style="width: 2rem">' +
+                                //             '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                //         '</div>' +
+                                //         '<div>' +
+                                //             'Delete Request' +
+                                //         '</div>'  +
+                                //     '</div>'  +
+                                '</div>'  +
+                            '</div>';
+                        }
+                        else
+                        {
+                            buttons +=
+                            '<div class="text-center dropdown">' +
+                                '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                                    '<i class="fas fa-ellipsis-v"></i>'  +
+                                '</div>' +
+                                '<div class="dropdown-menu dropdown-menu-right">'  +
+                                //Info
+                                    '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                                    aData["request_id"] + 
+                                    '\', 0)">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-eye mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'View Request' +
+                                        '</div>'  +
+                                    '</div>'  +
+                                // Edit
+                                    '<div class="dropdown-divider"></div>' +
+                                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                                    aData["request_id"] +
+                                    '\',1)">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-edit mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'Edit Request' +
+                                        '</div>'  +
                                     '</div>' +
-                                    '<div>' +
-                                        'View Request' +
+                                // Delete
+                                    '<div class="dropdown-divider"></div>' +
+                                    '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                                    aData["request_id"] + 
+                                    '\')">'  +
+                                        '<div style="width: 2rem">' +
+                                            '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                        '</div>' +
+                                        '<div>' +
+                                            'Delete Request' +
+                                        '</div>'  +
                                     '</div>'  +
                                 '</div>'  +
-                            // Edit
-                                '<div class="dropdown-divider"></div>' +
-                                '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                                aData["request_id"] +
-                                '\',1)">'  +
-                                    '<div style="width: 2rem">' +
-                                        '<i class="fas fa-edit mr-1"></i>'  +
-                                    '</div>' +
-                                    '<div>' +
-                                        'Edit Request' +
-                                    '</div>'  +
-                                '</div>' +
-                            // Delete
-                                // '<div class="dropdown-divider"></div>' +
-                                // '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                                // aData["request_id"] + 
-                                // '\')">'  +
-                                //     '<div style="width: 2rem">' +
-                                //         '<i class="fas fa-trash-alt mr-1"></i>'  +
-                                //     '</div>' +
-                                //     '<div>' +
-                                //         'Delete Request' +
-                                //     '</div>'  +
-                                // '</div>'  +
-                            '</div>'  +
-                        '</div>';
+                            '</div>';
+                        }
                     }
                     else if (USER_TYPE == "Staff")
                     {
@@ -290,95 +392,193 @@ loadTable = () =>
             let buttons = "";
             if (USER_TYPE == "Admin")
             {
-                buttons +=
-                '<div class="text-center dropdown">' +
-                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                        '<i class="fas fa-ellipsis-v"></i>'  +
-                    '</div>' +
-                    '<div class="dropdown-menu dropdown-menu-right">'  +
-                    //Info
-                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                        aData["request_id"] + 
-                        '\', 0)">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-eye mr-1"></i>'  +
-                            '</div>' +
-                            '<div>' +
-                                'View Request' +
-                            '</div>'  +
-                        '</div>'  +
-                    // Edit
-                        '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                        aData["request_id"] +
-                        '\',1)">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-edit mr-1"></i>'  +
-                            '</div>' +
-                            '<div>' +
-                                'Edit Request' +
-                            '</div>'  +
+                if(aData["request_status"] == "Delivered")
+                {
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
                         '</div>' +
-                    // Delete
-                        '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
-                        aData["request_id"] + 
-                        '\')">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                            aData["request_id"] + 
+                            '\', 0)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-eye mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'View Request' +
+                                '</div>'  +
+                            '</div>'  +
+                        // // Edit
+                        //     '<div class="dropdown-divider"></div>' +
+                        //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                        //     aData["request_id"] +
+                        //     '\',1)">'  +
+                        //         '<div style="width: 2rem">' +
+                        //             '<i class="fas fa-edit mr-1"></i>'  +
+                        //         '</div>' +
+                        //         '<div>' +
+                        //             'Edit Request' +
+                        //         '</div>'  +
+                        //     '</div>' +
+                        // // // Delete
+                        //     '<div class="dropdown-divider"></div>' +
+                        //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                        //     aData["request_id"] + 
+                        //     '\')">'  +
+                        //         '<div style="width: 2rem">' +
+                        //             '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        //         '</div>' +
+                        //         '<div>' +
+                        //             'Delete Request' +
+                        //         '</div>'  +
+                        //     '</div>'  +
+                        '</div>'  +
+                    '</div>';
+                }
+                else
+                {
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                            aData["request_id"] + 
+                            '\', 0)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-eye mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'View Request' +
+                                '</div>'  +
+                            '</div>'  +
+                        // Edit
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["request_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit Request' +
+                                '</div>'  +
                             '</div>' +
-                            '<div>' +
-                                'Delete Request' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                            aData["request_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete Request' +
+                                '</div>'  +
                             '</div>'  +
                         '</div>'  +
-                    '</div>'  +
-                '</div>';
+                    '</div>';
+                }
             }
             else if (USER_TYPE == "Manager")
             {
-                buttons +=
-                '<div class="text-center dropdown">' +
-                    '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
-                        '<i class="fas fa-ellipsis-v"></i>'  +
-                    '</div>' +
-                    '<div class="dropdown-menu dropdown-menu-right">'  +
-                    //Info
-                        '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
-                        aData["request_id"] + 
-                        '\', 0)">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-eye mr-1"></i>'  +
+                if(aData["request_status"] == "Delivered")
+                {
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                            aData["request_id"] + 
+                            '\', 0)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-eye mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'View Request' +
+                                '</div>'  +
+                            '</div>'  +
+                        // // Edit
+                        //     '<div class="dropdown-divider"></div>' +
+                        //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                        //     aData["request_id"] +
+                        //     '\',1)">'  +
+                        //         '<div style="width: 2rem">' +
+                        //             '<i class="fas fa-edit mr-1"></i>'  +
+                        //         '</div>' +
+                        //         '<div>' +
+                        //             'Edit Request' +
+                        //         '</div>'  +
+                        //     '</div>' +
+                        // // // Delete
+                        //     '<div class="dropdown-divider"></div>' +
+                        //     '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                        //     aData["request_id"] + 
+                        //     '\')">'  +
+                        //         '<div style="width: 2rem">' +
+                        //             '<i class="fas fa-trash-alt mr-1"></i>'  +
+                        //         '</div>' +
+                        //         '<div>' +
+                        //             'Delete Request' +
+                        //         '</div>'  +
+                        //     '</div>'  +
+                        '</div>'  +
+                    '</div>';
+                }
+                else
+                {
+                    buttons +=
+                    '<div class="text-center dropdown">' +
+                        '<div class="btn btn-sm btn-default" data-toggle="dropdown" role="button">'  +
+                            '<i class="fas fa-ellipsis-v"></i>'  +
+                        '</div>' +
+                        '<div class="dropdown-menu dropdown-menu-right">'  +
+                        //Info
+                            '<div class="dropdown-item d-flex" role="button" onClick="return viewData(\'' + 
+                            aData["request_id"] + 
+                            '\', 0)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-eye mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'View Request' +
+                                '</div>'  +
+                            '</div>'  +
+                        // Edit
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
+                            aData["request_id"] +
+                            '\',1)">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-edit mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Edit Request' +
+                                '</div>'  +
                             '</div>' +
-                            '<div>' +
-                                'View Request' +
+                        // Delete
+                            '<div class="dropdown-divider"></div>' +
+                            '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#delete_modal" onClick="return deleteData(\'' + 
+                            aData["request_id"] + 
+                            '\')">'  +
+                                '<div style="width: 2rem">' +
+                                    '<i class="fas fa-trash-alt mr-1"></i>'  +
+                                '</div>' +
+                                '<div>' +
+                                    'Delete Request' +
+                                '</div>'  +
                             '</div>'  +
                         '</div>'  +
-                    // Edit
-                        '<div class="dropdown-divider"></div>' +
-                        '<div class="dropdown-item d-flex" role="button" data-toggle="modal" data-target="#editing_modal" onClick="return editData(\'' +
-                        aData["request_id"] +
-                        '\',1)">'  +
-                            '<div style="width: 2rem">' +
-                                '<i class="fas fa-edit mr-1"></i>'  +
-                            '</div>' +
-                            '<div>' +
-                                'Edit Request' +
-                            '</div>'  +
-                        '</div>' +
-                    // Delete
-                        // '<div class="dropdown-divider"></div>' +
-                        // '<div class="dropdown-item d-flex" role="button" onClick="return deleteData(\'' + 
-                        // aData["request_id"] + 
-                        // '\')">'  +
-                        //     '<div style="width: 2rem">' +
-                        //         '<i class="fas fa-trash-alt mr-1"></i>'  +
-                        //     '</div>' +
-                        //     '<div>' +
-                        //         'Delete Request' +
-                        //     '</div>'  +
-                        // '</div>'  +
-                    '</div>'  +
-                '</div>';
+                    '</div>';
+                }
             }
             else if (USER_TYPE == "Staff")
             {
@@ -438,6 +638,14 @@ loadTable = () =>
 
             if (stats == "Delivered")
             {
+                stats = '<div class="badge badge-info p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "On Process")
+            {
+                stats = '<div class="badge badge-Primary p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "Done Checking")
+            {
                 stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
             }
             else if (stats == "Pending")
@@ -480,9 +688,14 @@ loadTable = () =>
 
             $("td:eq(4)", nRow).html(stats);
 
-            
-            $("td:eq(5)", nRow).html(buttons);
-
+            // if (aData["request_status"] == "Delivered")
+            // {
+            //     $("td:eq(5)", nRow).html("N/A");
+            // }
+            // else
+            // {
+                $("td:eq(5)", nRow).html(buttons);
+            // }
         },
         drawCallback: function (settings) {
             // $("#data-table").removeClass("dataTable");
@@ -858,6 +1071,14 @@ loadTableFilterToForRequest = () =>
             console.log(stats)
 
             if (stats == "Delivered")
+            {
+                stats = '<div class="badge badge-info p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "On Process")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "Done Checking")
             {
                 stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
             }
@@ -1280,6 +1501,14 @@ loadTableFilterToProcurement = () =>
 
             if (stats == "Delivered")
             {
+                stats = '<div class="badge badge-info p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "On Process")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "Done Checking")
+            {
                 stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
             }
             else if (stats == "Pending")
@@ -1701,6 +1930,14 @@ loadTableFilterToHD = () =>
 
             if (stats == "Delivered")
             {
+                stats = '<div class="badge badge-info p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "On Process")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "Done Checking")
+            {
                 stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
             }
             else if (stats == "Pending")
@@ -2121,6 +2358,14 @@ loadTableFilterToWarehouse = () =>
             console.log(stats)
 
             if (stats == "Delivered")
+            {
+                stats = '<div class="badge badge-info p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "On Process")
+            {
+                stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
+            }
+            else if (stats == "Done Checking")
             {
                 stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["request_status"] + '</span></div>'
             }

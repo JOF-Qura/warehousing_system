@@ -16,8 +16,10 @@ $(function()
         var supply_unit_cost = $("#supply_unit_cost").val();
         var supply_description = $("#supply_description").val();
         var supply_reorder_interval = $("#supply_reorder_interval").val();
-        var supply_expiration = "2021-08-28T04:29:33.292Z"
+        var supply_expiration = $("#supply_expiration").val();
         var supply_status = $("#supply_status").val();
+
+        var date_expired = supply_expiration + "T00:00:00.000Z"
 
         if (supply_id == "")
         {
@@ -36,7 +38,7 @@ $(function()
                     "supply_status": supply_status,
                     "supply_description": supply_description,
                     "supply_reorder_interval": supply_reorder_interval,
-                    "supply_expiration": supply_expiration,
+                    "supply_expiration": date_expired,
                 }),
                 dataType: "JSON",
                 contentType: 'application/json',
@@ -46,7 +48,7 @@ $(function()
                 {
                     console.log(data)
                     $('#form_id').trigger("reset")
-                    $('#button_add').prop('disabled', true)
+                    // $('#button_add').prop('disabled', true)
                     notification("success", "Success!", data.message);
                     loadTable();
                     $("#adding_modal").modal('hide')

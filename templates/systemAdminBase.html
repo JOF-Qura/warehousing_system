@@ -1,17 +1,3 @@
-<script>
-    var TOKEN = sessionStorage.getItem('TOKEN')
-    var USER_EMAIL = sessionStorage.getItem('USER_EMAIL')
-    var USER_TYPE = sessionStorage.getItem('USER_TYPE')
-    // var LocalTOKEN = localStorage.getItem('TOKEN')
-    
-    if(TOKEN == null || TOKEN == "")
-    {
-        window.location.replace("http://localhost:8000/warehousing/");
-    }
-
-</script>
-
-
 <!DOCTYPE html>
 <html lang="en">
     
@@ -23,6 +9,7 @@
     <title> Warehousing | Hospital Management System</title>
     
     <!-- jQuery -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/select2/css/select2.css')}}"/>
     <script src="{{url_for('static', path='/plugins/jquery/jquery.min.js')}}"></script>
 
     <!-- Font Awesome -->
@@ -42,6 +29,7 @@
     <!-- Additional CSS -->
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.css')}}">
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.css')}}">
+
 
     <!-- Common JS -->
     <script src="{{url_for('static', path='/dist/js/warehousing/common.js')}}"></script>
@@ -66,6 +54,7 @@
   color: red;
   margin-left:2px
 }
+
 .select2-container {
     width: 100% !important;
     padding: 0;
@@ -106,14 +95,14 @@
 
                  <!-- Home -->
                  <li class="nav-item">
-                    <a class="nav-link text-primary" href="./index.html" role="button">
+                    <a class="nav-link" href="/homies/main" role="button">
                         <i class="fas fa-home"></i>
                         <span class="d-inline-block d-md-none ml-1 ml-md-0">Home</span>
                     </a>
                 </li>
         
                 <!-- Hospital Core -->
-                <!-- <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a 
                         href="#" 
                         data-toggle="dropdown" 
@@ -128,10 +117,10 @@
                         <li><a href="#" class="dropdown-item">Doctors Management</a></li>
                         <li><a href="#" class="dropdown-item">Visitors Management</a></li>
                     </ul>
-                </li> -->
+                </li>
         
                 <!-- Human Resource -->
-                <!-- <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a 
                         href="#" 
                         data-toggle="dropdown" 
@@ -144,10 +133,10 @@
                         <li><a href="#" class="dropdown-item">Time & Attendance</a></li>
                         <li><a href="#" class="dropdown-item">Performance Management</a></li>
                     </ul>
-                </li> -->
+                </li>
         
                 <!-- Finance -->
-                <!-- <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a 
                         href="#" 
                         data-toggle="dropdown" 
@@ -159,52 +148,36 @@
                         <li><a href="#" class="dropdown-item">Accounts Payable/Receivable</a></li>
                         <li><a href="#" class="dropdown-item">Collection/Disbursement</a></li>
                     </ul>
-                </li> -->
+                </li>
         
                 <!-- Logistics -->
-                <!-- <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a 
                         href="#" 
                         data-toggle="dropdown" 
-                        class="nav-link dropdown-toggle text-primary"
+                        class="nav-link dropdown-toggle"
                     >Logistics</a>
                     
                     <ul class="dropdown-menu dropdown-menu-left">
                         <li><a href="#" class="dropdown-item">Procurement Management</a></li>
-                        <li><a href="#" class="dropdown-item active">Warehousing Management</a></li>
+                        <li><a href="/warehousing/admin" class="dropdown-item">Warehousing Management</a></li>
                         <li><a href="#" class="dropdown-item">Asset Management</a></li>
                         <li><a href="#" class="dropdown-item">Project Management</a></li>
                     </ul>
-                </li> -->
+                </li>
+
+                <!-- System Administration -->
+                <li class="nav-item">
+                    <a class="nav-link text-primary" href="/homies/systemAdmin" role="button">
+                        <span>SysAdmin</span>
+                    </a>
+                </li>
             </ul>
         </div>  
         
         <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
 
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge" id="notif_number"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header" id="how_many_notif">0 Supply Notification</span>
-                    <div id="notifications">
-                        
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <span class="dropdown-item dropdown-header" id="how_many_staff_notif">0 Notification from Staff</span>
-                    <div id="staff_notif">
-                        
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <div id="see_all_notif">
-
-                    </div>
-                </div>
-            </li>
-        
             <!-- User Menu -->
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link" data-toggle="dropdown" role="button">
@@ -280,7 +253,7 @@
                     <a href="#" class="nav-item text-truncate" id="userFullName">Juan S. Dela Cruz</a>
 
                     <!-- User Position -->
-                    <div class="small text-secondary text-truncate" id="userPosition">Staff</div>
+                    <div class="small text-secondary text-truncate" id="userPosition">Administrator</div>
                     
                     <!-- User Department -->
                     <div class="small text-secondary text-truncate" id="userDepartment">Warehousing Department</div>
@@ -302,67 +275,29 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Sidebar Menu -->       
-
+                    
                     <!-- Module Name -->
-                    <li class="nav-header font-weight-bold text-wrap">WAREHOUSING SYSTEM</li>
+                    <li class="nav-header font-weight-bold text-wrap">HOME</li>
+
+                    <li class="nav-header">CORE</li>
+                    <li class="nav-item">
+                        <a href="/homies/systemAdmin" class="nav-link" id="sysAdmin_dashboard_sidebar">
+                            <script>if(window.location.pathname == '/homies/systemAdmin'){document.getElementById("sysAdmin_dashboard_sidebar").classList.add('active')}</script>
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>Main Dashboard</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-header">USER MANAGEMENT</li>
+                    <li class="nav-item">
+                        <a href="/homies/systemAdmin/users" class="nav-link" id="sysAdmin_user_sidebar">
+                            <script>if(window.location.pathname == '/homies/systemAdmin/users'){document.getElementById("sysAdmin_user_sidebar").classList.add('active')}</script>
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>Users</p>
+                        </a>
+                    </li>
 
 
-                    <li class="nav-header"><b>Dashboard</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/staff/dashboard" class="nav-link" id="dashboard_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/staff/dashboard'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-chart-line"></i>
-                        <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <!-- Inventory -->
-                    <li class="nav-header"><b>Inventory</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/staff/supplies" class="nav-link" id="supply_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/staff/supplies/'){document.getElementById("supply_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-boxes"> </i>
-                            <p> Supplies </p>
-                        </a>
-                    </li>
-                    <li class="nav-item"> 
-                        <a href="/warehousing/staff/supply_categories" class="nav-link" id="supply_categoy_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/staff/supply_categories/'){document.getElementById("supply_categoy_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-clipboard-list"></i>
-                            <p> Supply Categories </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/staff/inventories" class="nav-link" id="inventory_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/staff/inventories/'){document.getElementById("inventory_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-dolly-flatbed"></i>
-                            <p> Inventories </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/staff/inventory_locations" class="nav-link" id="inventory_location_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/staff/inventory_locations/'){document.getElementById("inventory_location_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-pallet"></i>
-                            <p> Inventory Location </p>
-                        </a>
-                    </li>
-                    <!-- Reports -->
-                    <li class="nav-header"><b>Request and Return</b></li>
-                    <li class="nav-item">
-                        <a href="/warehousing/staff/request" class="nav-link" id="request_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/staff/request/'){document.getElementById("request_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-envelope-open-text"></i>
-                            <p> Request </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/warehousing/staff/return" class="nav-link" id="return_sidebar">
-                            <script>if(window.location.pathname == '/warehousing/staff/return/'){document.getElementById("return_sidebar").classList.add('active')}</script>
-                            <i class="nav-icon fas fa-envelope-open-text"></i>
-                            <p> Return </p>
-                        </a>
-                    </li>
-                    <!-- End Sidebar Menu -->
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -372,7 +307,7 @@
         <!-- Sidebar Custom -->
         <div class="sidebar-custom">
             <!-- <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a> -->
-            <button class="btn btn-danger hide-on-collapse pos-right" onClick="return logout()">Log out</button>
+            <button class="btn btn-danger hide-on-collapse pos-right" onClick="return logout()">Logout <i class= "fas fa-sign-out-alt ml-1"></i></button>
         </div>
         <!-- /.sidebar-custom -->
     </aside>
@@ -392,7 +327,7 @@
 
     <!-- Logout Modal -->
     <div class="modal fade" id="logout_modal">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
@@ -404,17 +339,17 @@
                 </div>
                 <div class="modal-body" id="modal_viewing">
                     <!-- CONTENT -->
-                    <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
                         <div class="card-body">
                             Are you sure you want to Logout?
-                            <!-- BUTTONS -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="Submit" class="btn btn-danger" id="button_logout" onClick="return logout()">Logout<i class= "fas fa-sign-out-alt"></i></button>
-                            </div>
-                            <!-- END BUTTONS -->
+                            
                         </div>
-                    </form> <!-- END CONTENT -->
+                    <!-- END CONTENT  -->
+                        <!-- BUTTONS -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="Submit" class="btn btn-danger" id="button_logout" onClick="return logout()">Logout<i class= "fas fa-sign-out-alt ml-1"></i></button>
+                        </div>
+                        <!-- END BUTTONS -->
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
@@ -436,6 +371,10 @@
     <!-- /.main-footer -->
 </div>
 <!-- ./wrapper -->
+
+<script src="{{url_for('static', path='/plugins/select2/js/select2.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+
 
 <!-- Bootstrap 4 -->
 <script src="{{url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -465,6 +404,8 @@
 <script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
 <script src="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 <script src="{{url_for('static', path='/dist/js/warehousing/access/logout.js')}}"></script>
+
+<!-- <script src="{{url_for('static', path='/dist/js/warehousing/admin/baseAdmin.js')}}"></script> -->
 
 
 

@@ -152,6 +152,25 @@ def dashMain(request: Request):
         'request': request
     })
 
+@app.get('/homies/systemAdmin', response_class=HTMLResponse)
+def dashMain(request: Request):
+    return template.TemplateResponse('systemAdminMain.html', 
+    {
+        'request': request
+    })
+
+@app.get('/homies/systemAdmin/users', response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        users = db.query(Users).all()
+        return template.TemplateResponse('systemAdmin_Users.html', 
+        {
+            'request': request,
+            'users': users
+        })
+    except Exception as e:
+        print(e)
+
 
 # ---------------------------- Access Template ------------------------------ #
 @app.get('/homies/login', response_class=HTMLResponse)
@@ -584,6 +603,18 @@ def index(request: Request, request_id: str, db: Session = Depends(get_db), curr
     except Exception as e:
         print(e)
 
+@app.get('/warehousing/manager/return_details', response_class=HTMLResponse)
+def index(request: Request, return_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        ret = db.query(Return_Details).filter(Return_Details.return_id == return_id).all()
+        return template.TemplateResponse('warehousing/manager/content/viewReturn.html', 
+        {
+            'request': request,
+            'ret': ret
+        })
+    except Exception as e:
+        print(e)
+
 @app.get('/warehousing/manager/outbound_report_details', response_class=HTMLResponse)
 def index(request: Request, outbound_report_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
     try:
@@ -731,6 +762,18 @@ def index(request: Request, request_id: str, db: Session = Depends(get_db), curr
         {
             'request': request,
             'req': req
+        })
+    except Exception as e:
+        print(e)
+
+@app.get('/warehousing/staff/return_details', response_class=HTMLResponse)
+def index(request: Request, return_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
+    try:
+        ret = db.query(Return_Details).filter(Return_Details.return_id == return_id).all()
+        return template.TemplateResponse('warehousing/staff/content/viewReturn.html', 
+        {
+            'request': request,
+            'ret': ret
         })
     except Exception as e:
         print(e)

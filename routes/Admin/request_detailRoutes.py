@@ -73,6 +73,8 @@ def update_request_detail(request_details_id: str, rd: request_detailSchema.Upda
     if not db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_details_id == request_details_id).update({
         'quantity': rd.quantity,
         'status': rd.status,
+        'request_id': rd.request_id,
+        'supply_id': rd.supply_id,
     }):
         raise HTTPException(404, 'Request Detail to update is not found')
     db.commit()

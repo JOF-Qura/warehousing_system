@@ -19,13 +19,15 @@ class CreateRequestDetail(RequestDetailBase):
     pass
 
 class UpdateRequestDetail(BaseModel):
-    quantity: Optional[int]
-    status: Optional[str]
+    quantity: Optional[int] = None
+    status: Optional[str] = None
+    request_id: Optional[str] = None
+    supply_id: Optional[str] = None
 
 #Schema for response body
 class ShowRequestDetail(RequestDetailBase):
     request_details_id: Optional[str]
-    reuqest_id: Optional[str]
+    request_id: Optional[str]
     supply_id: Optional[str]
 
     created_at: Optional[dt] = None
