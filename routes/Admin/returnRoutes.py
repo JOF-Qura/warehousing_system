@@ -82,7 +82,15 @@ def create_Return(request: returnSchema.CreateReturn, db: Session = Depends(get_
     )
     db.add(to_store)
     db.commit()
-    return {'message': 'Return stored successfully.'}
+    ret = db.query(returnModel.Return).order_by(returnModel.Return.return_date.desc()).first()
+    return {
+                'message': 'Return stored successfully.',
+                'return_date': request.return_date,
+                'returner': request.returner,
+                'return_type': request.return_type,
+                'return_status': request.return_status,
+                'return_id': ret.return_id
+            }
 
 # Update Return
 @router.put('/{return_id}')
@@ -90,7 +98,7 @@ def update_request(return_id: str, r: returnSchema.UpdateReturn, db: Session = D
     if not db.query(returnModel.Return).filter(returnModel.Return.return_id == return_id).update({
         'return_status': r.return_status,
         'returner': r.returner,
-        'return_date': r.return_date,
+        # 'return_date': r.return_date,
         'return_type': r.return_type,
     }):
         raise HTTPException(404, 'Return to update is not found')

@@ -10,6 +10,39 @@ $(function()
     // }
     loadTable();
 
+
+
+$("#requestor").change(function (e) 
+{
+    var request_type = $("#request_type").val();
+    var requestor = $("#requestor").val()
+    if (requestor == "Procurement")
+    {
+        $("#request_type").empty();
+        option = 
+            '<option value="To Request">To Request</option>';
+        $("#request_type").append(option);
+    }
+    else if (requestor == "Hospital Department" || "Warehouse")
+    {
+        $("#request_type").empty();
+        option = 
+            '<option value="For Request">For Request</option>';
+        $("#request_type").append(option);
+    }
+    else if (requestor ==  "Warehouse")
+    {
+        $("#request_type").empty();
+        option = 
+            '<option value="To Request">To Request</option>' +
+            '<option value="For Request">For Request</option>';
+        $("#request_type").append(option);
+    }
+});
+
+
+
+
     
 addData = () =>
 {

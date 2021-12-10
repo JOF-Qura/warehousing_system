@@ -548,37 +548,148 @@ doneChecking = (request_id) =>
                 dataType: "json",
                 success: function (data) 
                 {
+                    console.log(data)
+                    var returner = data.requestor
+                    const today = new Date()
+                    var return_type = "To Return"
+
+                    console.log(today)
                     
-                    var req_id = request_id
-                    var requestor = data["requestor"]
-                    var request_type = data["request_type"]
-                    var request_status = "Done Checking"
-        
                     $.ajax(
                     {
-                        url: apiURL + "request/" + req_id,
-                        type: "PUT",
-                        data: JSON.stringify(
-                        {		
-                            "requestor": requestor,
-                            "request_type": request_type,
-                            "request_status": request_status,
-                        }),
-                        dataType: "JSON",
-                        contentType: 'application/json',
-                        processData: false,
-                        cache: false,
-                        success: function (data) 
+                        url: apiURL + "request_detail/status/" + request_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (RDdata) 
                         {
-                            notification("success", "Success!", "Delivered");
-                            viewRequestDetails();
-                            
+                            console.log(RDdata.length)
+                            // for (i=0; i<RDdata.length; i++)
+                            // {
+                            //     console.log(RDdata[i].supply_id)
+                            //     console.log(RDdata[i].quantity)
+                            // }
+                            $.ajax(
+                            {
+                                url: apiURL + "returns/",
+                                type: "POST",
+                                data: JSON.stringify(
+                                {		
+                                    "returner": returner,
+                                    "return_date": today,
+                                    "return_type": return_type,
+                                    "return_status": "Pending"
+                                }),
+                                dataType: "JSON",
+                                contentType: 'application/json',
+                                processData: false,
+                                cache: false,
+                                success: function (ReturnData) 
+                                {
+                                    console.log(ReturnData)
+                                    for (i=0; i<RDdata.length; i++)
+                                    {
+                                        $.ajax(
+                                        {
+                                            url: apiURL + "return_detail/",
+                                            type: "POST",
+                                            data: JSON.stringify(
+                                            {		
+                                                "return_id": ReturnData.return_id,
+                                                "supply_id": RDdata[i].supply_id,
+                                                "quantity": RDdata[i].quantity,
+                                            }),
+                                            dataType: "JSON",
+                                            contentType: 'application/json',
+                                            processData: false,
+                                            cache: false,
+                                            success: function (data) 
+                                            {           
+                                                // notification("success", "Success!", data.message);
+                                            },
+                                            error: function ({ responseJSON }) 
+                                            {
+                                                
+                                            },
+                                        });
+                                        console.log(RDdata[i].supply_id)
+                                        console.log(RDdata[i].quantity)
+                                    }
+                                    var req_id = request_id
+                                    var requestor = data["requestor"]
+                                    var request_type = data["request_type"]
+                                    var request_status = "Done Checking"
+                        
+                                    $.ajax(
+                                    {
+                                        url: apiURL + "request/" + req_id,
+                                        type: "PUT",
+                                        data: JSON.stringify(
+                                        {		
+                                            "requestor": requestor,
+                                            "request_type": request_type,
+                                            "request_status": request_status,
+                                        }),
+                                        dataType: "JSON",
+                                        contentType: 'application/json',
+                                        processData: false,
+                                        cache: false,
+                                        success: function (data) 
+                                        {
+                                            notification("success", "Done Checking!", "Good Job!");
+                                            viewRequestDetails();
+                                            
+                                        },
+                                        error: function ({ responseJSON }) 
+                                        {
+                                            
+                                        },
+                                    }); 
+                                    // $('#form_id').trigger("reset")
+                                    // // $('#button_add').prop('disabled', false)
+                                    // notification("success", "Success!", data.message);
+                                    // loadTable();
+                                    // $("#adding_modal").modal('hide')
+                                },
+                                error: function ({ responseJSON }) 
+                                {
+                                    
+                                },
+                            });
                         },
-                        error: function ({ responseJSON }) 
+                        error: function(errDatA) 
                         {
-                            
-                        },
-                    }); 
+                            var req_id = request_id
+                            var requestor = data["requestor"]
+                            var request_type = data["request_type"]
+                            var request_status = "Done Checking"
+                
+                            $.ajax(
+                            {
+                                url: apiURL + "request/" + req_id,
+                                type: "PUT",
+                                data: JSON.stringify(
+                                {		
+                                    "requestor": requestor,
+                                    "request_type": request_type,
+                                    "request_status": request_status,
+                                }),
+                                dataType: "JSON",
+                                contentType: 'application/json',
+                                processData: false,
+                                cache: false,
+                                success: function (data) 
+                                {
+                                    notification("success", "Success!", "Delivered");
+                                    viewRequestDetails();
+                                    
+                                },
+                                error: function ({ responseJSON }) 
+                                {
+                                    
+                                },
+                            }); 
+                        }
+                    });
                 },
                 error: function (data) {},
             });
@@ -1086,6 +1197,16 @@ loadTable = () =>
                         // $("#data-table").removeClass("dataTable");
                     },
                 });
+                if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                {
+                    $('#add_supply_id').empty()
+                    details = "";
+                
+                    // details = 
+                    //     '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal">Add Supply Request</button>';
+                    
+                    $('#add_supply_id').append(details)
+                }
             }
 
              //Delivered or Done Checking Status ---------------------------------------------------
@@ -1143,7 +1264,7 @@ loadTable = () =>
                                 {
                                     if(data.request_type == "To Request")
                                     {
-                                        if (aData['status'] == "Complete/Good")
+                                        if (aData['status'] == "Complete/Good" || aData['status'] == "Incomplete/Damaged")
                                         {
                                             buttons +=
                                                 "N/A";
@@ -1162,9 +1283,9 @@ loadTable = () =>
                                                 '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Complete/Good</i></button> ';
                                             // delete
                                             buttons +=
-                                                '<button type="button" onClick="return supplyIncomplete(\'' +
+                                                '<button type="button" onClick="return supplyIncompleted(\'' +
                                                 aData["request_details_id"] +
-                                                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Incomplete/Damaged</i></button> ';
+                                                '\',2)" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Incomplete/Damaged</i></button> ';
                                         }
                                     }
                                     else if (data.request_type == "For Request")
@@ -1196,7 +1317,7 @@ loadTable = () =>
                         {
                             if(data.request_type == "To Request")
                             {
-                                if (aData['status'] == "Complete/Good")
+                                if (aData['status'] == "Complete/Good" || aData['status'] == "Incomplete/Damaged")
                                 {
                                     buttons +=
                                         "N/A";
@@ -1215,9 +1336,9 @@ loadTable = () =>
                                         '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Complete/Good</i></button> ';
                                     // delete
                                     buttons +=
-                                        '<button type="button" onClick="return deleteSupply(\'' +
+                                        '<button type="button" onClick="return supplyIncompleted(\'' +
                                         aData["request_details_id"] +
-                                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Incomplete/Damaged</i></button> ';
+                                        '\',2)" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Incomplete/Damaged</i></button> ';
                                 }
                             }
                             else if (data.request_type == "For Request")
@@ -1558,7 +1679,7 @@ supplyIncompleted = (request_details_id, type) =>
             var sup_id = data[0].supply_id
             var qty = data[0].quantity
             var stat = data[0].status
-            if (type == 1) 
+            if (type == 2) 
             {
                 console.log(sup_id)
                 $.ajax(
@@ -1585,51 +1706,54 @@ supplyIncompleted = (request_details_id, type) =>
                             dataType: "json",
                             success: function (data) 
                             {
-                                var sp_id = data["supply_id"]
-                                var sp_name = data["supply_name"]
-                                var sp_supplier_name = data["supplier_id"]
-                                var sp_category = data["supply_category_id"]
-                                var sp_quantity = data["supply_quantity"]
-                                var sp_unit_type = data["supply_unit_type"]
-                                var sp_unit_cost = data["supply_unit_cost"]
-                                var sp_description = data["supply_description"]
-                                var sp_reorder_interval = data["supply_reorder_interval"]
-                                var sp_expiration = "2021-08-28T04:29:33.292Z" 
-                                var sp_status = data["supply_status"]
+                                notification("success", "Success!", data.message);
+                                loadTable();
+                                loadNotif();
+                                // var sp_id = data["supply_id"]
+                                // var sp_name = data["supply_name"]
+                                // var sp_supplier_name = data["supplier_id"]
+                                // var sp_category = data["supply_category_id"]
+                                // var sp_quantity = data["supply_quantity"]
+                                // var sp_unit_type = data["supply_unit_type"]
+                                // var sp_unit_cost = data["supply_unit_cost"]
+                                // var sp_description = data["supply_description"]
+                                // var sp_reorder_interval = data["supply_reorder_interval"]
+                                // var sp_expiration = "2021-08-28T04:29:33.292Z" 
+                                // var sp_status = data["supply_status"]
                                 
-                                $.ajax(
-                                {
-                                    url: apiURL + "supplies/" + sp_id,
-                                    type: "PUT",
-                                    data: JSON.stringify(
-                                    {		
-                                        // "supplier_id": sp_id,
-                                        "supply_category_id": sp_category,
-                                        "supply_name": sp_name,
-                                        "supply_quantity": sp_quantity + qty,
-                                        "supply_unit_type": sp_unit_type,
-                                        "supply_unit_cost": sp_unit_cost,
-                                        "supply_status": sp_status,
-                                        "supply_description": sp_description,
-                                        "supply_reorder_interval": sp_reorder_interval,
-                                        "supply_expiration": sp_expiration,
-                                    }),
-                                    dataType: "JSON",
-                                    contentType: 'application/json',
-                                    processData: false,
-                                    cache: false,
-                                    success: function (data) 
-                                    {
-                                        console.log(sp_quantity+qty)
-                                        notification("success", "Success!", data.message);
-                                        loadTable();
-                                    },
-                                    error: function ({ responseJSON }) 
-                                    {
+                                // $.ajax(
+                                // {
+                                //     url: apiURL + "supplies/" + sp_id,
+                                //     type: "PUT",
+                                //     data: JSON.stringify(
+                                //     {		
+                                //         // "supplier_id": sp_id,
+                                //         "supply_category_id": sp_category,
+                                //         "supply_name": sp_name,
+                                //         "supply_quantity": sp_quantity + qty,
+                                //         "supply_unit_type": sp_unit_type,
+                                //         "supply_unit_cost": sp_unit_cost,
+                                //         "supply_status": sp_status,
+                                //         "supply_description": sp_description,
+                                //         "supply_reorder_interval": sp_reorder_interval,
+                                //         "supply_expiration": sp_expiration,
+                                //     }),
+                                //     dataType: "JSON",
+                                //     contentType: 'application/json',
+                                //     processData: false,
+                                //     cache: false,
+                                //     success: function (data) 
+                                //     {
+                                //         console.log(sp_quantity+qty)
+                                //         notification("success", "Success!", data.message);
+                                //         loadTable();
+                                //     },
+                                //     error: function ({ responseJSON }) 
+                                //     {
                                         
-                                    },
-                                });
-                                $('#button_save').prop('disabled', false)
+                                //     },
+                                // });
+                                // $('#button_save').prop('disabled', false)
                             },
                             error: function (data) {},
                         });

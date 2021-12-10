@@ -21,10 +21,12 @@ class CreateReturnDetail(ReturnDetailBase):
 class UpdateReturnDetail(BaseModel):
     quantity: Optional[int]
     status: Optional[str]
+    return_id: Optional[str] = None
+    supply_id: Optional[str] = None
 
 #Schema for response body
 class ShowReturnDetail(ReturnDetailBase):
-    return_details_id: Optional[str]
+    return_detail_id: Optional[str]
     return_id: Optional[str]
     supply_id: Optional[str]
 

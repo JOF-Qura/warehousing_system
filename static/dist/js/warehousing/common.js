@@ -32,6 +32,11 @@ var USER_EMAIL = sessionStorage.getItem('USER_EMAIL')
 // }
 // select2Function();
 
+// chartJS = () =>
+// {
+
+// }
+
 loadNotif = () => {
 
     // NOTIF FROM STAFFS

@@ -23,6 +23,15 @@ router = APIRouter(
 
 #================================ Request Detail Table =================================#
 
+# GET request detail by request_id WHERE status == "Incomplete"
+@router.get('/status/{request_id}', response_model=List[request_detailSchema.ShowRequestDetail])
+def get_one_request_detail(request_id:str, db: Session = Depends(get_db)):
+    emp = db.query(request_detailModel.Request_Details).filter(request_detailModel.Request_Details.request_id == request_id, request_detailModel.Request_Details.status == "Incomplete/Damaged").all()
+    if not emp:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Request Detail with the request_id {request_id} is not available")
+    return emp
+
 # Request_Details DataTable
 @router.get('/datatable/{request_id}')
 def datatable(request: Request, request_id: str, db: Session = Depends(get_db)):

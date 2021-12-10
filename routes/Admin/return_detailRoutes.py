@@ -68,11 +68,13 @@ def get_one_return_details_using_2param(return_detail_id:str, return_id:str, db:
     return query_get
 
 # UPDATE Return Detail
-@router.put('/{request_details_id}')
+@router.put('/{return_detail_id}')
 def update_request_detail(return_detail_id: str, rd: return_detailSchema.UpdateReturnDetail, db: Session = Depends(get_db)): 
     if not db.query(return_detailModel.Return_Details).filter(return_detailModel.Return_Details.return_detail_id == return_detail_id).update({
         'quantity': rd.quantity,
         'status': rd.status,
+        'return_id': rd.return_id,
+        'supply_id': rd.supply_id,
     }):
         raise HTTPException(404, 'Return Detail to update is not found')
     db.commit()

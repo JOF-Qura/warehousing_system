@@ -6,6 +6,7 @@ from typing import List, Optional
 #================================ Return Table =================================#
 
 class ReturnBase(BaseModel):
+    return_id: Optional[str]
     return_date: Optional[dt]
     returner: Optional[str]
     return_type: Optional[str]
@@ -19,7 +20,7 @@ class CreateReturn(ReturnBase):
     pass
 
 class UpdateReturn(BaseModel):
-    return_date: Optional[dt]
+    # return_date: Optional[dt]
     returner: Optional[str]
     return_type: Optional[str]
     return_status: Optional[str]

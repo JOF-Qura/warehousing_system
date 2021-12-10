@@ -3,143 +3,129 @@ $(function()
     
     loadTable();
     console.log(return_id)
+   
+    
+    $("#form_id").on("submit", function (e)
+    {
+        e.preventDefault();
+        trimInputFields();
+        var ret_id = return_id
+        var supply_id = $("#supply_id").val()
+        var quantity = $("#quantity").val();
 
-    if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
-    {
-        $('#add_supply_id').empty()
-        details = "";
-    
-        details = 
-            '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onclick="return addSupply()">Add Supply Return</button>';
-        
-        $('#add_supply_id').append(details)
-    }
-    
-    addSupply = () =>
-    {
-        console.log(return_id)
-        // function to save/update record
-        $("#form_id").on("submit", function (e)
+        console.log(ret_id)
+        console.log(supply_id)
+        console.log(quantity)
+
+        $.ajax(
         {
-            e.preventDefault();
-            trimInputFields();
-            var ret_id = return_id
-            var supply_id = $("#supply_id").val()
-            var quantity = $("#quantity").val();
-
-            console.log(ret_id)
-            console.log(supply_id)
-            console.log(quantity)
-
-            $.ajax(
+            url: apiURL + "return_detail/",
+            type: "GET",
+            dataType: "json",
+            success: function (countReturn) 
             {
-                url: apiURL + "return_detail/",
-                type: "GET",
-                dataType: "json",
-                success: function (countReturn) 
+                console.log(countReturn)
+                count = 0
+
+                if (countReturn.Return_Details.length != 0)
                 {
-                    console.log(countReturn)
-                    count = 0
-
-                    if (countReturn.Return_Details.length != 0)
-                    {
-                        count = countReturn.Return_Details.length
-                        console.log(count)
-                    }
+                    count = countReturn.Return_Details.length
                     console.log(count)
-                    
-
-                    if(count > 0)
-                    {
-                        console.log(count)
-                        $.ajax(
-                        {
-                            url: apiURL + "return_detail_count/" + ret_id + "/" + supply_id,
-                            type: "GET",
-                            dataType: "json",
-                            success: function (countData) 
-                            {
-                                count = 0
-            
-                                if (countData.length != 0)
-                                {
-                                    count = countData.length
-                                }
-            
-                                if (count > 0)
-                                {
-                                    notification('error', 'Error', 'Supply is already on return list')
-                                }
-                            },
-                            error: function (errData)
-                            {
-                                $.ajax(
-                                    {
-                                        url: apiURL + "return_detail/",
-                                        type: "POST",
-                                        data: JSON.stringify(
-                                        {		
-                                            "return_id": ret_id,
-                                            "supply_id": supply_id,
-                                            "quantity": quantity,
-                                        }),
-                                        dataType: "JSON",
-                                        contentType: 'application/json',
-                                        processData: false,
-                                        cache: false,
-                                        success: function (data) 
-                                        {
-                                            $('#form_id').trigger("reset")
-                                            $('#button_add').prop('disabled', false)
-                                            notification("success", "Success!", data.message);
-                                            loadTable();
-                                            viewReturnDetails();
-                                            $("#adding_modal").modal('hide')
-                                        },
-                                        error: function ({ responseJSON }) 
-                                        {
-                                            
-                                        },
-                                    });
-                            }
-                        });
-                    }
-                    else
-                    {
-                        $.ajax(
-                        {
-                            url: apiURL + "return_detail/",
-                            type: "POST",
-                            data: JSON.stringify(
-                            {		
-                                "return_id": ret_id,
-                                "supply_id": supply_id,
-                                "quantity": quantity,
-                            }),
-                            dataType: "JSON",
-                            contentType: 'application/json',
-                            processData: false,
-                            cache: false,
-                            success: function (data) 
-                            {
-                                $('#form_id').trigger("reset")
-                                $('#button_add').prop('disabled', false)
-                                notification("success", "Success!", data.message);
-                                loadTable();
-                                viewReturnDetails();
-                                $("#adding_modal").modal('hide')
-                            },
-                            error: function ({ responseJSON }) 
-                            {
-                                
-                            },
-                        });
-                    }
                 }
-            });
-           
+                console.log(count)
+                
+
+                if(count > 0)
+                {
+                    console.log(count)
+                    $.ajax(
+                    {
+                        url: apiURL + "return_detail_count/" + ret_id + "/" + supply_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (countData) 
+                        {
+                            count = 0
+        
+                            if (countData.length != 0)
+                            {
+                                count = countData.length
+                            }
+        
+                            if (count > 0)
+                            {
+                                notification('error', 'Error', 'Supply is already on return list')
+                            }
+                        },
+                        error: function (errData)
+                        {
+                            $.ajax(
+                                {
+                                    url: apiURL + "return_detail/",
+                                    type: "POST",
+                                    data: JSON.stringify(
+                                    {		
+                                        "return_id": ret_id,
+                                        "supply_id": supply_id,
+                                        "quantity": quantity,
+                                    }),
+                                    dataType: "JSON",
+                                    contentType: 'application/json',
+                                    processData: false,
+                                    cache: false,
+                                    success: function (data) 
+                                    {
+                                        $('#form_id').trigger("reset")
+                                        $('#button_add').prop('disabled', false)
+                                        notification("success", "Success!", data.message);
+                                        loadTable();
+                                        viewReturnDetails();
+                                        $("#adding_modal").modal('hide')
+                                    },
+                                    error: function ({ responseJSON }) 
+                                    {
+                                        
+                                    },
+                                });
+                        }
+                    });
+                }
+                else
+                {
+                    $.ajax(
+                    {
+                        url: apiURL + "return_detail/",
+                        type: "POST",
+                        data: JSON.stringify(
+                        {		
+                            "return_id": ret_id,
+                            "supply_id": supply_id,
+                            "quantity": quantity,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            $('#form_id').trigger("reset")
+                            $('#button_add').prop('disabled', false)
+                            notification("success", "Success!", data.message);
+                            loadTable();
+                            viewReturnDetails();
+                            $("#adding_modal").modal('hide')
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    });
+                }
+            }
         });
-    }    
+        
+    });
+     
 });
 
 
@@ -161,10 +147,30 @@ viewReturnDetails = () =>
         {
             if (data.return_type == "To Return")
             {
-                var details = "";                                      
-                details =
-                    '<button class="btn btn-primary float-right">Send Return</button>'
-                $("#send_return_id").append(details);
+                if (data.return_status == "Pending")
+                {
+                    var details = "";                                      
+                    details =
+                    '<button class="btn btn-primary float-right" onClick="sendReturn()">Send Return</button>'
+                    $("#send_return_id").append(details);
+                }
+                else if(data.return_status == "Returned")
+                {
+                    var details = "";                                      
+                    details =
+                        "";
+                    $("#send_return_id").append(details);
+                }
+                else if (data.return_status == "On Process")
+                {
+                    var details = "";                                      
+                    details =
+                    '<button type="button" onClick="return makeItReturned(\'' +
+                        data["return_id"] +
+                        '\',1)" class="btn btn-primary float-right""><i class="bx bx-check font-size-16 align-middle">Make it Returned</i></button> ';
+
+                    $("#send_return_id").append(details);
+                }
             }
             else if (data.return_type == "For Return")
             {
@@ -237,9 +243,17 @@ viewReturnDetails = () =>
             {
                 status =  '<div class="col-md-9"><span class="badge badge-info">' + data.return_status + '</span></div>'
             }
+            else if (data.return_status == "On Process")
+            {
+                status =  '<div class="col-md-9"><span class="badge badge-info">' + data.return_status + '</span></div>'
+            }
             else if (data.return_status == "Delivered")
             {
                 status =  '<div class="col-md-9"><span class="badge badge-success">' + data.return_status + '</span></div>'
+            }
+            else if (data.return_status == "Returned")
+            {
+                status =  '<div class="col-md-9"><span class="badge badge-success"><i class="fas fa-check mr-1"></i>' + data.return_status + '</span></div>'
             }
 			var details = "";                                      
             details =                          
@@ -346,129 +360,498 @@ viewReturnDetails();
 
 loadTable = () => 
 {
-    console.log(return_id)
-    $("#data-table").dataTable().fnClearTable();
-    $("#data-table").dataTable().fnDraw();
-    $("#data-table").dataTable().fnDestroy();
-    $("#data-table").dataTable({
-        serverSide: true,
-        // scrollX: true,
-        responsive: false,
-        buttons:[
-            {extend: 'excel', text: 'Save to Excel File'}
-        ],
-        order: [[0, "desc"]],
-        aLengthMenu: [5, 10, 20, 30, 50, 100],
-        aaColumns: [
-            { sClass: "text-left" },
-            { sClass: "text-left" },
-            { sClass: "text-left" },,
-            { sClass: "text-center" },
-        ],
-        columns: [
+    $.ajax(
+    {
+        url: apiURL + "returns/" + return_id,
+        type: "GET",
+        dataType: "json",
+        success: function (data) 
+        {
+            console.log(data)
+            //IF REQUEST STATUS IS PENDING -------------------------------- 
+            if (data.return_status == "Pending")
             {
-                data: "supply_id",
-                name: "supply_id",
-                searchable: true,
-                // width: "6.66%",
-                className: "dtr-control",
-            },
-            {
-                data: "quantity",
-                name: "quantity",
-                searchable: true,
-                // width: "6.66%",
-                className: "dtr-control",
-            },
-             {
-                data: "status",
-                name: "status",
-                searchable: true,
-                // width: "6.66%",
-                className: "dtr-control",
-            },
-            {
-                data: null,
-                // width: "30%",
-                class: "text-center", 
-                render: function (aData, type, row) 
+                console.log(return_id)
+                $("#data-table").dataTable().fnClearTable();
+                $("#data-table").dataTable().fnDraw();
+                $("#data-table").dataTable().fnDestroy();
+                $("#data-table").dataTable({
+                    serverSide: true,
+                    // scrollX: true,
+                    responsive: false,
+                    buttons:[
+                        {extend: 'excel', text: 'Save to Excel File'}
+                    ],
+                    order: [[0, "desc"]],
+                    aLengthMenu: [5, 10, 20, 30, 50, 100],
+                    aaColumns: [
+                        { sClass: "text-left" },
+                        { sClass: "text-left" },
+                        { sClass: "text-left" },,
+                        { sClass: "text-center" },
+                    ],
+                    columns: [
+                        {
+                            data: "supply_id",
+                            name: "supply_id",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: "quantity",
+                            name: "quantity",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: "status",
+                            name: "status",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: null,
+                            // width: "30%",
+                            class: "text-center", 
+                            render: function (aData, type, row) 
+                            {
+                                let buttons = "";
+                                if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                                {
+                                    console.log(aData)
+                                    if(aData.status == "Approved/Ready to Return")
+                                    {
+                                        // info
+                                        // buttons +=
+                                        //     '<button type="button" onClick="return viewData(\'' +
+                                        //     aData["return_detail_id"] +
+                                        //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                        // edit
+                                        buttons +=
+                                            'N/A';
+                                    }
+                                    else if(aData.status == "Pending")
+                                    {
+                                        // info
+                                    // buttons +=
+                                    //     '<button type="button" onClick="return viewData(\'' +
+                                    //     aData["return_detail_id"] +
+                                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                    // edit
+                                    buttons +=
+                                        '<button type="button" onClick="return returnApproved(\'' +
+                                        aData["return_detail_id"] +
+                                        '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
+                                    // delete
+                                    buttons +=
+                                        '<button type="button" onClick="return deleteSupply(\'' +
+                                        aData["return_detail_id"] +
+                                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                                    }
+                                }
+                                else if (USER_TYPE == "Staff")
+                                {
+                                    buttons +=
+                                        'N/A';
+                                }
+                                return buttons; // same class in i element removed it from a element
+                            },
+                        },
+                    ],
+                    ajax: 
+                    {
+                        url: '/return_detail/datatable/' + return_id,
+                        type: "GET",
+                        ContentType: "application/x-www-form-urlencoded",
+                    },
+                    fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
+                    {
+                        let buttons = "";
+                        if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                        {
+                            if(aData.status == "Approved/Ready to Return")
+                            {
+                                // info
+                                // buttons +=
+                                //     '<button type="button" onClick="return viewData(\'' +
+                                //     aData["return_detail_id"] +
+                                //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                // edit
+                                buttons +=
+                                    'N/A';
+                            }
+                            else if(aData.status == "Pending")
+                            {
+                                // info
+                            // buttons +=
+                            //     '<button type="button" onClick="return viewData(\'' +
+                            //     aData["return_detail_id"] +
+                            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                            // edit
+                            buttons +=
+                                '<button type="button" onClick="return returnApproved(\'' +
+                                aData["return_detail_id"] +
+                                '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
+                            // delete
+                            buttons +=
+                                '<button type="button" onClick="return deleteSupply(\'' +
+                                aData["return_detail_id"] +
+                                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                            }
+                        }
+                        else if (USER_TYPE == "Staff")
+                        {
+                            buttons +=
+                                'N/A';
+                        }
+                        console.log(aData["supply_id"])
+                        var DateReturn = new Date(aData["return_date"]);
+                        var returnedDate = DateReturn.toLocaleString();
+
+                        $("td:eq(0)", nRow).html(aData["supply_id"]);
+                        $("td:eq(1)", nRow).html(aData["quantity"]);
+                        $("td:eq(2)", nRow).html(aData["statuss"]);
+                        $("td:eq(3)", nRow).html(buttons);
+
+                    },
+                    drawCallback: function (settings) {
+                        // $("#data-table").removeClass("dataTable");
+                        console.log(settings    )
+                    },
+                });
+                if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
                 {
-                    let buttons = "";
-                    if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                    $('#add_supply_id').empty()
+                    details = "";
+                
+                    details = 
+                        '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#adding_modal"">Add Supply Return</button>';
+                    
+                    $('#add_supply_id').append(details)
+                }
+            }
+            else if (data.return_status == "On Process")
+            {
+                console.log(return_id)
+                $("#data-table").dataTable().fnClearTable();
+                $("#data-table").dataTable().fnDraw();
+                $("#data-table").dataTable().fnDestroy();
+                $("#data-table").dataTable({
+                    serverSide: true,
+                    // scrollX: true,
+                    responsive: false,
+                    buttons:[
+                        {extend: 'excel', text: 'Save to Excel File'}
+                    ],
+                    order: [[0, "desc"]],
+                    aLengthMenu: [5, 10, 20, 30, 50, 100],
+                    aaColumns: [
+                        { sClass: "text-left" },
+                        { sClass: "text-left" },
+                        { sClass: "text-left" },,
+                        { sClass: "text-center" },
+                    ],
+                    columns: [
+                        {
+                            data: "supply_id",
+                            name: "supply_id",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: "quantity",
+                            name: "quantity",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: "status",
+                            name: "status",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: null,
+                            // width: "30%",
+                            class: "text-center", 
+                            render: function (aData, type, row) 
+                            {
+                                let buttons = "";
+                                if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                                {
+                                    console.log(aData)
+                                    if(aData.status == "Approved/Ready to Return")
+                                    {
+                                        // info
+                                        // buttons +=
+                                        //     '<button type="button" onClick="return viewData(\'' +
+                                        //     aData["return_detail_id"] +
+                                        //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                        // edit
+                                        buttons +=
+                                            'N/A';
+                                    }
+                                    else if(aData.status == "Pending")
+                                    {
+                                        // info
+                                    // buttons +=
+                                    //     '<button type="button" onClick="return viewData(\'' +
+                                    //     aData["return_detail_id"] +
+                                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                    // edit
+                                    buttons +=
+                                        '<button type="button" onClick="return returnApproved(\'' +
+                                        aData["return_detail_id"] +
+                                        '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
+                                    // delete
+                                    buttons +=
+                                        '<button type="button" onClick="return deleteSupply(\'' +
+                                        aData["return_detail_id"] +
+                                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                                    }
+                                }
+                                else if (USER_TYPE == "Staff")
+                                {
+                                    buttons +=
+                                        'N/A';
+                                }
+                                return buttons; // same class in i element removed it from a element
+                            },
+                        },
+                    ],
+                    ajax: 
                     {
-                        // info
-                        // buttons +=
-                        //     '<button type="button" onClick="return viewData(\'' +
-                        //     aData["return_details_id"] +
-                        //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-                        // edit
-                        buttons +=
-                            '<button type="button" data-toggle="modal" data-target="#editing_supply_modal" onClick="return editSupply(\'' +
-                            aData["return_details_id"] +
-                            '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
-                        // delete
-                        buttons +=
-                            '<button type="button" onClick="return deleteSupply(\'' +
-                            aData["return_details_id"] +
-                            '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
-                    }
-                    else if (USER_TYPE == "Staff")
+                        url: '/return_detail/datatable/' + return_id,
+                        type: "GET",
+                        ContentType: "application/x-www-form-urlencoded",
+                    },
+                    fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
                     {
-                        buttons +=
-                            'N/A';
-                    }
-                    return buttons; // same class in i element removed it from a element
-                },
-            },
-        ],
-        ajax: 
-        {
-            url: '/return_detail/datatable/' + return_id,
-            type: "GET",
-            ContentType: "application/x-www-form-urlencoded",
-        },
-        fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
-        {
-            let buttons = "";
-            if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                        let buttons = "";
+                        if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                        {
+                            if(aData.status == "Approved/Ready to Return")
+                            {
+                                // info
+                                // buttons +=
+                                //     '<button type="button" onClick="return viewData(\'' +
+                                //     aData["return_detail_id"] +
+                                //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                // edit
+                                buttons +=
+                                    'N/A';
+                            }
+                            else if(aData.status == "Pending")
+                            {
+                                // info
+                            // buttons +=
+                            //     '<button type="button" onClick="return viewData(\'' +
+                            //     aData["return_detail_id"] +
+                            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                            // edit
+                            buttons +=
+                                '<button type="button" onClick="return returnApproved(\'' +
+                                aData["return_detail_id"] +
+                                '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
+                            // delete
+                            buttons +=
+                                '<button type="button" onClick="return deleteSupply(\'' +
+                                aData["return_detail_id"] +
+                                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                            }
+                        }
+                        else if (USER_TYPE == "Staff")
+                        {
+                            buttons +=
+                                'N/A';
+                        }
+                        console.log(aData["supply_id"])
+                        var DateReturn = new Date(aData["return_date"]);
+                        var returnedDate = DateReturn.toLocaleString();
+
+                        $("td:eq(0)", nRow).html(aData["supply_id"]);
+                        $("td:eq(1)", nRow).html(aData["quantity"]);
+                        $("td:eq(2)", nRow).html(aData["statuss"]);
+                        $("td:eq(3)", nRow).html(buttons);
+
+                    },
+                    drawCallback: function (settings) {
+                        // $("#data-table").removeClass("dataTable");
+                        console.log(settings    )
+                    },
+                });
+                if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                {
+                    $('#add_supply_id').empty()
+                    details = "";
+                
+                    details = 
+                        '';
+                    
+                    $('#add_supply_id').append(details)
+                }
+            }
+            else if (data.return_status == "Returned")
+            {
+                console.log(return_id)
+                $("#data-table").dataTable().fnClearTable();
+                $("#data-table").dataTable().fnDraw();
+                $("#data-table").dataTable().fnDestroy();
+                $("#data-table").dataTable({
+                    serverSide: true,
+                    // scrollX: true,
+                    responsive: false,
+                    buttons:[
+                        {extend: 'excel', text: 'Save to Excel File'}
+                    ],
+                    order: [[0, "desc"]],
+                    aLengthMenu: [5, 10, 20, 30, 50, 100],
+                    aaColumns: [
+                        { sClass: "text-left" },
+                        { sClass: "text-left" },
+                        { sClass: "text-left" },,
+                        { sClass: "text-center" },
+                    ],
+                    columns: [
+                        {
+                            data: "supply_id",
+                            name: "supply_id",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: "quantity",
+                            name: "quantity",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: "status",
+                            name: "status",
+                            searchable: true,
+                            // width: "6.66%",
+                            className: "dtr-control",
+                        },
+                        {
+                            data: null,
+                            // width: "30%",
+                            class: "text-center", 
+                            render: function (aData, type, row) 
+                            {
+                                let buttons = "";
+                                if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                                {
+                                    console.log(aData)
+                                    if(aData.status == "Approved/Ready to Return")
+                                    {
+                                        // info
+                                        // buttons +=
+                                        //     '<button type="button" onClick="return viewData(\'' +
+                                        //     aData["return_detail_id"] +
+                                        //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                        // edit
+                                        buttons +=
+                                            'N/A';
+                                    }
+                                    else if(aData.status == "Pending")
+                                    {
+                                        // info
+                                    // buttons +=
+                                    //     '<button type="button" onClick="return viewData(\'' +
+                                    //     aData["return_detail_id"] +
+                                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                    // edit
+                                    buttons +=
+                                        '<button type="button" onClick="return returnApproved(\'' +
+                                        aData["return_detail_id"] +
+                                        '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
+                                    // delete
+                                    buttons +=
+                                        '<button type="button" onClick="return deleteSupply(\'' +
+                                        aData["return_detail_id"] +
+                                        '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                                    }
+                                }
+                                else if (USER_TYPE == "Staff")
+                                {
+                                    buttons +=
+                                        'N/A';
+                                }
+                                return buttons; // same class in i element removed it from a element
+                            },
+                        },
+                    ],
+                    ajax: 
                     {
-                        // info
-                        // buttons +=
-                        //     '<button type="button" onClick="return viewData(\'' +
-                        //     aData["return_detail_id"] +
-                        //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
-                        // edit
-                        buttons +=
-                            '<button type="button" data-toggle="modal" data-target="#editing_supply_modal" onClick="return editSupply(\'' +
-                            aData["return_detail_id"] +
-                            '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
-                        // delete
-                        buttons +=
-                            '<button type="button" onClick="return deleteSupply(\'' +
-                            aData["return_detail_id"] +
-                            '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
-                    }
-                    else if (USER_TYPE == "Staff")
+                        url: '/return_detail/datatable/' + return_id,
+                        type: "GET",
+                        ContentType: "application/x-www-form-urlencoded",
+                    },
+                    fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) 
                     {
-                        buttons +=
-                            'N/A';
-                    }
+                        let buttons = "";
+                        if(USER_TYPE == "Admin" || USER_TYPE == "Manager")
+                        {
+                            if(aData.status == "Approved/Ready to Return")
+                            {
+                                // info
+                                // buttons +=
+                                //     '<button type="button" onClick="return viewData(\'' +
+                                //     aData["return_detail_id"] +
+                                //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                // edit
+                                buttons +=
+                                    'N/A';
+                            }
+                            else
+                            {
+                                // info
+                            // buttons +=
+                            //     '<button type="button" onClick="return viewData(\'' +
+                            //     aData["return_detail_id"] +
+                            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                            // edit
+                            buttons +=
+                                '<button type="button" onClick="return returnApproved(\'' +
+                                aData["return_detail_id"] +
+                                '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Approved</i></button> ';
+                            // delete
+                            buttons +=
+                                '<button type="button" onClick="return deleteSupply(\'' +
+                                aData["return_detail_id"] +
+                                '\')" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Delete</i></button> ';
+                            }
+                        }
+                        else if (USER_TYPE == "Staff")
+                        {
+                            buttons +=
+                                'N/A';
+                        }
+                        console.log(aData["supply_id"])
+                        var DateReturn = new Date(aData["return_date"]);
+                        var returnedDate = DateReturn.toLocaleString();
 
+                        $("td:eq(0)", nRow).html(aData["supply_id"]);
+                        $("td:eq(1)", nRow).html(aData["quantity"]);
+                        $("td:eq(2)", nRow).html(aData["statuss"]);
+                        $("td:eq(3)", nRow).html(buttons);
 
-            console.log(aData["supply_id"])
-            var DateReturn = new Date(aData["return_date"]);
-            var returnedDate = DateReturn.toLocaleString();
-
-            $("td:eq(0)", nRow).html(aData["supply_id"]);
-            $("td:eq(1)", nRow).html(aData["quantity"]);
-            $("td:eq(2)", nRow).html(aData["statuss"]);
-            $("td:eq(3)", nRow).html(buttons);
-
-        },
-        drawCallback: function (settings) {
-            // $("#data-table").removeClass("dataTable");
-            console.log(settings    )
-        },
+                    },
+                    drawCallback: function (settings) {
+                        // $("#data-table").removeClass("dataTable");
+                        console.log(settings    )
+                    },
+                });
+            }
+        }
     });
 };
 
@@ -499,6 +882,123 @@ loadSupply = () => {
     });
 };
 loadSupply();
+
+// function to change status of Supply Returned
+returnApproved = (return_detail_id, type) => 
+{
+    console.log(return_detail_id);
+    console.log(return_id);
+    var ReturnD_id = return_detail_id
+	$.ajax(
+    {
+        url: apiURL + "return_detail/" + return_detail_id + "/" + return_id,
+        type: "GET",
+        dataType: "json",
+        success: function (data) 
+        {
+            console.log(data[0]);
+            var ret_id = data[0].return_id
+            var sup_id = data[0].supply_id
+            var qty = data[0].quantity
+            var stat = data[0].status
+            var retD_id = data[0].return_detail_id
+
+            console.log(sup_id)
+            console.log(ReturnD_id)
+            $.ajax(
+            {
+                url: apiURL + "return_detail/" + return_detail_id,
+                type: "PUT",
+                data: JSON.stringify(
+                {		
+                    "supply_id": sup_id,
+                    "return_id": ret_id,
+                    "quantity": qty,
+                    "status": "Approved/Ready to Return",
+                }),
+                dataType: "JSON",
+                contentType: 'application/json',
+                processData: false,
+                cache: false,
+                success: function (data) 
+                {
+                    notification("success", "Success!", "On Process");
+                    loadTable();
+                    loadNotif();
+                },
+                error: function ({ responseJSON }) 
+                {
+                    
+                },
+            });
+            
+        },
+        error: function (data) {},
+	});
+};
+
+makeItReturned = (return_id) =>
+{
+    Swal.fire(
+    {
+        title: "Are you sure you?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: !0,
+        confirmButtonColor: "#34c38f",
+        cancelButtonColor: "#f46a6a",
+        confirmButtonText: "Yes!",
+    })
+    .then(function (t) 
+    {
+        // if user clickes yes, it will change the active status to "Not Active".
+        if (t.value) 
+        {
+            $.ajax(
+            {
+                url: apiURL + "returns/" + return_id,
+                type: "GET",
+                dataType: "json",
+                success: function (data) 
+                {
+                    
+                    var ret_id = return_id
+                    var returner = data["returner"]
+                    var return_type = data["return_type"]
+                    var return_status = "Returned"
+        
+                    $.ajax(
+                    {
+                        url: apiURL + "returns/" + ret_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "returner": returner,
+                            "return_type": return_type,
+                            "return_status": return_status,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            loadTable();
+                            notification("success", "Success!", "Returned");
+                            viewReturnDetails();
+                            
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    }); 
+                },
+                error: function (data) {},
+            });
+        }
+    });
+}
 
 // delivered = () =>
 // {
@@ -623,6 +1123,68 @@ editReturn = () =>
 	});
 }
 
+sendReturn = (return_detail_id, type) =>
+{
+    Swal.fire(
+    {
+        title: "Are you sure you?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: !0,
+        confirmButtonColor: "#34c38f",
+        cancelButtonColor: "#f46a6a",
+        confirmButtonText: "Yes, send it!",
+    })
+    .then(function (t) 
+    {
+        // if user clickes yes, it will change the active status to "Not Active".
+        if (t.value) 
+        {
+            $.ajax(
+            {
+                url: apiURL + "returns/" + return_id,
+                type: "GET",
+                dataType: "json",
+                success: function (data) 
+                {
+                    var ret_id = return_id
+                    var returner = data["returner"]
+                    var return_type = data["return_type"]
+                    var return_status = "On Process"
+        
+                    $.ajax(
+                    {
+                        url: apiURL + "returns/" + ret_id,
+                        type: "PUT",
+                        data: JSON.stringify(
+                        {		
+                            "returner": returner,
+                            "return_type": return_type,
+                            "return_status": return_status,
+                        }),
+                        dataType: "JSON",
+                        contentType: 'application/json',
+                        processData: false,
+                        cache: false,
+                        success: function (data) 
+                        {
+                            notification("success", "Success!", "Delivered");
+                            viewReturnDetails();
+                            loadTable();
+                            
+                        },
+                        error: function ({ responseJSON }) 
+                        {
+                            
+                        },
+                    }); 
+                },
+                error: function (data) {},
+            });
+        }
+    });    
+}
+
 // viewData = (return_id) => 
 // {
 //     window.location.replace(baseURL + 'admin/return_details?return_id='+return_id);
@@ -630,11 +1192,11 @@ editReturn = () =>
 // }
 
 // function to edit data
-editSupply = (return_details_id, return_id, type) => 
+editSupply = (return_detail_id, return_id, type) => 
 {
 	$.ajax(
 		{
-		url: apiURL + "return_detail/" + return_details_id + "/" + return_id,
+		url: apiURL + "return_detail/" + return_detail_id + "/" + return_id,
 		type: "GET",
 		dataType: "json",
 		success: function (data) 
@@ -646,7 +1208,7 @@ editSupply = (return_details_id, return_id, type) =>
             // var stat = data[0].status
             if (type == 1) 
             {
-                $("#e_uuid").val(data[0]["return_details_id"]);
+                $("#e_uuid").val(data[0]["return_detail_id"]);
                 $("#e_req_id").val(data[0]["return_id"]);
                 $("#e_supply_id").val(data[0]["supply_id"]).trigger('change');
                 $("#e_quantity").val(data[0]["quantity"]);
@@ -656,7 +1218,7 @@ editSupply = (return_details_id, return_id, type) =>
                 {
                     e.preventDefault();
                     trimInputFields();
-                    var return_details_id = $("#e_uuid").val();
+                    var return_detail_id = $("#e_uuid").val();
                     var req_id = $("#e_req_id").val();
                     var supply_id = $("#e_supply_id").val()
                     var quantity = $("#e_quantity").val()
@@ -664,7 +1226,7 @@ editSupply = (return_details_id, return_id, type) =>
 
                     $.ajax(
                     {
-                        url: apiURL + "return_detail/" + return_details_id,
+                        url: apiURL + "return_detail/" + return_detail_id,
                         type: "PUT",
                         data: JSON.stringify(
                         {		
@@ -696,7 +1258,7 @@ editSupply = (return_details_id, return_id, type) =>
 };
 
 // function to delete data
-deleteSupply = (return_details_id) => 
+deleteSupply = (return_detail_id) => 
 {
 	Swal.fire(
 	{
@@ -715,7 +1277,7 @@ deleteSupply = (return_details_id) =>
 		{
 			$.ajax(
 				{
-				url: apiURL + "return_detail/" + return_details_id,
+				url: apiURL + "return_detail/" + return_detail_id,
 				type: "DELETE",
 				dataType: "json",
 				success: function (data) 

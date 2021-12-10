@@ -236,13 +236,17 @@ loadTable = () =>
 
             var stats =  aData["return_status"]
 
-            if (stats == "Delivered")
+            if (stats == "Returned")
             {
                 stats = '<div class="badge badge-success p-2 w-100"> <i class="fas fa-check mr-1"></i><span>' + aData["return_status"] + '</span></div>'
             }
             else if (stats == "Pending")
             {
                 stats = '<div class="badge badge-warning p-2 w-100"> <i class="fas fa-exclamation mr-1"></i> <span>' + aData["return_status"] + '</span></div>'
+            }
+            else if (stats == "On Process")
+            {
+                stats = '<div class="badge badge-info p-2 w-100"> <i class="fas fa-exclamation mr-1"></i> <span>' + aData["return_status"] + '</span></div>'
             }
 
             if(aData["return_id"] == null)
