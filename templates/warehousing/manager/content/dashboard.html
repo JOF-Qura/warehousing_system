@@ -118,12 +118,12 @@
         <div class="row">
             <div class="col-md-6">
                 <!-- DONUT CHART -->
-                <div class="card card-danger">
+                <div id="card_id" class="card card-danger">
                     <div class="card-header">
                         <h3 class="card-title">Top 5 Supply Requested</h3>
 
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" id="collapsed_button">
                             <i class="fas fa-minus"></i>
                             </button>
                             <button type="button" class="btn btn-tool" data-card-widget="remove">
@@ -139,23 +139,22 @@
                 <!-- /.card -->
             </div>
             <div class="col-md-6">
-                <!-- BAR CHART -->
-                <div class="card card-success">
+                <!-- Pie CHART -->
+                <div id="card_id" class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Annual In/Out</h3>
+                        <h3 class="card-title">Top 5 Supply Ordered</h3>
+
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" id="collapsed_button">
+                            <i class="fas fa-minus"></i>
                             </button>
                             <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
+                            <i class="fas fa-times"></i>
                             </button>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="chart">
-                            <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                        </div>
+                        <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -163,6 +162,28 @@
             </div>
         </div>
 
+        <!-- BAR CHART -->
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Annual In/Out</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>s
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+        
     </section>
     <!-- /.content -->
 {%endblock%}

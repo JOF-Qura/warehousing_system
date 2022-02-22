@@ -2,6 +2,8 @@ $(function()
 {
     loadTable();
 
+    
+
     // function to save/update record
     $("#form_id").on("submit", function (e)
     {
@@ -77,12 +79,20 @@ loadTable = () =>
     $("#data-table").dataTable().fnClearTable();
     $("#data-table").dataTable().fnDraw();
     $("#data-table").dataTable().fnDestroy();
-    $("#data-table").dataTable({
+    var table = $("#data-table").dataTable({
         serverSide: true,
         // scrollX: true,
         responsive: false,
         buttons:[
-            {extend: 'excel', text: 'Save to Excel File'}
+            {
+                extend: 'csv',
+                footer: true,
+                exportOptions: {
+                        columns: [1,2]
+                    },
+                text: 'Save to Excel File'
+            },
+            // {extend: 'excel', text: 'Save to Excel File'}
         ],
         order: [[0, "desc"]],
         aLengthMenu: [5, 10, 20, 30, 50, 100],
@@ -466,6 +476,9 @@ loadTable = () =>
     });
 };
 
+
+
+
 sendRequest = (supply_id) =>
 {
     var sup_id = supply_id;
@@ -522,11 +535,18 @@ sendRequest = (supply_id) =>
     console.log(supply_id)
 }
 
+
 viewData = (supply_id) => 
 {
-    window.location.replace(baseURL + 'admin/supplies/'+supply_id);
+    window.location.replace(baseURL + 'admin/supplies_details?supply_id='+supply_id);
     console.log(supply_id);
 }
+
+// viewData = (supply_id) => 
+// {
+//     window.location.replace(baseURL + 'admin/supplies/'+supply_id);
+//     console.log(supply_id);
+// }
 
 loadSuppliers = () => {
     $.ajax({

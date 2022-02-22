@@ -118,6 +118,16 @@
                         <!-- /.card-body -->
                         <div class="card-body">
                             <div>Date Created: {{supplies.created_at}}</div>
+                            <div class="row">                           
+                                <div class="col-md-3">
+                                    <b>QR CODE:</b>  
+                                </div>                 
+                            </div>
+                            <div class="row">                           
+                                <div id="qrcode">
+
+                                </div>                      
+                            </div>
                         </div>
                     </div>
                     <!-- /.card -->
@@ -127,9 +137,71 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->    
+    <!-- /.content -->   
+    
+    <!-- <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <video id="preview" width="100%"></video>
+          </div>
+          <div class="col-md-6">
+            <label>SCAN QR CODE</label>
+            <input type="text" name="text" id="text"  placeholder="scan qrcode" class="form-control">
+          </div>
+        </div>
+    </div> -->
 {%endblock%}
 
+
 {%block scripts%}
-    <script src="#"></script>
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", event => {
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        Instascan.Camera.getCameras().then(cameras => {
+            scanner.camera = cameras[cameras.length - 1];
+            scanner.start();
+        }).catch(e => console.error(e));
+
+        scanner.addListener('scan', content => {
+            console.log(content);
+        });
+
+        });
+    </script> -->
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", event => 
+        {
+        let scanner = new Instascan.Scanner({video: document.getElementById('preview')});
+            Instascan.Camera.getCameras().then(function(cameras) 
+            { 
+                console.log(cameras)
+                if(cameras.length > 0 ) 
+                {
+                    scanner.camera = cameras[cameras.length - 1];
+                    scanner.start(cameras[cameras.length - 1]);
+                }
+                else 
+                {
+                    alert("No cameras found");
+                }
+            }).catch(function(e) 
+                {
+                    console.error(e);
+                });
+
+            scanner.addListener('scan', function(c) 
+            {
+                document.getElementById('text').val = c;
+            });
+        });
+
+    </script> -->
+    <script> 
+        var supply_id = _GET('supply_id') 
+
+        console.log(supply_id);
+    </script>
+    <script src="{{url_for('static', path='/dist/js/warehousing/admin/viewSupplies.js')}}"></script>
 {%endblock%}
+
+

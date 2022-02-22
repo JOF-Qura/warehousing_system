@@ -1,8 +1,17 @@
 $(function() 
 {
 
-    
+    {document.getElementById("card_id").classList.add('collapsed-card')}
+
 });
+
+collapsed = () =>
+{
+    $(document).ready(function() {
+        $("#collapsed_button").trigger('click');
+     });
+}
+collapsed();
 
 
 
@@ -236,66 +245,111 @@ chart_JS = () =>
     //--------------
     //- AREA CHART -
     //--------------
-
-    // Get context with jQuery - using jQuery's .get() method.
-    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-
-    var areaChartData = 
-    {
-        labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',],
-        datasets: [
+    var Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+        Jan = Feb = Mar = Apr = May = Jun = Jul = Aug = Sep = Oct = Nov = Dec = 0
+        $.ajax(
         {
-            label               : 'Return',
-            backgroundColor     : 'rgba(60,141,188,0.9)',
-            borderColor         : 'rgba(60,141,188,0.8)',
-            pointRadius          : false,
-            pointColor          : '#3b8bba',
-            pointStrokeColor    : 'rgba(60,141,188,1)',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(60,141,188,1)',
-            data                : [28, 48, 40, 19, 86, 27, 90, 5, 20, 66, 69, 22]
-        },
-        {
-            label               : 'Request',
-            backgroundColor     : 'rgba(210, 214, 222, 1)',
-            borderColor         : 'rgba(210, 214, 222, 1)',
-            pointRadius         : false,
-            pointColor          : 'rgba(210, 214, 222, 1)',
-            pointStrokeColor    : '#c1c7d1',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(220,220,220,1)',
-            data                : [65, 59, 80, 81, 56, 55, 40, 30, 35, 34, 65, 90]
-        },
-        ]
-    }
+            url: apiURL + "count/request_per_month",
+            type: "GET",
+            dataType: "JSON",
+            success: function(request_data)
+            {
+                $.ajax(
+                {
+                    url: apiURL + "count/return_per_month",
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(return_data)
+                    {
+                        // Get context with jQuery - using jQuery's .get() method.
+                        var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
-    var areaChartOptions = {
-        maintainAspectRatio : false,
-        responsive : true,
-        legend: {
-        display: false
-        },
-        scales: {
-        xAxes: [{
-            gridLines : {
-            display : false,
-            }
-        }],
-        yAxes: [{
-            gridLines : {
-            display : false,
-            }
-        }]
-        }
-    }
+                        var areaChartData = 
+                        {
+                            labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',],
+                            
+                            datasets: [
+                            {
+                                label               : 'Return',
+                                backgroundColor     : 'rgba(60,141,188,0.9)',
+                                borderColor         : 'rgba(60,141,188,0.8)',
+                                pointRadius          : false,
+                                pointColor          : '#3b8bba',
+                                pointStrokeColor    : 'rgba(60,141,188,1)',
+                                pointHighlightFill  : '#fff',
+                                pointHighlightStroke: 'rgba(60,141,188,1)',
+                                data                :   [
+                                                            return_data.January, 
+                                                            return_data.February, 
+                                                            return_data.March, 
+                                                            return_data.April, 
+                                                            return_data.May, 
+                                                            return_data.June, 
+                                                            return_data.July, 
+                                                            return_data.August, 
+                                                            return_data.September, 
+                                                            return_data.October, 
+                                                            return_data.November, 
+                                                            return_data.December 
+                                                        ]
+                            },
+                            {
+                                label               : 'Request',
+                                backgroundColor     : 'rgba(210, 214, 222, 1)',
+                                borderColor         : 'rgba(210, 214, 222, 1)',
+                                pointRadius         : false,
+                                pointColor          : 'rgba(210, 214, 222, 1)',
+                                pointStrokeColor    : '#c1c7d1',
+                                pointHighlightFill  : '#fff',
+                                pointHighlightStroke: 'rgba(220,220,220,1)',
+                                data                :   [
+                                                            request_data.January, 
+                                                            request_data.February, 
+                                                            request_data.March, 
+                                                            request_data.April, 
+                                                            request_data.May, 
+                                                            request_data.June, 
+                                                            request_data.July, 
+                                                            request_data.August, 
+                                                            request_data.September, 
+                                                            request_data.October, 
+                                                            request_data.November, 
+                                                            request_data.December 
+                                                        ]
+                            },
+                            ]
+                        }
 
-    // This will get the first returned node in the jQuery collection.
-    new Chart(areaChartCanvas, {
-        type: 'line',
-        data: areaChartData,
-        options: areaChartOptions
-    })
-    
+                        var areaChartOptions = {
+                            maintainAspectRatio : false,
+                            responsive : true,
+                            legend: {
+                            display: false
+                            },
+                            scales: {
+                            xAxes: [{
+                                gridLines : {
+                                display : false,
+                                }
+                            }],
+                            yAxes: [{
+                                gridLines : {
+                                display : false,
+                                }
+                            }]
+                            }
+                        }
+
+                            // This will get the first returned node in the jQuery collection.
+                            new Chart(areaChartCanvas, {
+                                type: 'line',
+                                data: areaChartData,
+                                options: areaChartOptions
+                            })
+                    }
+                })       
+            }
+        })
 //-------------------------------------------------------------
     // //-------------
     // //- LINE CHART -
@@ -313,39 +367,114 @@ chart_JS = () =>
     //     options: lineChartOptions
     // })
 
-//-------------------------------------------------------------
-    //-------------
-    //- DONUT CHART -
-    //-------------
-    // Get context with jQuery - using jQuery's .get() method.
-    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutData        = {
-        labels: [
-            'Supply 1',
-            'Supply 2',
-            'Supply 3',
-            'Supply 4',
-            'Supply 5',
-        ],
-        datasets: [
-        {
-            data: [700,500,400,600,300],
-            backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
-        }
-        ]
-    }
-    var donutOptions     = {
-        maintainAspectRatio : false,
-        responsive : true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(donutChartCanvas, {
-        type: 'doughnut',
-        data: donutData,
-        options: donutOptions
-    })
+//------------------------------------------------------------
 
+
+    // DONOT CHART
+    $.ajax(
+    {
+        url: apiURL + "count/most_requested",
+        type: "GET",
+        dataType: "json",
+        success: function (keydata) 
+        {
+            var label = [];
+            const count = []  
+            console.log(keydata)
+            //-------------
+            //- DONUT CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+            for (var key in keydata)   
+            {
+                label.push(key)
+                count.push(keydata[key])
+                console.log(key);  
+                console.log(keydata[key]) 
+            }
+            var donutData        = 
+            {
+                // labels: ["Supply1", "Supply1", "Supply1", "Supply1", "Supply1"],
+                labels: label,
+                datasets: 
+                        [
+                            {
+                                data: count,
+                                backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+                            }
+                        ]
+            }
+            var donutOptions     = {
+                maintainAspectRatio : false,
+                responsive : true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            new Chart(donutChartCanvas, {
+                type: 'doughnut',
+                data: donutData,
+                options: donutOptions
+            })
+            console.log(label)
+            console.log(count)
+        }
+    });
+
+    // PIE CHART
+    $.ajax(
+        {
+            url: apiURL + "count/most_ordered",
+            type: "GET",
+            dataType: "json",
+            success: function (keydata) 
+            {
+                var label = [];
+                const count = []  
+                console.log(keydata)
+                //-------------
+                //- DONUT CHART -
+                //-------------
+                // Get context with jQuery - using jQuery's .get() method.
+                var donutChartCanvas = $('#pieChart').get(0).getContext('2d')
+                for (var key in keydata)   
+                {
+                    label.push(key)
+                    count.push(keydata[key])
+                    console.log(key);  
+                    console.log(keydata[key]) 
+                }
+                var donutData        = 
+                {
+                    // labels: ["Supply1", "Supply1", "Supply1", "Supply1", "Supply1"],
+                    labels: label,
+                    datasets: 
+                            [
+                                {
+                                    data: count,
+                                    backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+                                }
+                            ]
+                }
+                var donutOptions     = {
+                    maintainAspectRatio : false,
+                    responsive : true,
+                }
+                //Create pie or douhnut chart
+                // You can switch between pie and douhnut using the method below.
+                new Chart(donutChartCanvas, {
+                    type: 'pie',
+                    data: donutData,
+                    options: donutOptions
+                })
+                console.log(label)
+                console.log(count)
+            }
+        });
+
+
+collapsed()
+    
 //-------------------------------------------------------------
     //-------------
     //- PIE CHART -
@@ -369,54 +498,105 @@ chart_JS = () =>
     //-------------
     //- BAR CHART -
     //-------------
-    var barData = 
-    {
-        labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',],
-        datasets: [
+        //--------------
+    //- AREA CHART -
+    //--------------
+    var Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+        Jan = Feb = Mar = Apr = May = Jun = Jul = Aug = Sep = Oct = Nov = Dec = 0
+        $.ajax(
         {
-            label               : 'Return',
-            backgroundColor     : 'rgba(60,141,188,0.9)',
-            borderColor         : 'rgba(60,141,188,0.8)',
-            pointRadius          : false,
-            pointColor          : '#3b8bba',
-            pointStrokeColor    : 'rgba(60,141,188,1)',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(60,141,188,1)',
-            data                : [28, 48, 40, 19, 86, 27, 90, 30, 40, 60, 80, 10]
-        },
-        {
-            label               : 'Request',
-            backgroundColor     : 'rgba(210, 214, 222, 1)',
-            borderColor         : 'rgba(210, 214, 222, 1)',
-            pointRadius         : false,
-            pointColor          : 'rgba(210, 214, 222, 1)',
-            pointStrokeColor    : '#c1c7d1',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(220,220,220,1)',
-            data                : [65, 59, 80, 81, 56, 55, 40, 20, 60, 40, 20, 15]
-        },
-        ]
-    }
+            url: apiURL + "count/outbound_per_month",
+            type: "GET",
+            dataType: "JSON",
+            success: function(outbound_data)
+            {
+                $.ajax(
+                {
+                    url: apiURL + "count/inbound_per_month",
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(inbound_data)
+                    {
+                        var barData = 
+                        {
+                            labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',],
+                            datasets: [
+                            {
+                                label               : 'Out',
+                                backgroundColor     : 'rgba(60,141,188,0.9)',
+                                borderColor         : 'rgba(60,141,188,0.8)',
+                                pointRadius          : false,
+                                pointColor          : '#3b8bba',
+                                pointStrokeColor    : 'rgba(60,141,188,1)',
+                                pointHighlightFill  : '#fff',
+                                pointHighlightStroke: 'rgba(60,141,188,1)',
+                                data                :   [
+                                                            outbound_data.January, 
+                                                            outbound_data.February, 
+                                                            outbound_data.March, 
+                                                            outbound_data.April, 
+                                                            outbound_data.May, 
+                                                            outbound_data.June, 
+                                                            outbound_data.July, 
+                                                            outbound_data.August, 
+                                                            outbound_data.September, 
+                                                            outbound_data.October, 
+                                                            outbound_data.November, 
+                                                            outbound_data.December 
+                                                        ]
+                            },
+                            {
+                                label               : 'In',
+                                backgroundColor     : 'rgba(210, 214, 222, 1)',
+                                borderColor         : 'rgba(210, 214, 222, 1)',
+                                pointRadius         : false,
+                                pointColor          : 'rgba(210, 214, 222, 1)',
+                                pointStrokeColor    : '#c1c7d1',
+                                pointHighlightFill  : '#fff',
+                                pointHighlightStroke: 'rgba(220,220,220,1)',
+                                data                : [
+                                                        inbound_data.January, 
+                                                        inbound_data.February, 
+                                                        inbound_data.March, 
+                                                        inbound_data.April, 
+                                                        inbound_data.May, 
+                                                        inbound_data.June, 
+                                                        inbound_data.July, 
+                                                        inbound_data.August, 
+                                                        inbound_data.September, 
+                                                        inbound_data.October, 
+                                                        inbound_data.November, 
+                                                        inbound_data.December 
+                                                    ]
+                            },
+                            ]
+                        }
 
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = $.extend(true, {}, barData)
-    var temp0 = barData.datasets[0]
-    var temp1 = barData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
+                        var barChartCanvas = $('#barChart').get(0).getContext('2d')
+                        var barChartData = $.extend(true, {}, barData)
+                        var temp0 = barData.datasets[0]
+                        var temp1 = barData.datasets[1]
+                        barChartData.datasets[0] = temp1
+                        barChartData.datasets[1] = temp0
 
-    var barChartOptions = {
-        responsive              : true,
-        maintainAspectRatio     : false,
-        datasetFill             : false
-    }
+                        var barChartOptions = {
+                            responsive              : true,
+                            maintainAspectRatio     : false,
+                            datasetFill             : false
+                        }
 
-    new Chart(barChartCanvas, {
-        type: 'bar',
-        data: barChartData,
-        options: barChartOptions
-    })
+                        new Chart(barChartCanvas, {
+                            type: 'bar',
+                            data: barChartData,
+                            options: barChartOptions
+                        })
 
+                        
+                    }
+                })       
+            }
+        })
+    
 //-------------------------------------------------------------
     //---------------------
     //- STACKED BAR CHART -

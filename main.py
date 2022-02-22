@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.functions import count
 from database import Base, get_db, engine
 from dependencies import get_token
 
@@ -33,6 +34,7 @@ from routes.Admin.count import (countRequestDetail_Supply
                                 , countReturn_Pending
                                 , countFromHospital
                                 , countFromProcurement
+                                , count_analytics
                                 )
 
 from routes.Admin.filter import (requestFilter
@@ -113,6 +115,7 @@ app.include_router(countRequest_Pending.router)
 app.include_router(countReturn_Pending.router)
 app.include_router(countFromHospital.router)
 app.include_router(countFromProcurement.router)
+app.include_router(count_analytics.router)
 
 app.include_router(requestFilter.router)
 
@@ -353,7 +356,7 @@ def index(request: Request, db: Session = Depends(get_db), current_user: Users =
         print(e)
 
 # ------------ Admin View --------------- #
-@app.get('/warehousing/admin/supplies/{supply_id}', response_class=HTMLResponse)
+@app.get('/warehousing/admin/supplies_details', response_class=HTMLResponse)
 def index(request: Request, supply_id: str, db: Session = Depends(get_db), current_user: Users = Depends(get_token)):
     try:
         supplies = db.query(Supplies).filter(Supplies.supply_id == supply_id).first()

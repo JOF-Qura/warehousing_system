@@ -19,8 +19,8 @@
                         <li class="breadcrumb-item " id ="dashboard_nav"><a href="/warehousing/manager/dashboard">Home </a></li>
                         <li>&nbsp; / &nbsp;</li>
                         <script>if(window.location.pathname == '/warehousing/manager/dashboard/'){document.getElementById("dashboard_nav").classList.add('active')}</script>
-                        <li class="breadcrumb-item" id ="outbound_reports_nav">Outbound Reports</li>
-                        <script>if(window.location.pathname == '/warehousing/manager/outbound_reports/'){document.getElementById("outbound_reports_nav").classList.add('active')}</script>
+                        <li class="breadcrumb-item" id ="request_nav">Request </li>
+                        <script>if(window.location.pathname == '/warehousing/manager/request/'){document.getElementById("request_nav").classList.add('active')}</script>
                     </ol>
                 </div> -->
                 <!-- / breadcrumb -->
@@ -28,13 +28,14 @@
             <div class="row">     
                 <!-- Button -->
                 <!-- <div class="col-sm-6">
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal">Add New Outbound Reports</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Request</a>
                 </div> -->
                 <!-- / Button -->
             </div>
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content-header -->
+
 
     <!-- For TESTING -->
     <!-- <div class="row align-items-center justify-content-center"> -->
@@ -69,7 +70,7 @@
                                 </div>
                                 <!-- Button -->
                                 <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal">Add New Outbound Report <i class="fas fa-plus"></i></button>
+                                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#adding_modal" onClick="return addData()">Add New Outbound Report <i class="fas fa-plus"></i></button>
                                     <!-- <input type="submit" value="Create new Project" class="btn btn-success float-right"> -->
                                 </div>
                                 <!-- / Button -->
@@ -82,15 +83,13 @@
                             <table id="data-table" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Outbound Reports ID</th>
-                                        <th>Hospital Department Name</th>
-                                        <th>Employee Name</th>
-                                        <th>Status</th>
-                                        <th>Total Quantity</th>
-                                        <th>Expected Shipment Date</th>
-                                        <th>Complete Shipment Date</th>
-                                        <th>Date Created</th>
-                                        <th class="text-center">Actions</th>
+                                        <th width="20%">Request ID</th>
+                                        <th width="15%">Request Date</th>
+                                        <th width="15%">Requestor</th>
+                                        <th width="15%">Request Type</th>
+                                        <th width="20%">Status</th>
+                                        <!-- <th class="hide">Created Date</th> -->
+                                        <th width="15%" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -108,12 +107,12 @@
     </section>
     <!-- /.content -->
 
-    <!-- Adding Outbound Report Modal -->
+    <!-- Adding Supply to the Request Modal -->
     <div class="modal fade" id="adding_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Outbound Report Form</h4>
+                    <h4 class="modal-title">Request Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -126,8 +125,19 @@
                                 <input type="hidden" name="uuid" id="uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="hospital_department_id">Hospital Department</label> <span class="required-field"> </span>
-                                        <select class="form-control js-example-basic-single" id="hospital_department_id" name="hospital_department_id" required>
+                                        <label for="request_date" id="request_dateLabel">Request Date</label> <span class="required-field"> </span>
+                                        <input type="date" class="form-control" id="request_date" placeholder="Enter email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="requestor">Requestor</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="requestor" name="requestor">
+                                            <option value="Warehouse">Warehouse</option>
+                                            <option value="Procurement">Procurement</option>
+                                            <option value="Hospital Department">Hospital Department</option>
                                         </select>
                                     </div>
                                 </div>
@@ -135,8 +145,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="employee_id">Employee</label> <span class="required-field"> </span>
-                                        <select class="form-control js-example-basic-single" id="employee_id" name="employee_id" required>
+                                        <label for="request_type">Request type</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="request_type" name="request_type">
+                                            <option value="For Request">For Request</option>
+                                            <option value="To Request">To Request</option>
                                         </select>
                                     </div>
                                 </div>
@@ -144,34 +156,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="status">Status</label> <span class="required-field"> </span>
-                                        <select class="form-control js-example-basic-single" id="status" name="status" required>
-                                            <option value="On Going">On Going</option>
+                                        <label for="request_status" id="request_statusLabel">Request Status</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="request_status" name="request_status">
+                                            <option value="Pending">Pending</option>
+                                            <option value="For Delivery">For Delivery</option>
                                         </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="total_quantity" id="total_quantityLabel">Total Quantity</label> <span class="required-field"> </span>
-                                        <input type="number" class="form-control" id="total_quantity" placeholder="Enter Total Quantity" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="expected_shipment_date" id="expected_shipment_dateLabel">Expected Shipment Date</label> <span class="required-field"> </span>
-                                        <input type="date" class="form-control" id="expected_shipment_date" placeholder="Enter Reorder Interval" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="complete_shipment_date" id="complete_shipment_dateLabel">Shipped Date</label> <span class="required-field"> </span>
-                                        <input type="date" class="form-control" id="complete_shipment_date" placeholder="Enter Reorder Interval" required>
                                     </div>
                                 </div>
                             </div>
@@ -187,14 +176,14 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END Adding Outbound Report Modal -->
+    <!-- END Adding Supply to the Request Modal -->
 
-    <!-- editing Outbound Report Modal -->
+    <!-- editing Request Modal -->
     <div class="modal fade" id="editing_modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Outbound Report</h4>
+                    <h4 class="modal-title">Request Form</h4>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
@@ -203,12 +192,15 @@
                     <!-- CONTENT -->
                     <form id="e_form_id" name="e_form_id" enctype="multipart/form_data">
                         <div class="card-body">
+                            <input type="hidden" name="e_uuid" id="e_uuid" value="" />
                             <div class="row">
-                                <input type="hidden" name="e_uuid" id="e_uuid" value="" />
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_hospital_department_id">Hospital Department</label> <span class="required-field"> </span>
-                                        <select class="form-control js-example-basic-single" id="e_hospital_department_id" name="e_hospital_department_id" required>
+                                        <label for="e_requestor">Requestor</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_requestor" name="e_requestor">
+                                            <option value="Warehouse">Warehouse</option>
+                                            <option value="Procurement">Procurement</option>
+                                            <option value="Hospital Department">Hospital Department</option>
                                         </select>
                                     </div>
                                 </div>
@@ -216,8 +208,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_employee_id">Employee</label> <span class="required-field"> </span>
-                                        <select class="form-control js-example-basic-single" id="e_employee_id" name="e_employee_id" required>
+                                        <label for="e_request_type">Request type</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_request_type" name="e_request_type">
+                                            <option value="For Request">For Request</option>
+                                            <option value="To Request">To Request</option>
                                         </select>
                                     </div>
                                 </div>
@@ -225,34 +219,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="e_status">Status</label> <span class="required-field"> </span>
-                                        <select class="form-control js-example-basic-single" id="e_status" name="e_status" required>
-                                            <option value="On Going">On Going</option>
+                                        <label for="e_request_status" id="e_request_statusLabel">Request Status</label> <span class="required-field"> </span>
+                                        <select class="form-control js-example-basic-single" id="e_request_status" name="e_request_status">
+                                            <option value="Pending">Pending</option>
+                                            <option value="For Delivery">For Delivery</option>
                                         </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="e_total_quantity" id="e_total_quantityLabel">Total Quantity</label> <span class="required-field"> </span>
-                                        <input type="number" class="form-control" id="e_total_quantity" placeholder="Enter Total Quantity" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="expected_shipment_date" id="e_expected_shipment_dateLabel">Expected Shipment Date</label> <span class="required-field"> </span>
-                                        <input type="date" class="form-control" id="e_expected_shipment_date" placeholder="Enter Reorder Interval" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="complete_shipment_date" id="e_complete_shipment_dateLabel">Shipped Date</label> <span class="required-field"> </span>
-                                        <input type="date" class="form-control" id="e_complete_shipment_date" placeholder="Enter Reorder Interval" required>
                                     </div>
                                 </div>
                             </div>
@@ -268,11 +239,12 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-    <!-- END editing Outbound Report Modal -->
+    <!-- END editing Request Modal -->
+
 {%endblock%}
 
 {%block scripts%}
-    <script src="{{url_for('static', path='/dist/js/warehousing/admin/outbound_reports.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/warehousing/admin/outbound_reports.js')}}"></script>
 {%endblock%}
 
 

@@ -91,10 +91,103 @@
             <!-- / Info Boxes -->
         </div>
         <!-- /.container-fluid -->
+
+        <!-- AREA CHART -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Annual Request/Return</h3>
+                <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- DONUT CHART -->
+                <div id="card_id" class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">Top Supply Requested</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" id="collapsed_button">
+                            <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="col-md-6">
+                <!-- Pie CHART -->
+                <div id="card_id" class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Top Supply Ordered</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" id="collapsed_button">
+                            <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+        <!-- BAR CHART -->
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Annual In/Out</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>s
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+        
     </section>
     <!-- /.content -->
 {%endblock%}
 
 {%block scripts%}
-    <script src="{{url_for('static', path='/dist/js/warehousing/admin/dashboardAdmin.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/warehousing/admin/dashboardAdmin.js')}}"></script>
 {%endblock%}

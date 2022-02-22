@@ -22,6 +22,7 @@ $(function()
             {
                 console.log(countRequest)
                 count = 0
+                
 
                 if (countRequest.Request_Details.length != 0)
                 {
@@ -108,6 +109,7 @@ $(function()
                         cache: false,
                         success: function (data) 
                         {
+                           
                             $('#form_id').trigger("reset")
                             $('#button_add').prop('disabled', false)
                             notification("success", "Success!", data.message);
@@ -138,6 +140,12 @@ viewRequestDetails = () =>
 		success: function (data) 
 		{
             console.log(data)
+             // Read key
+             for (var key in data)   
+             {
+                 console.log(key);
+                 console.log(data[key]);
+             }
             $("#send_request_id").empty();
 
         if (USER_TYPE == "Admin" || USER_TYPE == "Manager")
@@ -199,11 +207,32 @@ viewRequestDetails = () =>
         {
             if (data.request_type == "To Request")
             {
-                var details = "";                                      
-                details = 
-                    '<button class="btn btn-primary float-right ml-1" onClick="ItemDelivered()">This is Complete and No Damage</button>' + 
-                    '<button class="btn btn-warning float-right">Item has damage / Incomplete</button>';
-                $("#send_request_id").append(details);
+                if (data.request_status == "Pending")
+                {
+                    var details = "";                                      
+                    details = "";
+                    $("#send_request_id").append(details);
+                }
+                else if(data.request_status == "Delivered")
+                {
+                    var details = "";                                      
+                    details =
+                        '<button type="button" onClick="return doneChecking(\'' +
+                        data["request_id"] +
+                        '\',1)" class="btn btn-primary float-right""><i class="bx bx-check font-size-16 align-middle">Done Checking</i></button> ';
+                        
+                        // '<button class="btn btn-primary float-right" onClick="doneChecking()">Done Checking</button>'
+                    $("#send_request_id").append(details);
+                }
+                else if (data.request_status == "On Process")
+                {
+                    var details = "";                                      
+                    details =
+                    '<button type="button" onClick="return makeItDelivered(\'' +
+                        data["request_id"] +
+                        '\',1)" class="btn btn-primary float-right""><i class="bx bx-check font-size-16 align-middle">Make it Delivered</i></button> ';
+                    $("#send_request_id").append(details);
+                }
             }
             if (data.request_type == "For Request")
             {
@@ -212,11 +241,18 @@ viewRequestDetails = () =>
                 {
                     details = "";
                 }         
-                else
+                else if (data.request_status == "Pending")
                 {
                     details =
-                    '<button class="btn btn-primary float-right" style="margin-left: 1em" onClick="return delivered()">Send Report / Packing is Done</button>';
-                }                           
+                    '<button class="btn btn-primary float-right" style="margin-left: 1em" onClick="return onProcess()">Make it On Process</button>';
+                    // '<button class="btn btn-info float-right"  data-toggle="modal" data-target="#editing_modal" onClick="return editRequest()">Edit Request</button>';
+                }  
+                else if (data.request_status == "On Process")   
+                {
+                    details =
+                    '<button class="btn btn-primary float-right" style="margin-left: 1em" onClick="return onDelivery()">Make it Delivered</button>';
+                    // '<button class="btn btn-info float-right"  data-toggle="modal" data-target="#editing_modal" onClick="return editRequest()">Edit Request</button>';
+                }                      
                 
                 $("#send_request_id").append(details);
             }
@@ -471,7 +507,7 @@ onProcess = () =>
                         success: function (data) 
                         {
                             loadTable();
-                            notification("success", "Success!", "Delivered");
+                            notification("success", "Success!", "On Processed");
                             viewRequestDetails();
                             
                         },
@@ -1109,7 +1145,7 @@ loadTable = () =>
                                         if (aData.status == "Ready to Deliver")
                                         {
                                             buttons +=
-                                        'N/A';
+                                            'N/A';
                                         }
                                         else
                                         {
@@ -1296,8 +1332,29 @@ loadTable = () =>
                                 }
                                 else if (USER_TYPE == "Staff")
                                 {
-                                    buttons +=
-                                        'N/A';
+                                    if (aData['status'] == "Complete/Good" || aData['status'] == "Incomplete/Damaged")
+                                    {
+                                        buttons +=
+                                            "N/A";
+                                    }
+                                    else
+                                    {
+                                        // info
+                                        // buttons +=
+                                            //     '<button type="button" onClick="return viewData(\'' +
+                                            //     aData["request_details_id"] +
+                                            //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                        // edit
+                                        buttons +=
+                                            '<button type="button" onClick="return supplyCompleted(\'' +
+                                            aData["request_details_id"] +
+                                            '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Complete/Good</i></button> ';
+                                        // delete
+                                        buttons +=
+                                            '<button type="button" onClick="return supplyIncompleted(\'' +
+                                            aData["request_details_id"] +
+                                            '\',2)" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Incomplete/Damaged</i></button> ';
+                                    }
                                 }
                                 return buttons; // same class in i element removed it from a element
                             },
@@ -1349,8 +1406,29 @@ loadTable = () =>
                         }
                         else if (USER_TYPE == "Staff")
                         {
-                            buttons +=
-                                'N/A';
+                            if (aData['status'] == "Complete/Good" || aData['status'] == "Incomplete/Damaged")
+                            {
+                                buttons +=
+                                    "N/A";
+                            }
+                            else
+                            {
+                                // info
+                                // buttons +=
+                                    //     '<button type="button" onClick="return viewData(\'' +
+                                    //     aData["request_details_id"] +
+                                    //     '\',0)" class="btn btn-secondary waves-effect"><i class="bx bx-info-circle font-size-16 align-middle">View</i></button> ';
+                                // edit
+                                buttons +=
+                                    '<button type="button" onClick="return supplyCompleted(\'' +
+                                    aData["request_details_id"] +
+                                    '\',1)" class="btn btn-success waves-effect"><i class="bx bx-edit font-size-16 align-middle">Complete/Good</i></button> ';
+                                // delete
+                                buttons +=
+                                    '<button type="button" onClick="return supplyIncompleted(\'' +
+                                    aData["request_details_id"] +
+                                    '\',2)" class="btn btn-danger waves-effect"><i class="bx bx-trash font-size-16 align-middle">Incomplete/Damaged</i></button> ';
+                            }
                         }
 
                         var DateRequest = new Date(aData["request_date"]);
