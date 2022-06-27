@@ -7,17 +7,5 @@ Just started learning/practicing FastAPI
     - `venv\scripts\activate`
 2. Install dependencies
     - `pip install -r requirements.txt`
-3. Run migration
-    - `alembic upgrade head`
-4. Run server
+3. Run server
     - `uvicorn main:app --reload`
-
-# Routes
-|     Path     |   Method   |
-|--------------|------------|
-| /            |   GET      |
-| /users       |   GET      | 
-| /users/{id}  |   GET      | 
-| /users/{id}  |   POST     | 
-| /users/{id}  |   PUT      | 
-| /users/{id}  |   DELETE   | 
